@@ -15,7 +15,7 @@ const cardData = [
 
 const LandingHowWorks = () => {
   return (
-    <div className=" container h-full md:h-screen py-28  w-full flex flex-col md:flex-row items-center justify-around gap-0 p-10  ">
+    <div className=" container h-full py-20  w-full flex flex-col md:flex-row items-center justify-around gap-0 p-10  ">
       <div className=" md:w-1/2 w-full px-5 flex items-center justify-end ">
         <img src={image} alt="" loading="lazy" className=" w-full" />
       </div>

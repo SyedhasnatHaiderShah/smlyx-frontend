@@ -8,9 +8,9 @@ import { GoDotFill } from "react-icons/go";
 
 const LandingAiScan = () => {
   return (
-    <div className=" container h-full md:h-screen py-28  w-full flex flex-col md:flex-row items-center justify-around gap-0 p-10  ">
+    <div className=" container h-full py-20  w-full flex flex-col md:flex-row items-center justify-around gap-10 p-10  ">
       <div className=" px-5 flex items-end justify-end flex-col gap-5 w-full  md:w-1/2">
-        <div className="flex items-start justify-end gap-5 w-96 flex-col">
+        <div className="flex items-start justify-end gap-5 md:w-96 w-full flex-col">
           <p className=" text-gray-500 text-3xl font-medium">
             AI Scan + Virtual Consultation
           </p>

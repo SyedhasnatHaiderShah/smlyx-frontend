@@ -7,7 +7,7 @@ import bg from "../../../assets/landing-hero.webp";
 const LandingHome = () => {
   return (
     <div
-      className="min-h-screen  w-full flex lg:items-start lg:justify-start items-center justify-center "
+      className="md:min-h-[90vh]  w-full flex lg:items-start lg:justify-start items-center justify-center mt-20 py-20 "
       style={{
         backgroundImage: `url(${bg})`,
         objectFit: "cover",
@@ -18,12 +18,12 @@ const LandingHome = () => {
         // height: "100vh",
       }}
     >
-      <div className=" lg:w-1/2 w-full  flex items-center justify-center flex-col mt-32 px-5">
+      <div className=" lg:w-1/2 w-full  flex items-center justify-center flex-col  px-5">
         <div className=" lg:w-2/3 w-full flex items-start justify-center flex-col gap-5">
-          <p className="text-5xl font-extrabold text-heading leading-snug break-words">
+          <p className="md:text-5xl text-2xl sm:text-3xl font-extrabold text-heading leading-snug break-words">
             It's Time To Take Control Of Your Dental Health
           </p>
-          <p className="text-xl font-medium text-heading leading-snug">
+          <p className="md:text-xl text-base font-medium text-heading leading-snug">
             Access all your dental needs in one location, anytime, anywhere.
           </p>
           <button className=" bg-primary font-bold text-white px-5 py-3 rounded-full hover:opacity-90">
@@ -37,5 +37,4 @@ const LandingHome = () => {
     </div>
   );
 };
-
 export default LandingHome;

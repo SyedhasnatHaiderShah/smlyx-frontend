@@ -8,23 +8,28 @@ import "./landingevolution.css";
 const LandingRevolution = () => {
   return (
     <div className=" py-20  w-full flex flex-col md:flex-row items-center justify-center gap-10 ">
+      {/* left */}
       <div className=" md:w-1/2 w-full  flex items-center justify-center flex-col  px-5">
-        <div className=" lg:w-2/3 w-full flex items-start justify-center flex-col gap-5">
-          <p className="text-5xl font-extrabold text-heading leading-snug break-words">
+        <div className=" lg:w-3/4 w-full flex items-start justify-center flex-col gap-5">
+          <p className="md:text-5xl text-2xl sm:text-3xl font-bold md:font-extrabold text-heading leading-snug break-words">
             It's Time To Take Control Of Your Dental Health
           </p>
-          <p className="text-xl font-medium text-heading leading-snug">
+          <p className="md:text-xl text-base font-medium text-heading leading-snug">
             Access all your dental needs in one location, anytime, anywhere.
           </p>
-          <button className=" bg-primary font-bold text-white px-5 py-3 rounded-full hover:opacity-90">
-            Start Your Journey
-          </button>
-          <p className=" text-primary underline text-base font-extrabold hover:opacity-90 cursor-pointer">
-            See A Dentist Now
-          </p>
+          <div className="flex items-center gap-5 justify-center md:flex-row flex-col">
+            <button className=" bg-primary font-bold text-white px-6 py-3 rounded-full hover:opacity-90">
+              Start Now
+            </button>
+            <button className=" text-white bg-primarybg rounded-full px-5 py-3 text-base font-extrabold hover:opacity-90 cursor-pointer">
+              Watch Now
+            </button>
+          </div>
         </div>
       </div>
-      <div className=" md:w-1/2 w-full  flex items-center justify-center flex-col  px-5">
+
+      {/* right */}
+      <div className=" md:w-1/2 w-full  flex items-center justify-start  px-5">
         <div className="iframe-container">
           <iframe
             width="560"
