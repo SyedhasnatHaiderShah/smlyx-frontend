@@ -2,13 +2,23 @@ import React from "react";
 import TopNav from "./../navbar/TopNav";
 import bg from "../../../assets/landing-hero.webp";
 
+// bg style
+// bg-cover bg-center bg-no-repeat
 const LandingHome = () => {
   return (
     <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat w-full flex lg:items-start lg:justify-start items-center justify-center opacity-90"
-      style={{ backgroundImage: `url(${bg})` }}
+      className="min-h-screen  w-full flex lg:items-start lg:justify-start items-center justify-center "
+      style={{
+        backgroundImage: `url(${bg})`,
+        objectFit: "cover",
+        objectPosition: "cover",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        opacity: "0.9",
+        // height: "100vh",
+      }}
     >
-      <div className=" lg:w-1/2 w-full  flex items-center justify-center flex-col">
+      <div className=" lg:w-1/2 w-full  flex items-center justify-center flex-col mt-32 px-5">
         <div className=" lg:w-2/3 w-full flex items-start justify-center flex-col gap-5">
           <p className="text-5xl font-extrabold text-heading leading-snug break-words">
             It's Time To Take Control Of Your Dental Health

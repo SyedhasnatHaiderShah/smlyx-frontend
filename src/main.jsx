@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingHome from "./components/pages/landing/LandingHome";
 import TopNav from "./components/pages/navbar/TopNav.jsx";
 import Layout from "./Layout.jsx";
+import Landing from "./components/pages/landing/Landing.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <LandingHome />,
+        element: <Landing />,
       },
       // {
       //   path: "/protected",

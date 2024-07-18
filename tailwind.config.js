@@ -24,7 +24,7 @@ export default {
         primary: "#81479b",
         primarybg: "#3fbbeb",
         heading: "#0D2547",
-        businessInsuranceBg: "#101828",
+        business: "#101828",
       },
     },
   },
