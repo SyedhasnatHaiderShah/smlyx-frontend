@@ -1,36 +1,35 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
 // import all the components
-import LandingHome from "./components/pages/landing/LandingHome";
-import TopNav from "./components/pages/navbar/TopNav.jsx";
 import Layout from "./Layout.jsx";
 import Landing from "./components/pages/landing/Landing.jsx";
+import Login from "./components/pages/auth/Login.jsx";
+import ForgotPassword from "./components/pages/auth/ForgotPassword";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "/",
-        element: <Landing />,
-      },
-      // {
-      //   path: "/protected",
-      //   element: <PrivateRoute path="/protected" element={<ProtectedComponent />} />,
-      // },
-    ],
+    element: <Landing />,
   },
-  // loader: rootLoader,
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
+  },
   // children: [
   //   {
-  //     path: "team",
-  //     element: <Team />,
-  //     loader: teamLoader,
+  //     path: "/",
+  //     element: <Outlet />,
+  //   },
+  //   {
+  //     path: "/protected",
+  //     element: <PrivateRoute path="/protected" element={<ProtectedComponent />} />,
   //   },
   // ],
 ]);
