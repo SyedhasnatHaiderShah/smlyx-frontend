@@ -15,19 +15,21 @@ const cardData = [
 
 const LandingHowWorks = () => {
   return (
-    <div className=" container h-full py-20  w-full flex flex-col md:flex-row items-center justify-around gap-0 p-10  ">
-      <div className=" md:w-1/2 w-full px-5 flex items-center justify-end ">
-        <img src={image} alt="" loading="lazy" className=" w-full" />
+    <div className=" container h-full py-20  w-full flex flex-col md:flex-row items-center justify-around gap-5 px-5 md:px-10  ">
+      <div className=" md:w-1/2 w-full flex items-center md:justify-end justify-center ">
+        <img src={image} alt="" loading="lazy" className=" w-full md:w-[90%]" />
       </div>
-      <div className=" px-5 flex items-start justify-start flex-col gap-5 w-full  md:w-1/2">
+      <div className=" flex items-start justify-start flex-col gap-5 w-full  md:w-1/2">
         <p className=" text-gray-500 text-3xl font-medium">How It Works</p>
         {cardData.map((card, index) => (
           <div
             key={index}
-            className="flex items-center justify-center gap-5 w-2/3"
+            className="flex items-start justify-start gap-5 md:w-2/3 w-full"
           >
             <GoDotFill color={index === 1 ? "#7a4c97" : "#3fbbeb"} />
-            <p className="text-lg text-gray-600 font-medium">{card}</p>
+            <p className="md:text-lg text-sm text-gray-600 font-medium">
+              {card}
+            </p>
           </div>
         ))}
       </div>

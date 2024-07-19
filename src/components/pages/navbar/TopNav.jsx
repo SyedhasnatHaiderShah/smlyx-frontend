@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
-import { HiMenu, HiX } from "react-icons/hi"; // Add react-icons for the hamburger menu and close icon
+import { HiMenu, HiX } from "react-icons/hi";
 
 const TopNav = () => {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false); // State to manage menu visibility
+  const [isOpen, setIsOpen] = useState(false);
+  const [bgColor, setBgColor] = useState("bg-transparent");
 
   const btnData = [
     { title: "How It Works", route: "#" },
@@ -18,8 +19,27 @@ const TopNav = () => {
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      if (scrollTop > 0) {
+        setBgColor("bg-white shadow-md");
+      } else {
+        setBgColor("bg-transparent");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="bg-transparent flex items-center justify-between h-[85px] py-3 container px-5 ">
+    <div
+      className={`${bgColor} flex items-center justify-around h-[85px] py-3 transition-colors duration-300`}
+    >
       <div className="flex items-center justify-center gap-3">
         <img src={logo} alt="logo" className="w-12" />
         <p
@@ -58,13 +78,13 @@ const TopNav = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="absolute top-[85px] left-5 w-[85%] bg-heading  shadow-md md:hidden">
+        <div className="absolute top-[85px] left-5 w-[85%] bg-heading shadow-md md:hidden">
           <div className="flex flex-col items-center py-4">
             {btnData.map((btn, index) => (
               <p
                 onClick={() => {
                   navigate(btn.route);
-                  setIsOpen(false); // Close the menu after navigating
+                  setIsOpen(false);
                 }}
                 key={index}
                 className="text-white px-6 py-2 font-medium cursor-pointer w-52 text-center relative group "
