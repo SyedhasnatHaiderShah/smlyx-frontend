@@ -10,7 +10,7 @@ const TopNav = () => {
   const btnData = [
     { title: "How It Works", route: "#" },
     { title: "Education", route: "#" },
-    { title: "About Us", route: "#" },
+    { title: "About Us", route: "/about" },
     { title: "Sign in", route: "/login" },
   ];
 

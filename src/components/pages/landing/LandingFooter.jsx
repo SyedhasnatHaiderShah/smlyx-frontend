@@ -1,15 +1,9 @@
 import React from "react";
-import TopNav from "./../navbar/TopNav";
-import bg from "../../../assets/landing-hero.webp";
 import "./landingevolution.css";
-// import the brand logos
-import image from "./assets/Testimonial.webp";
 import { GoDotFill } from "react-icons/go";
 import logo from "../../../assets/logo.png";
-import { useNavigate } from "react-router";
 
 const LandingFooter = () => {
-  const navigate = useNavigate();
   // const footer links with routes "#"
   const footerData1 = [
     {
@@ -58,10 +52,10 @@ const LandingFooter = () => {
     },
   ];
   return (
-    <div className=" flex items-center justify-center flex-col w-full  md:h-[60vh]h-full lg:px-36 md:px-24 py-20 sm:px-16 px-10 bg-[#fafafa] gap-10">
-      <div className="  w-full flex flex-col md:flex-row items-center justify-around gap-10">
-        {/* left */}
-        <div className=" md:w-1/4 w-full px-5 flex items-center md:justify-start justify-center">
+    <div className=" flex items-center justify-center flex-col w-full  md:min-h-[60vh]h-full lg:px-10 py-10 sm:py-16 md:py-20  px-5 bg-[#fafafa] gap-10">
+      {/* first half */}
+      <div className="  w-full flex flex-col sm:flex-row items-center justify-around gap-5 flex-wrap">
+        <div className="h-48 sm:w-72 w-full px-5 flex md:items-start items-center md:justify-start justify-center">
           {/* logo */}
           <div className="flex items-center justify-center gap-3">
             <img src={logo} alt="logo" className="w-12" />
@@ -74,13 +68,12 @@ const LandingFooter = () => {
           </div>
         </div>
 
-        {/* right */}
-        <div className=" md:w-3/4 w-full flex lg:items-start lg:justify-start items-center justify-center flex-wrap gap-10">
-          <div className="flex items-start justify-start flex-col">
+        <div className="  min-h-48 sm:w-72 w-full flex lg:items-start lg:justify-start items-center justify-center flex-wrap md:gap-10 gap-5">
+          <div className="flex items-start justify-start flex-col w-full">
             {footerData1.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center gap-5 py-3"
+                className="flex items-start justify-start gap-5 py-3 w-full"
               >
                 <GoDotFill color="#3fbbeb" />
                 <p className="text-base text-gray-600 font-medium cursor-pointer">
@@ -89,11 +82,13 @@ const LandingFooter = () => {
               </div>
             ))}
           </div>
-          <div className="flex items-start justify-start flex-col">
+        </div>
+        <div className="  sm:w-72 h-48 w-full flex lg:items-start lg:justify-start items-center justify-center flex-wrap md:gap-10 gap-5">
+          <div className="flex items-start justify-start flex-col w-full">
             {footerData2.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center gap-5 py-3 "
+                className="flex items-start justify-start gap-5 py-3 w-full"
               >
                 <GoDotFill color="#3fbbeb" />
                 <p className="text-base text-gray-600 font-medium cursor-pointer">
@@ -102,11 +97,13 @@ const LandingFooter = () => {
               </div>
             ))}
           </div>
-          <div className="flex items-start justify-start flex-col">
+        </div>
+        <div className=" sm:w-72 h-48 w-full flex lg:items-start lg:justify-start items-center justify-center flex-wrap md:gap-10 gap-5">
+          <div className="flex items-start justify-start flex-col w-full">
             {footerData3.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center gap-5 py-3 "
+                className="flex items-start justify-start gap-5 py-3 w-full"
               >
                 <GoDotFill color="#3fbbeb" />
                 <p className="text-base text-gray-600 font-medium cursor-pointer">
@@ -117,6 +114,8 @@ const LandingFooter = () => {
           </div>
         </div>
       </div>
+
+      {/* second half */}
       <div className="  text-center text-gray-800 font-semibold">
         <p>
           © 2024 smlyx.com. All Rights Reserved.

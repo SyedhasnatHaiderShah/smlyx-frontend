@@ -11,6 +11,7 @@ import Login from "./components/pages/auth/Login.jsx";
 import ForgotPassword from "./components/pages/auth/ForgotPassword";
 import PageNotFound from "./components/pages/error/PageNotFound";
 import SignUp from "./components/pages/auth/SignUp";
+import About from "./components/pages/about/About.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <SignUp />,
+  },
+  {
+    path: "/about",
+    element: <About />,
   },
   {
     path: "/forgot-password",
