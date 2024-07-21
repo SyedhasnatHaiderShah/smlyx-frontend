@@ -11,7 +11,7 @@ const TopNav = () => {
     { title: "How It Works", route: "#" },
     { title: "Education", route: "#" },
     { title: "About Us", route: "#" },
-    { title: "Sign in", route: "#" },
+    { title: "Sign in", route: "/login" },
   ];
 
   const handleMenuToggle = () => {

@@ -7,7 +7,7 @@ import bg from "../../../assets/landing-hero.webp";
 const LandingHome = () => {
   return (
     <div
-      className="md:min-h-[90vh]  w-full flex lg:items-start lg:justify-start items-center justify-center mt-20 py-20 "
+      className="md:min-h-[90vh]  w-full flex lg:items-start lg:justify-start items-center justify-center py-20 "
       style={{
         backgroundImage: `url(${bg})`,
         objectFit: "cover",

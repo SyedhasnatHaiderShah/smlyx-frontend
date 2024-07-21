@@ -6,8 +6,10 @@ import "./landingevolution.css";
 import image from "./assets/Testimonial.webp";
 import { GoDotFill } from "react-icons/go";
 import logo from "../../../assets/logo.png";
+import { useNavigate } from "react-router";
 
 const LandingFooter = () => {
+  const navigate = useNavigate();
   // const footer links with routes "#"
   const footerData1 = [
     {

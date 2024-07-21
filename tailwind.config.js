@@ -21,7 +21,7 @@ export default {
     },
     extend: {
       colors: {
-        primary: "#81479b",
+        primary: "#983794",
         primarybg: "#3fbbeb",
         heading: "#0D2547",
         business: "#101828",

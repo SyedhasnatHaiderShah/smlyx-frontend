@@ -9,6 +9,8 @@ import Layout from "./Layout.jsx";
 import Landing from "./components/pages/landing/Landing.jsx";
 import Login from "./components/pages/auth/Login.jsx";
 import ForgotPassword from "./components/pages/auth/ForgotPassword";
+import PageNotFound from "./components/pages/error/PageNotFound";
+import SignUp from "./components/pages/auth/SignUp";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,8 +21,16 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
+    path: "/sign-up",
+    element: <SignUp />,
+  },
+  {
     path: "/forgot-password",
     element: <ForgotPassword />,
+  },
+  {
+    path: "*",
+    element: <PageNotFound />,
   },
   // children: [
   //   {
