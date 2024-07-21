@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const StepOne = ({ register, handleSubmit, errors, formData }) => {
+const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
   const navigate = useNavigate();
   const today = new Date().toISOString().split("T")[0];
 
@@ -274,6 +274,9 @@ const StepOne = ({ register, handleSubmit, errors, formData }) => {
             >
               Next
             </button>
+            <p className="  text-base font-medium " onClick={goNext}>
+              Skip
+            </p>
           </div>
         </form>
       </div>

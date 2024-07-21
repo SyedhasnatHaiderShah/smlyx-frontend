@@ -26,6 +26,7 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
@@ -37,13 +38,14 @@ const SignUp = () => {
       setStep(step + 1);
     } else {
       console.log("Form submitted:", updatedData);
-      toast.success("Form submitted");
-      // You can redirect or perform any final action here
     }
   };
 
   const goBack = () => {
     setStep(step - 1);
+  };
+  const goNext = () => {
+    setStep(step + 1);
   };
 
   return (
@@ -66,6 +68,7 @@ const SignUp = () => {
             errors={errors}
             formData={formData}
             goBack={goBack}
+            goNext={goNext}
           />
         )}
         {step === 2 && (
@@ -75,6 +78,7 @@ const SignUp = () => {
             errors={errors}
             formData={formData}
             goBack={goBack}
+            goNext={goNext}
           />
         )}
         {step === 3 && (
@@ -84,6 +88,7 @@ const SignUp = () => {
             errors={errors}
             formData={formData}
             goBack={goBack}
+            watch={watch}
           />
         )}
       </div>
