@@ -23,6 +23,7 @@ const ProgressBar = ({ currentStep }) => {
 const SignUp = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
+  console.log(formData);
   const {
     register,
     handleSubmit,

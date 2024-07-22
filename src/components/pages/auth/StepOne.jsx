@@ -58,87 +58,34 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
       <p className=" float-left mr-auto text-sm text-[#605FA4] font-bold">
         * All fields are required
       </p>
-      <div className=" w-full flex items-start justify-start flex-col gap-5">
-        <form onSubmit={handleSubmit}>
+      <div className=" w-full flex items-start justify-start flex-col gap-5 ">
+        <form onSubmit={handleSubmit} className=" w-full">
           {/* form main div start */}
-          <div className="flex items-start justify-start flex-col md:flex-row gap-5">
-            {/* left form div start */}
-            <div className=" flex items-start justify-between md:w-1/2 w-full flex-col md:gap-20 gap-5">
-              <div className="w-full flex items-start justify-start gap-3 flex-col">
-                <label
-                  htmlFor="firstName"
-                  className="float-left mr-auto font-semibold"
-                >
-                  First Name <span className=" text-red-500 text-xl"> *</span>
-                </label>
-                <input
-                  defaultValue={formData.firstName}
-                  type="text"
-                  placeholder="First Name"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("firstName", {
-                    required: "First Name is required",
-                  })}
-                />
-                {errors.firstName && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.firstName.message}
-                  </p>
-                )}
-
-                <label
-                  htmlFor="dob"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Date of Birth{" "}
-                  <span className=" text-red-500 text-xl"> *</span>
-                </label>
-                <input
-                  defaultValue={formData.dob}
-                  type="date"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  max={getTodayDate()}
-                  {...register("dob", {
-                    required: "Date of Birth is required",
-                    validate: validateAge,
-                  })}
-                />
-                {errors.dob && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.dob.message}
-                  </p>
-                )}
-              </div>
-              <div className="w-full flex items-start justify-start gap-3 flex-col">
-                <label
-                  htmlFor="email"
-                  className=" float-left mr-auto font-semibold"
-                >
-                  Email ID <span className=" text-red-500 text-xl"> *</span>
-                </label>
-                <input
-                  defaultValue={formData.email}
-                  type="email"
-                  placeholder="Email"
-                  className=" w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                      message: "Invalid email address",
-                    },
-                  })}
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
+          {/* left form div start */}
+          <div className=" flex items-center justify-center md:flex-row flex-col w-full gap-5">
+            <div className=" flex items-start justify-start w-full flex-col">
+              <label
+                htmlFor="firstName"
+                className="float-left mr-auto font-semibold"
+              >
+                First Name <span className=" text-red-500 text-xl"> *</span>
+              </label>
+              <input
+                defaultValue={formData.firstName}
+                type="text"
+                placeholder="First Name"
+                className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                {...register("firstName", {
+                  required: "First Name is required",
+                })}
+              />
+              {errors.firstName && (
+                <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                  {errors.firstName.message}
+                </p>
+              )}
             </div>
-
-            {/* right form div start */}
-            <div className=" flex items-start justify-start gap-3 md:w-1/2 w-full flex-col">
+            <div className=" flex items-start justify-start w-full flex-col">
               <label
                 htmlFor="lastName"
                 className="float-left mr-auto font-semibold"
@@ -150,13 +97,39 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
                 type="text"
                 placeholder="Last Name"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                {...register("lastName", { required: "Last Name is required" })}
+                {...register("lastName", {
+                  required: "Last Name is required",
+                })}
               />
               {errors.lastName && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
                   {errors.lastName.message}
                 </p>
               )}
+            </div>
+          </div>
+          <div className=" flex items-center justify-center md:flex-row flex-col w-full gap-5">
+            <div className=" flex items-start justify-start w-full flex-col">
+              <label htmlFor="dob" className="float-left mr-auto font-semibold">
+                Date of Birth <span className=" text-red-500 text-xl"> *</span>
+              </label>
+              <input
+                defaultValue={formData.dob}
+                type="date"
+                className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                max={getTodayDate()}
+                {...register("dob", {
+                  required: "Date of Birth is required",
+                  validate: validateAge,
+                })}
+              />
+              {errors.dob && (
+                <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                  {errors.dob.message}
+                </p>
+              )}
+            </div>
+            <div className=" flex items-start justify-start w-full flex-col">
               <label
                 htmlFor="phone"
                 className="float-left mr-auto font-semibold"
@@ -182,7 +155,12 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
                   {errors.phone.message}
                 </p>
               )}
-              <div className=" flex items-start justify-start gap-2 md:mb-3 mb-0">
+            </div>
+          </div>
+          {/* checkbox */}
+          <div className=" flex items-center justify-center md:flex-row flex-col w-full gap-5 my-2">
+            <div className=" flex items-end justify-end w-full flex-col">
+              <div className=" w-1/2 flex items-start justify-start gap-2 md:mb-3 mb-0">
                 <input
                   type="checkbox"
                   {...register("agreement", {
@@ -202,7 +180,37 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
                   {errors.agreement.message}
                 </p>
               )}
+            </div>
+          </div>
 
+          <div className=" flex items-center justify-center md:flex-row flex-col w-full gap-5">
+            <div className=" flex items-start justify-start w-full flex-col">
+              <label
+                htmlFor="email"
+                className=" float-left mr-auto font-semibold"
+              >
+                Email ID <span className=" text-red-500 text-xl"> *</span>
+              </label>
+              <input
+                defaultValue={formData.email}
+                type="email"
+                placeholder="Email"
+                className=" w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Invalid email address",
+                  },
+                })}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+            <div className=" flex items-start justify-start w-full flex-col">
               <label
                 htmlFor="state"
                 className="float-left mr-auto font-semibold"
@@ -214,11 +222,9 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
                 {...register("state", { required: "State is required" })}
               >
                 <option value="">Select State</option>
-                <option value="">Select State</option>
                 <option value="Alabama">Alabama</option>
                 <option value="Aaska">Aaska</option>
                 <option value="Arizona">Arizona</option>
-                {/* Add your state options here */}
               </select>
               {errors.state && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -227,50 +233,54 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
               )}
             </div>
           </div>
-          <div className=" flex items-start justify-between w-full md:w-1/2 md:my-2 my-0">
-            <label className="radio-label text-base font-semibold">
-              Do you have insurance?
-            </label>
-            <div className="radio-options flex items-start justify-center gap-5  ">
-              <label className="radio-option text-base font-semibold">
-                <input
-                  type="radio"
-                  value="yes"
-                  {...register("insurance", {
-                    required: "Please select an option.",
-                  })}
-                />
-                Yes
+
+          <div className=" flex items-center justify-center md:flex-row flex-col w-full gap-5">
+            <div className=" flex items-start justify-start w-full flex-row gap-5">
+              <label className="radio-label text-base font-semibold">
+                Do you have insurance?
               </label>
-              <label className="radio-option text-base font-semibold">
-                <input
-                  type="radio"
-                  value="no"
-                  {...register("insurance", {
-                    required: "Please select an option.",
-                  })}
-                />
-                No
-              </label>
+              <div className="radio-options flex items-start justify-center gap-5  ">
+                <label className="radio-option text-base font-semibold">
+                  <input
+                    type="radio"
+                    value="yes"
+                    {...register("insurance", {
+                      required: "Please select an option.",
+                    })}
+                  />
+                  Yes
+                </label>
+                <label className="radio-option text-base font-semibold">
+                  <input
+                    type="radio"
+                    value="no"
+                    {...register("insurance", {
+                      required: "Please select an option.",
+                    })}
+                  />
+                  No
+                </label>
+              </div>
+              {errors.insurance && (
+                <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                  {errors.insurance.message}
+                </p>
+              )}
             </div>
-            {errors.insurance && (
-              <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                {errors.insurance.message}
-              </p>
-            )}
           </div>
+
           {/* form main div ends */}
-          <div className="flex items-center justify-around w-full md:max-w-96 mt-4">
+          <div className="flex items-center justify-center mx-auto gap-5 w-full md:max-w-96 mt-4">
             <button
               type="button"
-              className="bg-primarybg text-white rounded-lg py-2 px-5"
+              className="bg-primarybg text-white rounded-full py-2 px-8"
               onClick={() => navigate(-1)}
             >
               Back
             </button>
             <button
               type="submit"
-              className="bg-[#484691] text-white rounded-lg py-2 px-5"
+              className="bg-[#484691] text-white  rounded-full py-2 px-8"
             >
               Next
             </button>

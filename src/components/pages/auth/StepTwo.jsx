@@ -360,7 +360,6 @@ const StepTwo = ({
                   {...register("state", { required: "State is required" })}
                 >
                   <option value="">Select State</option>
-                  <option value="">Select State</option>
                   <option value="Alabama">Alabama</option>
                   <option value="Aaska">Aaska</option>
                   <option value="Arizona">Arizona</option>
@@ -442,7 +441,9 @@ const StepTwo = ({
                 type="text"
                 placeholder="City"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                {...register("employer", { required: "Last Name is required" })}
+                {...register("subscriberCity", {
+                  required: "Last Name is required",
+                })}
               />
               {errors.subscriberCity && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -457,10 +458,12 @@ const StepTwo = ({
               </label>
               <input
                 defaultValue={formData.subscriberZip}
-                type="text"
+                type="number"
                 placeholder="Zip Code"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                {...register("employer", { required: "Last Name is required" })}
+                {...register("subscriberZip", {
+                  required: "Last Name is required",
+                })}
               />
               {errors.subscriberZip && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -482,7 +485,8 @@ const StepTwo = ({
             <button
               type="submit"
               className="bg-[#484691] text-white rounded-lg py-2 px-5"
-              disabled={errors ? true : false}
+              // disabled={errors ? true : false}
+              onClick={handleSubmit}
             >
               Next
             </button>
