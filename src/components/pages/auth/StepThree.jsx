@@ -133,7 +133,7 @@ const StepThree = ({
         <div className="flex items-start justify-center flex-col min-w-[300px] sm:w-full py-0 relative">
           <div className="flex items-center justify-between w-full">
             <label
-              htmlFor="password"
+              htmlFor="confirm password"
               className="text-gray-700 text-sm font-bold"
             >
               Confirm Password
@@ -163,8 +163,18 @@ const StepThree = ({
         </div>
 
         <div className="w-full my-5">
-          <div className="flex items-baseline justify-center w-full py-5">
-            <input type="checkbox" name="newsLetter" id="" className="mr-2" />
+          <div className="flex items-baseline justify-center w-full flex-col md:flex-row py-5">
+            <input
+              type="checkbox"
+              name="newsLetter"
+              id=""
+              className="mr-2"
+              {...register("termsAndCondition", {
+                required: "You must accept the terms and conditions",
+                validate: (value) =>
+                  value === true || "You must accept the terms and conditions",
+              })}
+            />
             <p className="text-xs font-semibold text-gray-500">
               By clicking "Create Account" you agree that you have read and
               consent to the
@@ -172,6 +182,13 @@ const StepThree = ({
               of Use and to the
               <span className="underline mx-1"> Privacy Practices.</span>
             </p>
+            <div className=" flex items-center justify-center flex-col w-full gap-2">
+              {errors.termsAndCondition && (
+                <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                  {errors.termsAndCondition.message}
+                </p>
+              )}
+            </div>
           </div>
 
           <div className=" flex items-center justify-center gap-5">

@@ -236,7 +236,10 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
 
           <div className=" flex items-center justify-center md:flex-row flex-col w-full gap-5">
             <div className=" flex items-start justify-start w-full flex-row gap-5">
-              <label className="radio-label text-base font-semibold">
+              <label
+                className="radio-label text-base font-semibold"
+                htmlFor="insurance"
+              >
                 Do you have insurance?
               </label>
               <div className="radio-options flex items-start justify-center gap-5  ">
