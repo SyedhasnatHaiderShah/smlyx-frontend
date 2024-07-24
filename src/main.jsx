@@ -12,6 +12,7 @@ import ForgotPassword from "./components/pages/auth/ForgotPassword";
 import PageNotFound from "./components/pages/error/PageNotFound";
 import SignUp from "./components/pages/auth/SignUp";
 import About from "./components/pages/about/About.jsx";
+import Dashboard from "./components/pages/dashboard/Dashboard";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
     path: "/sign-up",
     element: <SignUp />,
   },
+
   {
     path: "/about",
     element: <About />,
@@ -37,16 +39,14 @@ const router = createBrowserRouter([
     path: "*",
     element: <PageNotFound />,
   },
-  // children: [
-  //   {
-  //     path: "/",
-  //     element: <Outlet />,
-  //   },
-  //   {
-  //     path: "/protected",
-  //     element: <PrivateRoute path="/protected" element={<ProtectedComponent />} />,
-  //   },
-  // ],
+  {
+    path: "/dashboard",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Dashboard /> },
+      // { path: "name", element: <name /> },
+    ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

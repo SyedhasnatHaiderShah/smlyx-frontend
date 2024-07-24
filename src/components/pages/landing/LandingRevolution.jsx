@@ -11,18 +11,20 @@ const LandingRevolution = () => {
       {/* left */}
       <div className=" md:w-1/2 w-full  flex items-center justify-center flex-col  px-5">
         <div className=" lg:w-3/4 w-full flex items-start justify-center flex-col gap-5">
-          <p className="md:text-5xl text-2xl sm:text-3xl font-bold md:font-extrabold text-heading leading-snug break-words">
-            It's Time To Take Control Of Your Dental Health
+          <p className="md:text-4xl text-2xl sm:text-3xl font-extralight md:font-medium text-gray-500 leading-snug break-words">
+            Revolutionize your dental care with a free AI dental scan
           </p>
-          <p className="md:text-xl text-base font-medium text-heading leading-snug">
-            Access all your dental needs in one location, anytime, anywhere.
+          <p className="md:text-xl text-base text-primary leading-snug">
+            Get a clear picture of your oral health using your smart phone.
+            After the scan you'll be able to review the results with a licensed
+            dentist.
           </p>
           <div className="flex items-center gap-5 justify-center md:flex-row flex-col">
             <button className=" bg-primary font-bold text-white px-6 py-3 rounded-full hover:opacity-90">
               Start Now
             </button>
             <button className=" text-white bg-primarybg rounded-full px-5 py-3 text-base font-extrabold hover:opacity-90 cursor-pointer">
-              Watch Now
+              Watch Video
             </button>
           </div>
         </div>
