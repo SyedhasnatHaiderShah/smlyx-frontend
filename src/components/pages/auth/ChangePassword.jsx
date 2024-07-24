@@ -4,6 +4,7 @@ import checkGrey from "./small-check-circle-grey.svg";
 import checkGreen from "./small-check-circle-green.svg";
 import { useNavigate } from "react-router-dom";
 import TopNav from "./../navbar/TopNav";
+import DashboardNav from "../dashboard/DashboardNav";
 
 const ChangePassword = () => {
   const {
@@ -69,8 +70,8 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl py-6 md:px-12 px-5 min-h-screen gap-3">
-      <TopNav />
+    <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl  md:px-12 px-5 min-h-screen gap-3">
+      <DashboardNav />
       <div className="flex items-center justify-center w-full flex-col lg:w-1/3 md:w-2/3 rounded-lg">
         <div className="flex items-start justify-start w-full text-sm font-bold text-gray-400 my-5">
           <span

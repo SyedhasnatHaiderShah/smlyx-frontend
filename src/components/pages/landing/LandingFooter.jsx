@@ -76,7 +76,7 @@ const LandingFooter = () => {
                 className="flex items-start justify-start gap-5 py-3 w-full"
               >
                 <GoDotFill color="#3fbbeb" />
-                <p className="text-base text-gray-600 font-medium cursor-pointer">
+                <p className="text-base text-gray-600 font-medium cursor-pointer hover:text-primarybg transition-all duration-300 ease-in-out">
                   {item.title}
                 </p>
               </div>
@@ -91,7 +91,7 @@ const LandingFooter = () => {
                 className="flex items-start justify-start gap-5 py-3 w-full"
               >
                 <GoDotFill color="#3fbbeb" />
-                <p className="text-base text-gray-600 font-medium cursor-pointer">
+                <p className="text-base text-gray-600 font-medium cursor-pointer hover:text-primarybg transition-all duration-300 ease-in-out">
                   {item.title}
                 </p>
               </div>
@@ -106,7 +106,7 @@ const LandingFooter = () => {
                 className="flex items-start justify-start gap-5 py-3 w-full"
               >
                 <GoDotFill color="#3fbbeb" />
-                <p className="text-base text-gray-600 font-medium cursor-pointer">
+                <p className="text-base text-gray-600 font-medium cursor-pointer hover:text-primarybg transition-all duration-300 ease-in-out">
                   {item.title}
                 </p>
               </div>

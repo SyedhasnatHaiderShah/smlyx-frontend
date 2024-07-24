@@ -14,6 +14,7 @@ import SignUp from "./components/pages/auth/SignUp";
 import About from "./components/pages/about/About.jsx";
 import Dashboard from "./components/pages/dashboard/Dashboard";
 import ChangePassword from "./components/pages/auth/ChangePassword.jsx";
+import ProfileSetting from "./components/pages/dashboard/ProfileSetting";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "/change-password",
     element: <ChangePassword />,
+  },
+  {
+    path: "/profile-setting",
+    element: <ProfileSetting />,
   },
   {
     path: "*",
