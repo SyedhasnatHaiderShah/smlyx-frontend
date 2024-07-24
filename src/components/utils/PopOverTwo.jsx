@@ -21,16 +21,16 @@ export default function BasicPopover({
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <div>
+    <div className=" hover:border-b-2 hover:border-[#605fa4] ">
       {patientInfoData.map((item, index) => (
         <div key={index}>
           <div
-            className=" cursor-pointer text-primarybg  text-base font-semibold"
+            className=" cursor-pointer text-[#605fa4]  text-base font-semibold"
             onClick={handleClick}
             aria-describedby={id}
             fontSize="large"
           >
-            {item.head}
+            {item.head} <ExpandMoreIcon />
           </div>
           {/* <Button aria-describedby={id} variant="contained" onClick={handleClick}>
         {btn.title} {btn.icon}
