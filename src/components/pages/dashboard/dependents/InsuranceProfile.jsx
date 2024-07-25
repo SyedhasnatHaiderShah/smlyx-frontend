@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import DashboardNav from "./DashboardNav";
+import DashboardNav from "../DashboardNav";
 import { FaUpload, FaTrash } from "react-icons/fa";
 
-const ProfileSetting = () => {
+const InsuranceProfile = () => {
   const {
     register,
     handleSubmit,
@@ -90,17 +90,30 @@ const ProfileSetting = () => {
           >
             Home
           </span>{" "}
-          / Profile Setting
+          / My Dependents
+        </div>
+        <div className=" flex items-start justify-start flex-col w-full ">
+          <p className="text-2xl text-gray-900 font-semibold mt-1 w-full">
+            My Dependents
+          </p>
+          <p className="text-lg text-primarybg font-semibold  w-full">
+            Family Member's Profile
+          </p>
+        </div>
+        {/* dynamic options */}
+        <div className=" flex items-center justify-center w-full  h-16 text-xl font-semibold ">
+          <p className=" rounded-full rounded-r-none w-full md:w-1/2 bg-white text-center py-3">
+            Profile
+          </p>
+          <p className=" rounded-full rounded-s-none w-full md:w-1/2 bg-white text-center py-3">
+            Insurance Info
+          </p>
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex items-center justify-center flex-col w-full bg-white rounded-2xl p-5 container "
         >
           <div className="flex items-start justify-center flex-col sm:w-full py-5 relative gap-2">
-            <p className="text-xl text-primary font-semibold my-3 w-full">
-              Profile Setting
-            </p>
-
             {/* File input */}
             <div className="flex items-start justify-start w-full gap-5">
               <div className="flex items-start justify-start">
@@ -111,8 +124,18 @@ const ProfileSetting = () => {
                     className="w-24 h-24 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="w-24 h-24 rounded-full bg-[#0a1d62] text-white flex items-center justify-center text-3xl font-bold">
-                    {getInitials()}
+                  <div>
+                    {getInitials() ? (
+                      <div className="w-24 h-24 rounded-full bg-[#eeeeee] text-white flex items-center justify-center text-3xl font-bold">
+                        {getInitials()}
+                      </div>
+                    ) : (
+                      <div className="w-24 h-24 rounded-full bg-[#eeeeee] text-gray-400 flex items-center justify-center text-xs font-bold border-2 border-gray-400">
+                        No Preview
+                        <br />
+                        Available
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -171,21 +194,7 @@ const ProfileSetting = () => {
                   </p>
                 )}
               </div>
-              <div className="flex items-start justify-start w-full flex-col">
-                <label
-                  htmlFor="middleName"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Middle Name
-                </label>
-                <input
-                  defaultValue={formData.middleName}
-                  type="text"
-                  placeholder="Middle Name"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("middleName")}
-                />
-              </div>
+
               <div className="flex items-start justify-start w-full flex-col">
                 <label
                   htmlFor="lastName"
@@ -210,12 +219,69 @@ const ProfileSetting = () => {
                 )}
               </div>
             </div>
+            <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
+              <div className="flex items-start justify-start w-full flex-col">
+                <label
+                  htmlFor="phone"
+                  className="float-left mr-auto font-semibold"
+                >
+                  Emergency Contact Phone Number (XXX)-XXX-XXXX
+                  <span className="text-red-500 text-xl"> *</span>
+                </label>
+                <input
+                  defaultValue={"(123)123-1234"}
+                  type="tel"
+                  placeholder="(XXX)-XXX-XXXX"
+                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                  {...register("emergencyContactPhoneNumber", {
+                    required: "Phone number is required",
+                    pattern: {
+                      value: /^[+]?[0-9]{10,14}$/,
+                      message: "Invalid phone number",
+                    },
+                  })}
+                />
+                {errors.emergencyContactPhoneNumber && (
+                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                    {errors.emergencyContactPhoneNumber.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="flex items-start justify-start w-full flex-col">
+                <label
+                  htmlFor="subscriberState"
+                  className="float-left mr-auto font-semibold"
+                >
+                  Select Relation{" "}
+                  <span className=" text-red-500 text-xl"> *</span>
+                </label>
+                <select
+                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
+                  {...register("dependentRelation", {
+                    required: "Subscriber State is required",
+                  })}
+                >
+                  <option value="">Select Relation</option>
+                  <option value="Alabama">Father</option>
+                  <option value="Alaska">Mother</option>
+                  <option value="Arizona">Son</option>
+                  <option value="Arizona">Brother</option>
+                  <option value="United States"> Daughter</option>
+                </select>
+                {errors.dependentRelation && (
+                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                    {errors.dependentRelation.message}
+                  </p>
+                )}
+              </div>
+            </div>
             {/* row start */}
             <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
               <div className="flex items-start justify-start w-full flex-col">
                 <div className="w-full flex items-start justify-between">
                   <label className="radio-label text-base font-semibold">
-                    Gender
+                    Gender <span className=" text-red-500 text-xl"> *</span>
                   </label>
                 </div>
                 <div className="radio-options flex items-start justify-start gap-5 w-full">
@@ -282,128 +348,39 @@ const ProfileSetting = () => {
               </div>
             </div>
             {/* row start */}
-            <div className="flex items-start justify-start md:flex-row flex-col w-full gap-5">
-              <div className="flex items-start justify-start w-full flex-col gap-2">
-                <label
-                  htmlFor="email"
-                  className=" float-left mr-auto font-semibold"
-                >
-                  Email<span className=" text-red-500 text-xl"> *</span>
-                </label>
-                <input
-                  defaultValue={"uaf.khurram@gmail.com"}
-                  type="email"
-                  placeholder="Email"
-                  className=" w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 bg-gray-200 text-heading text-sm font-semibold"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                      message: "Invalid email address",
-                    },
-                  })}
-                  readOnly
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
-              {/* row middle */}
-              <div className="flex items-start justify-start w-full flex-col">
-                <label
-                  htmlFor="phone"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Phone
-                  <span className="text-red-500 text-xl"> *</span>
-                </label>
-                <input
-                  defaultValue={"(123)123-1234"}
-                  type="tel"
-                  placeholder="(XXX)-XXX-XXXX"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("phone", {
-                    required: "Phone number is required",
-                    pattern: {
-                      value: /^[+]?[0-9]{10,14}$/,
-                      message: "Invalid phone number",
-                    },
-                  })}
-                />
-                {errors.phone && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.phone.message}
-                  </p>
-                )}
-                <div className="flex items-start justify-start  gap-3 my-2   ">
-                  <label
-                    htmlFor="received-text"
-                    className="float-left mr-auto font-semibold"
-                  >
-                    Received Text
-                  </label>
-                  <div className="flex items-center justify-center">
-                    <input
-                      type="radio"
-                      id="yes"
-                      value="yes"
-                      {...register("receivedText", {
-                        required: "This field is required",
-                      })}
-                      className="mr-2"
-                    />
-                    <label htmlFor="yes" className="mr-4 font-semibold">
-                      Yes
-                    </label>
-                    <input
-                      type="radio"
-                      id="no"
-                      value="no"
-                      {...register("receivedText", {
-                        required: "This field is required",
-                      })}
-                      className="mr-2"
-                    />
-                    <label htmlFor="no" className=" font-semibold">
-                      No
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
 
             {/* row start */}
             <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
               <div className="flex items-start justify-start w-full flex-col gap-2">
                 <label
-                  htmlFor=" Subscriber Address"
+                  htmlFor="primaryAddress"
                   className="float-left mr-auto font-semibold"
                 >
-                  Address 1
+                  Primary Address
                 </label>
-                <input
-                  defaultValue={formData.subscriberAddress}
+                <textarea
+                  cols={30}
+                  rows={5}
                   type="text"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("addressOne")}
+                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 resize-none focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                  {...register("primaryAddress")}
                 />
               </div>
               {/* row middle */}
-              <div className="flex items-start justify-start w-full flex-col">
+              <div className="flex items-start justify-center w-full flex-col">
                 <label
-                  htmlFor="addressTwo"
+                  htmlFor="secondaryAddress"
                   className="float-left mr-auto font-semibold"
                 >
-                  Address 2
+                  Secondary Address
                 </label>
-                <input
-                  defaultValue={formData.addressTwo}
+                <textarea
+                  cols={30}
+                  rows={5}
                   type="text"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("addressTwo", {
-                    required: "Subscriber Address is required",
+                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md resize-none py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                  {...register("secondaryAddress", {
+                    required: "Secondary Address is required",
                   })}
                 />
               </div>
@@ -558,10 +535,10 @@ const ProfileSetting = () => {
           <div className="w-full my-5">
             <div className="flex items-center justify-center gap-5">
               <button
-                className="bg-[#484691] text-lg font-medium text-white rounded-full py-3 px-10"
+                className="bg-primarybg font-medium text-white rounded-full py-1 px-10"
                 type="submit"
               >
-                Save
+                Next
               </button>
             </div>
           </div>
@@ -571,4 +548,4 @@ const ProfileSetting = () => {
   );
 };
 
-export default ProfileSetting;
+export default InsuranceProfile;

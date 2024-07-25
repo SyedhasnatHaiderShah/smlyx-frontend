@@ -49,7 +49,7 @@ export default function BasicPopover({
             }}
           >
             <div
-              className=" w-[200px] bg-primary text-white shadow-md min-h-16 flex
+              className=" w-[200px] bg-[#7a4c97] text-white shadow-md min-h-16 flex
          items-center justify-centerop p-5  flex-col gap-2 rounded text-sm"
             >
               {item.detail.map((item2, index2) => (

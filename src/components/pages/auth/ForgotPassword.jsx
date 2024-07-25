@@ -1,10 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.png";
-
-// import react-hook-form
 import { useForm } from "react-hook-form";
 const ForgotPassword = () => {
+  const [formData, setFormData] = useState({});
   const {
     register,
     handleSubmit,
@@ -12,10 +11,11 @@ const ForgotPassword = () => {
   } = useForm();
   const navigate = useNavigate();
   const onSubmit = (data) => {
+    setFormData(data);
     console.log(data);
   };
   return (
-    <div className=" flex items-center justify-center h-screen flex-col bg-[#eeeeee] gap-5">
+    <div className=" flex items-center justify-center h-screen flex-col bg-[#eeeeee] gap-5 w-full">
       {/* logo */}
       <div className="flex items-center justify-center gap-3">
         <img src={logo} alt="logo" className="w-12" />
@@ -60,37 +60,6 @@ const ForgotPassword = () => {
               </p>
             )}
           </div>
-          {/* <span className="cursor-pointer text-xs text-[#888897] font-bold float-right ml-auto">
-            Show Password
-          </span>
-          <div className=" flex items-center justify-center gap-1 flex-col w-full  ">
-            <input
-              type="password"
-              placeholder="Password"
-              className=" w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-bold"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-                maxLength: {
-                  value: 10,
-                  message: "Password cannot exceed 10 characters",
-                },
-              })}
-            />
-
-            {errors.password && (
-              <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                {errors.password.message}
-              </p>
-            )}
-          </div> */}
-
-          {/* <span className="cursor-pointer text-xs text-[#888897] font-bold float-right underline italic ml-auto">
-            Forgot Password
-          </span> */}
           <button
             type="submit"
             className=" bg-[#484691] text-white text-base font-bold hover:opacity-90  px-12 py-2 rounded-full "
@@ -101,15 +70,6 @@ const ForgotPassword = () => {
           </button>
         </form>
       </div>
-      {/* footer */}
-      {/* <div>
-        <p className=" font-semibold text-base text-gray-800">
-          Don't have an account?
-          <span className=" text-primarybg cursor-pointer underline px-2">
-            Sign Up{" "}
-          </span>
-        </p>
-      </div> */}
     </div>
   );
 };
