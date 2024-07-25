@@ -4,15 +4,14 @@ import { useNavigate } from "react-router-dom";
 import DashboardNav from "../DashboardNav";
 import { FaUpload, FaTrash } from "react-icons/fa";
 
-const InsuranceProfile = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm();
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({});
+const InsuranceProfile = ({
+  register,
+  handleSubmit,
+  errors,
+  formData,
+  goNext,
+  watch,
+}) => {
   const [profileImage, setProfileImage] = useState(null);
   const firstName = watch("firstName", "");
   const lastName = watch("lastName", "");
@@ -21,11 +20,6 @@ const InsuranceProfile = () => {
     const firstInitial = firstName.charAt(0).toUpperCase();
     const lastInitial = lastName.charAt(0).toUpperCase();
     return `${firstInitial}${lastInitial}`;
-  };
-
-  const onSubmit = (data) => {
-    setFormData(data);
-    console.log(data);
   };
 
   const handleImageChange = (e) => {
@@ -81,36 +75,10 @@ const InsuranceProfile = () => {
   };
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5">
-      <DashboardNav />
+      {/* <DashboardNav /> */}
       <div className="flex items-center justify-center w-full flex-col rounded-lg container my-5">
-        <div className="flex items-start justify-start w-full text-sm font-bold text-gray-500 my-2">
-          <span
-            className="mx-1 hover:text-primarybg cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            Home
-          </span>{" "}
-          / My Dependents
-        </div>
-        <div className=" flex items-start justify-start flex-col w-full ">
-          <p className="text-2xl text-gray-900 font-semibold mt-1 w-full">
-            My Dependents
-          </p>
-          <p className="text-lg text-primarybg font-semibold  w-full">
-            Family Member's Profile
-          </p>
-        </div>
-        {/* dynamic options */}
-        <div className=" flex items-center justify-center w-full  h-16 text-xl font-semibold ">
-          <p className=" rounded-full rounded-r-none w-full md:w-1/2 bg-white text-center py-3">
-            Profile
-          </p>
-          <p className=" rounded-full rounded-s-none w-full md:w-1/2 bg-white text-center py-3">
-            Insurance Info
-          </p>
-        </div>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit}
           className="flex items-center justify-center flex-col w-full bg-white rounded-2xl p-5 container "
         >
           <div className="flex items-start justify-center flex-col sm:w-full py-5 relative gap-2">
@@ -229,9 +197,9 @@ const InsuranceProfile = () => {
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={"(123)123-1234"}
+                  defaultValue={formData.emergencyContactPhoneNumber || ""}
                   type="tel"
-                  placeholder="(XXX)-XXX-XXXX"
+                  placeholder="(XXX)XXX-XXXX"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                   {...register("emergencyContactPhoneNumber", {
                     required: "Phone number is required",
@@ -379,9 +347,7 @@ const InsuranceProfile = () => {
                   rows={5}
                   type="text"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md resize-none py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("secondaryAddress", {
-                    required: "Secondary Address is required",
-                  })}
+                  {...register("secondaryAddress", {})}
                 />
               </div>
             </div>
@@ -391,18 +357,17 @@ const InsuranceProfile = () => {
             <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
               <div className="flex items-start justify-start w-full flex-col gap-2">
                 <label
-                  htmlFor="subscriberState"
+                  htmlFor="country"
                   className="float-left mr-auto font-semibold"
                 >
                   Country <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <select
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
-                  {...register("subscriberState", {
-                    required: "Subscriber State is required",
+                  {...register("country", {
+                    required: "Country is required",
                   })}
-                  value="United States"
-                  disabled
+                  defaultValue={formData.country || ""}
                 >
                   <option value="">Select Country</option>
                   <option value="Alabama">Alabama</option>
@@ -410,9 +375,9 @@ const InsuranceProfile = () => {
                   <option value="Arizona">Arizona</option>
                   <option value="United States">United States</option>
                 </select>
-                {errors.subscriberState && (
+                {errors.country && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.subscriberState.message}
+                    {errors.country.message}
                   </p>
                 )}
               </div>
@@ -464,9 +429,9 @@ const InsuranceProfile = () => {
                   <option value="Aaska">Aaska</option>
                   <option value="Arizona">Arizona</option>
                 </select>
-                {errors.subscriberState && (
+                {errors.city && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.subscriberState.message}
+                    {errors.city.message}
                   </p>
                 )}
               </div>
@@ -483,16 +448,16 @@ const InsuranceProfile = () => {
                   {...register("zipCode", {
                     required: "Zip Code is required",
                   })}
-                  defaultValue={formData.state}
+                  defaultValue={formData.zipCode}
                 >
                   <option value="">Select Zip Code</option>
                   <option value="Alabama">4800</option>
                   <option value="Aaska">5320</option>
                   <option value="Arizona">4120</option>
                 </select>
-                {errors.subscriberState && (
+                {errors.zipCode && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.subscriberState.message}
+                    {errors.zipCode.message}
                   </p>
                 )}
               </div>
@@ -513,7 +478,7 @@ const InsuranceProfile = () => {
                     required: "Time Zone is required",
                   })}
                 >
-                  <option value="">Select State</option>
+                  <option value="">Select Time Zone</option>
                   <option value="Alabama">Alabama</option>
                   <option value="Aaska">Aaska</option>
                   <option value="Arizona">Arizona</option>
@@ -525,10 +490,36 @@ const InsuranceProfile = () => {
                 )}
               </div>
               {/* row middle */}
-              <div className="flex items-start justify-start w-full flex-col"></div>
             </div>
             {/* row end  */}
 
+            <div className="flex items-start justify-between md:flex-row w-full md:w-1/2 my-2">
+              <div className="flex items-start justify-between w-full">
+                <div className="w-full flex items-start justify-center">
+                  <label className="radio-label text-base font-semibold">
+                    Do you have insurance?
+                  </label>
+                </div>
+                <div className="flex items-start justify-center gap-3 w-full">
+                  <label className="radio-option text-base font-semibold flex items-center justify-center ">
+                    <input
+                      type="radio"
+                      value="yes"
+                      {...register("haveInsurance")}
+                    />
+                    Yes
+                  </label>
+                  <label className="radio-option text-base font-semibold flex items-center justify-center ">
+                    <input
+                      type="radio"
+                      value="no"
+                      {...register("haveInsurance")}
+                    />
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
             {/* end inputs */}
           </div>
 
@@ -539,6 +530,12 @@ const InsuranceProfile = () => {
                 type="submit"
               >
                 Next
+              </button>
+              <button
+                className="bg-primarybg font-medium text-white rounded-full py-1 "
+                onClick={goNext}
+              >
+                skip
               </button>
             </div>
           </div>
