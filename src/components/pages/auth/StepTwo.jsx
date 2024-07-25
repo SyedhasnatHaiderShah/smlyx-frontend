@@ -8,7 +8,6 @@ const StepTwo = ({
   goNext,
   goBack,
 }) => {
-  const [dentalInsuranceCarries, setDentalInsuranceCarries] = useState("");
   const today = new Date().toISOString().split("T")[0];
 
   const validateAge = (value) => {
@@ -29,13 +28,6 @@ const StepTwo = ({
     }
     return true;
   };
-
-  const carriersData = [
-    "Cigna Dental",
-    "Humana Dental",
-    "United Concordia Dental",
-    "MetLife Dental",
-  ];
   const getTodayDate = () => {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, "0");
@@ -43,9 +35,6 @@ const StepTwo = ({
     const year = today.getFullYear();
     return `${month}/${day}/${year}`;
   };
-  useEffect(() => {
-    setDentalInsuranceCarries(formData.dentalInsuranceCarrier);
-  }, [formData.dentalInsuranceCarrier]);
 
   return (
     <div className=" bg-white w-full flex items-center justify-start flex-col rounded-2xl py-6 md:px-12 px-5">

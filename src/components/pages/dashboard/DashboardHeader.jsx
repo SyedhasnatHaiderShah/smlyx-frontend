@@ -6,7 +6,7 @@ import NorthIcon from "@mui/icons-material/North";
 const DashboardHeader = () => {
   return (
     <div className=" flex items-start justify-start container gap-5 w-full md:mt-16 mt-10 flex-col md:min-h-96 h-full rounded-xl">
-      <div>
+      <div className=" w-full px-5">
         <p className=" flex items-start justify-start w-full text-2xl font-semibold text-gray-950">
           User Name
         </p>
@@ -37,9 +37,9 @@ const DashboardHeader = () => {
         <div className=" flex items-center justify-center flex-col">
           <p className=" text-2xl text-gray-400 font-bold ">Sample</p>
         </div>
-        <div className="">
+        {/* <div className="">
           <DashboardChart />
-        </div>
+        </div> */}
       </div>
     </div>
   );

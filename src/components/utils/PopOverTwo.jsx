@@ -1,12 +1,14 @@
 import * as React from "react";
 import Popover from "@mui/material/Popover";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useNavigate } from "react-router-dom";
 
 export default function BasicPopover({
   btn,
   patientInfoData,
   handleMenuToggle,
 }) {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -56,7 +58,10 @@ export default function BasicPopover({
                   className=" flex items-start justify-start w-full"
                   onClick={handleMenuToggle}
                 >
-                  <p className=" hover:underline cursor-pointer    font-medium ">
+                  <p
+                    className=" hover:underline cursor-pointer    font-medium "
+                    onClick={() => navigate(item2.route)}
+                  >
                     {item2.title}
                   </p>
                 </div>

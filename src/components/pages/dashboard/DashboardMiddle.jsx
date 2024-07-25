@@ -13,6 +13,7 @@ const DashboardMiddle = () => {
         "Take photos of your mouth and teeth to instantly see any detected issues*",
       extra:
         "*For informational purposes only. Findings are not reviewed by a licensed dentist and do not constitute a dental diagnosis.",
+      route: "#",
     },
     {
       img: dentist,
@@ -21,6 +22,7 @@ const DashboardMiddle = () => {
       detail:
         "Get 24/7 care with a licensed dentist for conditions like toothaches, broken tooth, infections, and more.",
       extra: "",
+      route: "#",
     },
     {
       img: shedule,
@@ -29,6 +31,7 @@ const DashboardMiddle = () => {
       detail:
         "No rush? No problem. Select a date and time for a virtual dental visit that works for your schedule.",
       extra: "",
+      route: "#",
     },
     {
       img: opinion,
@@ -37,6 +40,7 @@ const DashboardMiddle = () => {
       detail:
         " A licensed dentist will review your records and create a second opinion report.",
       extra: "",
+      route: "#",
     },
   ];
   return (
@@ -44,9 +48,9 @@ const DashboardMiddle = () => {
       {tabsData.map((tab, index) => (
         <div
           key={index}
-          className="flex items-center justify-center gap-2 w-full bg-white rounded-lg p-5  h-auto cursor-pointer"
+          className="flex items-center justify-center gap-2 w-full bg-white rounded-lg p-5  h-auto cursor-pointer flex-col md:flex-row"
         >
-          <div className=" w-full flex items-center justify-start gap-2 ">
+          <div className=" w-full flex items-center justify-start gap-2 flex-col md:flex-row">
             <img src={tab.img} alt="" className=" w-20" />
             <div className=" flex items-start justify-start flex-col  w-full  p-2">
               <p className=" text-base text-gray-600 font-bold">
