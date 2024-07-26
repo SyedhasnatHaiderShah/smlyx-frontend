@@ -31,11 +31,14 @@ const DashboardNav = () => {
     {
       head: "Setting",
       detail: [
-        { title: "Profile Setting", route: "/profile-setting" },
-        { title: "Change Password", route: "/change-password" },
-        { title: "Billing Information", route: "/billing-information" },
-        { title: "My Dependents", route: "/my-dependents" },
-        { title: "Insurance", route: "/insurance-information" },
+        { title: "Profile Setting", route: "/dashboard/profile-setting" },
+        { title: "Change Password", route: "/dashboard/change-password" },
+        {
+          title: "Billing Information",
+          route: "/dashboard/billing-information",
+        },
+        { title: "My Dependents", route: "/dashboard/my-dependents" },
+        { title: "Insurance", route: "/dashboard/insurance-information" },
         { title: "Sign Out", route: "#" },
       ],
     },
@@ -45,7 +48,7 @@ const DashboardNav = () => {
   };
 
   return (
-    <div className="bg-transparent flex items-center justify-between h-[85px] py-3  w-full px-5 ">
+    <div className="bg-[#eeeeee] flex items-center justify-between h-[85px] py-1  w-full px-5 md:px-10 ">
       <div className="flex items-center justify-center gap-3">
         <img src={logo} alt="logo" className="w-12" />
         <p

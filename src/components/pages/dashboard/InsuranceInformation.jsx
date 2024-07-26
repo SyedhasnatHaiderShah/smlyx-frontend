@@ -50,7 +50,6 @@ const InsuranceInformation = () => {
 
   return (
     <div className=" bg-[#eeeeee]  w-full flex items-center justify-start flex-col rounded-2xl md:px-12 px-5 ">
-      <DashboardNav />
       <div className=" flex items-start justify-start gap-5 flex-col w-full container bg-white px-5 md:px-10 xl:px-16 rounded-lg py-10">
         <div className=" flex items-center justify-center gap-0 flex-col w-full">
           <p className=" text-2xl text-primary font-semibold text-center">

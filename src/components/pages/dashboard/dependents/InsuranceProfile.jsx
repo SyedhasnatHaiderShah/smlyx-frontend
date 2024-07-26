@@ -227,7 +227,7 @@ const InsuranceProfile = ({
                 <select
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
                   {...register("dependentRelation", {
-                    required: "Subscriber State is required",
+                    required: "Select Relation is required",
                   })}
                 >
                   <option value="">Select Relation</option>
@@ -258,7 +258,7 @@ const InsuranceProfile = ({
                       type="radio"
                       value="Male"
                       {...register("gender", {
-                        required: "Please select an option.",
+                        required: "Please select a  Gender.",
                       })}
                     />
                     Male
@@ -268,7 +268,7 @@ const InsuranceProfile = ({
                       type="radio"
                       value="Female"
                       {...register("gender", {
-                        required: "Please select an option.",
+                        required: "Please select a  Gender.",
                       })}
                     />
                     Female
@@ -278,7 +278,7 @@ const InsuranceProfile = ({
                       type="radio"
                       value="other"
                       {...register("gender", {
-                        required: "Please select an option.",
+                        required: "Please select a  Gender.",
                       })}
                     />
                     Other

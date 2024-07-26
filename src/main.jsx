@@ -36,30 +36,7 @@ const router = createBrowserRouter([
     path: "/about",
     element: <About />,
   },
-  {
-    path: "/forgot-password",
-    element: <ForgotPassword />,
-  },
-  {
-    path: "/change-password",
-    element: <ChangePassword />,
-  },
-  {
-    path: "/profile-setting",
-    element: <ProfileSetting />,
-  },
-  {
-    path: "/billing-information",
-    element: <BillingInformation />,
-  },
-  {
-    path: "/my-dependents",
-    element: <MyDependents />,
-  },
-  {
-    path: "/insurance-information",
-    element: <InsuranceInformation />,
-  },
+
   {
     path: "*",
     element: <PageNotFound />,
@@ -68,8 +45,31 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <Layout />,
     children: [
-      { path: "", element: <Dashboard /> },
-      // { path: "name", element: <name /> },
+      { path: "/dashboard", element: <Dashboard /> },
+      {
+        path: "/dashboard/forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "/dashboard/change-password",
+        element: <ChangePassword />,
+      },
+      {
+        path: "/dashboard/profile-setting",
+        element: <ProfileSetting />,
+      },
+      {
+        path: "/dashboard/billing-information",
+        element: <BillingInformation />,
+      },
+      {
+        path: "/dashboard/my-dependents",
+        element: <MyDependents />,
+      },
+      {
+        path: "/dashboard/insurance-information",
+        element: <InsuranceInformation />,
+      },
     ],
   },
 ]);

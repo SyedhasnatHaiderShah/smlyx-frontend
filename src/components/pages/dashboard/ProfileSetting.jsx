@@ -81,7 +81,6 @@ const ProfileSetting = () => {
   };
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5">
-      <DashboardNav />
       <div className="flex items-center justify-center w-full flex-col rounded-lg container my-5">
         <div className="flex items-start justify-start w-full text-sm font-bold text-gray-500 my-2">
           <span

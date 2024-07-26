@@ -16,8 +16,7 @@ const BillingInformation = () => {
     console.log(data);
   };
   return (
-    <div className="bg-[#eeeeee]  flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5 ">
-      <DashboardNav />
+    <div className="bg-[#eeeeee]  flex items-center justify-start flex-col rounded-2xl   px-5 min-h-[88vh]  gap-5 w-full ">
       <div className="flex items-start justify-start w-full text-sm font-bold text-gray-500 container">
         <span
           className="mx-1 hover:text-primarybg cursor-pointer"
