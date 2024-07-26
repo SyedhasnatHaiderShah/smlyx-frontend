@@ -13,10 +13,10 @@ const BillingInformation = () => {
   const [formData, setFormData] = useState({});
   const onSubmit = (data) => {
     setFormData(data);
-    console.log(data);
+    // console.log(data);
   };
   return (
-    <div className="bg-[#eeeeee]  flex items-center justify-start flex-col rounded-2xl   px-5 min-h-[88vh]  gap-5 w-full ">
+    <div className="bg-[#eeeeee]  flex items-center justify-start flex-col rounded-2xl md:px-10   px-5 min-h-[88vh]  gap-5 w-full ">
       <div className="flex items-start justify-start w-full text-sm font-bold text-gray-500 container">
         <span
           className="mx-1 hover:text-primarybg cursor-pointer"
@@ -26,7 +26,7 @@ const BillingInformation = () => {
         </span>{" "}
         / Billing Information
       </div>
-      <div className="flex items-center justify-center  flex-col rounded-lg container my-5 w-full md:w-1/4">
+      <div className="flex items-center justify-center  flex-col rounded-lg container my-5 w-full sm:w-3/5 md:w-1/2 xl:w-1/3">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex items-center justify-center flex-col  bg-white rounded-2xl p-5 container "

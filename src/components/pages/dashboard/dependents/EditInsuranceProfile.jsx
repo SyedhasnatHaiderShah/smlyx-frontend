@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 import DashboardNav from "../DashboardNav";
 import { FaUpload, FaTrash } from "react-icons/fa";
 
-const InsuranceProfile = ({
+const EditInsuranceProfile = ({
   register,
   handleSubmit,
   errors,
   formData,
   goNext,
   watch,
+  fetchData,
 }) => {
   const [profileImage, setProfileImage] = useState(null);
   const firstName = watch("firstName", "");
@@ -70,6 +71,14 @@ const InsuranceProfile = ({
     return `${month}/${day}/${year}`;
   };
 
+  const getDefaultDate = () => {
+    return "01/01/2000"; // or any default date in MM/DD/YYYY format
+  };
+
+  // Function to get the default date value (example: '2023-01-01')
+  // const getDefaultDate = () => {
+  //   return "1990-01-01";
+  // };
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5">
       {/* <DashboardNav /> */}
@@ -84,7 +93,7 @@ const InsuranceProfile = ({
               <div className="flex items-start justify-start">
                 {profileImage ? (
                   <img
-                    src={profileImage}
+                    src={fetchData.img || profileImage}
                     alt="Profile"
                     className="w-24 h-24 rounded-full object-cover"
                   />
@@ -145,7 +154,7 @@ const InsuranceProfile = ({
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.firstName}
+                  defaultValue={fetchData.firstName || formData.firstName}
                   type="text"
                   placeholder="First Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -169,7 +178,7 @@ const InsuranceProfile = ({
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.lastName}
+                  defaultValue={fetchData.lastName || formData.lastName}
                   type="text"
                   placeholder="Last Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -226,6 +235,7 @@ const InsuranceProfile = ({
                   {...register("dependentRelation", {
                     required: "Select Relation is required",
                   })}
+                  defaultValue={fetchData.dependentRelation || ""}
                 >
                   <option value="">Select Relation</option>
                   <option value="Alabama">Father</option>
@@ -296,8 +306,8 @@ const InsuranceProfile = ({
                   <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.dateOfBirth || ""}
-                  type="text"
+                  defaultValue={fetchData.dateOfBirth || getDefaultDate()}
+                  type="date"
                   pattern="\d{2}/\d{2}/\d{4}"
                   placeholder="MM/DD/YYYY"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -543,4 +553,4 @@ const InsuranceProfile = ({
   );
 };
 
-export default InsuranceProfile;
+export default EditInsuranceProfile;

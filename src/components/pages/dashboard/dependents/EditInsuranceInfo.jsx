@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-const InsuranceInfo = ({
+const EditInsuranceInfo = ({
   register,
   handleSubmit,
   errors,
@@ -9,6 +9,7 @@ const InsuranceInfo = ({
   goBack,
 }) => {
   const today = new Date().toISOString().split("T")[0];
+
   // dob
   const validateAge = (value) => {
     const today = new Date();
@@ -223,7 +224,7 @@ const InsuranceInfo = ({
               </label>
               <input
                 defaultValue={formData.dob}
-                type="text"
+                type="date"
                 pattern="\d{2}/\d{2}/\d{4}"
                 placeholder="MM/DD/YYYY"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -441,4 +442,4 @@ const InsuranceInfo = ({
   );
 };
 
-export default InsuranceInfo;
+export default EditInsuranceInfo;

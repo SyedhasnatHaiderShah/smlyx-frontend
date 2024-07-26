@@ -6,7 +6,7 @@ import DashboardNav from "./DashboardNav";
 
 const InsuranceInformation = () => {
   const [formData, setFormData] = useState({});
-  console.log(formData);
+  // console.log(formData);
   const {
     register,
     handleSubmit,
@@ -18,7 +18,7 @@ const InsuranceInformation = () => {
     const updatedData = { ...formData, ...data };
     setFormData(updatedData);
 
-    console.log("Form submitted:", updatedData);
+    // console.log("Form submitted:", updatedData);
   };
   const today = new Date().toISOString().split("T")[0];
 

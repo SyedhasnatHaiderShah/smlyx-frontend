@@ -316,6 +316,8 @@ const StepTwo = ({
               <input
                 defaultValue={formData.dob}
                 type="date"
+                pattern="\d{2}/\d{2}/\d{4}"
+                placeholder="MM/DD/YYYY"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                 max={getTodayDate()}
                 {...register("subscriberDateOfBirth", {

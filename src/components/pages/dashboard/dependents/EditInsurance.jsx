@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DashboardNav from "../DashboardNav";
-import InsuranceProfile from "./InsuranceProfile";
-import InsuranceInfo from "./InsuranceInfo";
 import { useForm } from "react-hook-form";
+import EditInsuranceProfile from "./EditInsuranceProfile";
+import EditInsuranceInfo from "./EditInsuranceInfo";
 
-const MyDependents = () => {
+const EditInsurance = ({ fetchData }) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
   // console.log(formData);
@@ -60,23 +59,6 @@ const MyDependents = () => {
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl px-5 min-h-screen">
       <div className="flex items-center justify-center w-full flex-col rounded-lg">
-        {/* <div className="flex items-start justify-start w-full text-sm font-bold text-gray-500 my-2">
-          <span
-            className="mx-1 hover:text-primarybg cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            Home
-          </span>{" "}
-          / My Dependents
-        </div> */}
-        {/* <div className="flex items-start justify-start flex-col w-full my-2">
-          <p className="text-2xl text-gray-900 font-semibold mt-1 w-full">
-            My Dependents
-          </p>
-          <p className="text-lg text-primarybg font-semibold w-full">
-            Family Member's Profile
-          </p>
-        </div> */}
         <div className="flex items-center justify-center w-full text-xl font-semibold">
           <p
             className={`rounded-full rounded-r-none  w-full md:w-1/2 text-center py-3 ${
@@ -96,11 +78,12 @@ const MyDependents = () => {
       </div>
       <div className=" w-full">
         {step === 1 && (
-          <InsuranceProfile
+          <EditInsuranceProfile
             register={register}
             handleSubmit={handleSubmit(onSubmit)}
             errors={errors}
             formData={formData}
+            fetchData={fetchData}
             goBack={goBack}
             goNext={goNext}
             watch={watch}
@@ -108,7 +91,7 @@ const MyDependents = () => {
         )}
 
         {step === 2 && (
-          <InsuranceInfo
+          <EditInsuranceInfo
             register={register}
             handleSubmit={handleSubmit(onSubmit)}
             errors={errors}
@@ -122,4 +105,4 @@ const MyDependents = () => {
   );
 };
 
-export default MyDependents;
+export default EditInsurance;

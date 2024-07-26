@@ -18,6 +18,7 @@ import ProfileSetting from "./components/pages/dashboard/ProfileSetting";
 import BillingInformation from "./components/pages/dashboard/BillingInformation.jsx";
 import MyDependents from "./components/pages/dashboard/dependents/MyDependents.jsx";
 import InsuranceInformation from "./components/pages/dashboard/InsuranceInformation";
+import DependentsHome from "./components/pages/dashboard/dependents/DependentsHome.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -36,7 +37,10 @@ const router = createBrowserRouter([
     path: "/about",
     element: <About />,
   },
-
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
+  },
   {
     path: "*",
     element: <PageNotFound />,
@@ -46,10 +50,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "/dashboard", element: <Dashboard /> },
-      {
-        path: "/dashboard/forgot-password",
-        element: <ForgotPassword />,
-      },
+
       {
         path: "/dashboard/change-password",
         element: <ChangePassword />,
@@ -64,7 +65,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/my-dependents",
-        element: <MyDependents />,
+        element: <DependentsHome />,
       },
       {
         path: "/dashboard/insurance-information",

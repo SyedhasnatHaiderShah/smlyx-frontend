@@ -4,9 +4,11 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
   const navigate = useNavigate();
   const today = new Date().toISOString().split("T")[0];
 
+  // dob
   const validateAge = (value) => {
     const today = new Date();
-    const dob = new Date(value);
+    const [month, day, year] = value.split("/");
+    const dob = new Date(`${year}-${month}-${day}`);
 
     if (dob > today) {
       return "Date of Birth cannot be in the future.";
@@ -116,6 +118,8 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
               <input
                 defaultValue={formData.dob}
                 type="date"
+                pattern="\d{2}/\d{2}/\d{4}"
+                placeholder="MM/DD/YYYY"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                 max={getTodayDate()}
                 {...register("dob", {

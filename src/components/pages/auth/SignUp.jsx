@@ -23,7 +23,7 @@ const ProgressBar = ({ currentStep }) => {
 const SignUp = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
-  console.log(formData);
+  // console.log(formData);
   const {
     register,
     handleSubmit,
@@ -38,7 +38,7 @@ const SignUp = () => {
     if (step < 3) {
       setStep(step + 1);
     } else {
-      console.log("Form submitted:", updatedData);
+      // console.log("Form submitted:", updatedData);
     }
   };
 

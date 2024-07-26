@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.png";
 import { useForm } from "react-hook-form";
@@ -12,7 +12,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const onSubmit = (data) => {
     setFormData(data);
-    console.log(data);
+    // console.log(data);
   };
   return (
     <div className=" flex items-center justify-center h-screen flex-col bg-[#eeeeee] gap-5 w-full">

@@ -51,7 +51,8 @@ const ProfileSetting = () => {
   // dob
   const validateAge = (value) => {
     const today = new Date();
-    const dob = new Date(value);
+    const [month, day, year] = value.split("/");
+    const dob = new Date(`${year}-${month}-${day}`);
 
     if (dob > today) {
       return "Date of Birth cannot be in the future.";
@@ -67,6 +68,7 @@ const ProfileSetting = () => {
     }
     return true;
   };
+
   const getTodayDate = () => {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, "0");
@@ -76,9 +78,7 @@ const ProfileSetting = () => {
   };
 
   // Function to get the default date value (example: '2023-01-01')
-  const getDefaultDate = () => {
-    return "1990-01-01";
-  };
+
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5">
       <div className="flex items-center justify-center w-full flex-col rounded-lg container my-5">
@@ -264,8 +264,10 @@ const ProfileSetting = () => {
                   <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={getDefaultDate()}
+                  defaultValue={formData.dateOfBirth}
                   type="date"
+                  pattern="\d{2}/\d{2}/\d{4}"
+                  placeholder="MM/DD/YYYY"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                   max={getTodayDate()}
                   {...register("dateOfBirth", {
