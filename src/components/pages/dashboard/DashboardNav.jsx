@@ -16,14 +16,14 @@ const DashboardNav = () => {
     {
       head: "Patient Info",
       detail: [
-        { title: "Wellness Score", route: "#" },
-        { title: "Referrals", route: "#" },
-        { title: "Uploads", route: "#" },
-        { title: "Forms", route: "#" },
-        { title: "Notes", route: "#" },
-        { title: "visit History", route: "#" },
-        { title: "Education", route: "#" },
-        { title: "Prescriptions", route: "#" },
+        { title: "Wellness Score", route: "/dashboard/wellness-score" },
+        { title: "Referrals", route: "/dashboard/referrals" },
+        { title: "Uploads", route: "/dashboard/uploads" },
+        { title: "Forms", route: "/dashboard/forms" },
+        { title: "Notes", route: "/dashboard/notes" },
+        { title: "visit History", route: "/dashboard/visit-history" },
+        { title: "Education", route: "/dashboard/education" },
+        { title: "Prescription", route: "/dashboard/prescription" },
       ],
     },
   ];

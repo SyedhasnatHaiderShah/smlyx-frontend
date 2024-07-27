@@ -7,7 +7,7 @@ import DashboardMiddle from "./DashboardMiddle";
 const Dashboard = () => {
   return (
     <div className=" flex items-start justify-start flex-col w-full bg-[#eeeeee] min-h-screen">
-      <DashboardHeader />
+      <DashboardHeader title={"user name"} />
       <DashboardMiddle />
     </div>
   );

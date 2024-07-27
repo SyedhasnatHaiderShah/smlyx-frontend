@@ -3,12 +3,12 @@ import wellness from "./assets/icon-wellness-score.svg";
 import DashboardChart from "../../utils/DashboardChart";
 import NorthIcon from "@mui/icons-material/North";
 
-const DashboardHeader = () => {
+const DashboardHeader = ({ title }) => {
   return (
     <div className=" flex items-start justify-start container gap-5 w-full md:mt-16 mt-10 flex-col md:min-h-96 h-full rounded-xl">
       <div className=" w-full px-5">
         <p className=" flex items-start justify-start w-full text-2xl font-semibold text-gray-950">
-          User Name
+          {title}
         </p>
       </div>
       <div className=" flex items-center justify-between gap-5 md:flex-row flex-col flex-wrap bg-white w-full p-5 rounded-xl">

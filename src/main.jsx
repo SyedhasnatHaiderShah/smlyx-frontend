@@ -19,6 +19,14 @@ import BillingInformation from "./components/pages/dashboard/BillingInformation.
 import MyDependents from "./components/pages/dashboard/dependents/MyDependents.jsx";
 import InsuranceInformation from "./components/pages/dashboard/InsuranceInformation";
 import DependentsHome from "./components/pages/dashboard/dependents/DependentsHome.jsx";
+import WellnessScore from "./components/pages/dashboard/WellnesScore.jsx";
+import Refferals from "./components/pages/dashboard/Refferals";
+import Forms from "./components/pages/dashboard/Forms";
+import Notes from "./components/pages/dashboard/Notes.jsx";
+import VisitHistory from "./components/pages/dashboard/VisitHistory";
+import Education from "./components/pages/dashboard/Education.jsx";
+import Prescription from "./components/pages/dashboard/Prescription.jsx";
+import Uploads from "./components/pages/dashboard/Uploads.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -70,6 +78,38 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/insurance-information",
         element: <InsuranceInformation />,
+      },
+      {
+        path: "/dashboard/wellness-score",
+        element: <WellnessScore />,
+      },
+      {
+        path: "/dashboard/referrals",
+        element: <Refferals />,
+      },
+      {
+        path: "/dashboard/forms",
+        element: <Forms />,
+      },
+      {
+        path: "/dashboard/notes",
+        element: <Notes />,
+      },
+      {
+        path: "/dashboard/visit-history",
+        element: <VisitHistory />,
+      },
+      {
+        path: "/dashboard/education",
+        element: <Education />,
+      },
+      {
+        path: "/dashboard/prescription",
+        element: <Prescription />,
+      },
+      {
+        path: "/dashboard/uploads",
+        element: <Uploads />,
       },
     ],
   },
