@@ -13,7 +13,8 @@ const Login = () => {
   } = useForm();
   const navigate = useNavigate();
   const onSubmit = (data) => {
-    // console.log(data);
+    console.log(data);
+    navigate("/dashboard");
   };
   return (
     <div className=" flex items-center justify-center h-screen flex-col bg-[#eeeeee] gap-5">
