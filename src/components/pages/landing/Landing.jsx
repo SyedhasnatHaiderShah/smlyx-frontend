@@ -7,10 +7,12 @@ import LandingAiScan from "./LandingAiScan";
 import LandingCustomers from "./LandingCustomers";
 import LandingTestimonial from "./LandingTestimonial";
 import LandingFooter from "./LandingFooter";
+import TopNav from "../navbar/TopNav";
 
 const Landing = () => {
   return (
     <div>
+      <TopNav />
       <LandingHome />
       <LandingRevolution />
       <LandingBrands />
