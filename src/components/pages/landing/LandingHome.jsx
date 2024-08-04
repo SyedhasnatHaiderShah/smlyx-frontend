@@ -1,10 +1,12 @@
 import React from "react";
 import TopNav from "./../navbar/TopNav";
 import bg from "../../../assets/landing-hero.webp";
+import { useNavigate } from "react-router-dom";
 
 // bg style
 // bg-cover bg-center bg-no-repeat
 const LandingHome = () => {
+  const navigate = useNavigate();
   return (
     <div
       className="md:min-h-[90vh]  w-full flex lg:items-start lg:justify-start items-center justify-center py-20 "
@@ -26,10 +28,16 @@ const LandingHome = () => {
           <p className="md:text-xl text-base font-medium text-heading leading-snug">
             Access all your dental needs in one location, anytime, anywhere.
           </p>
-          <button className=" bg-primary font-bold text-white px-5 py-3 rounded-full hover:opacity-90">
+          <button
+            className=" bg-primary font-bold text-white px-5 py-3 rounded-full hover:opacity-90"
+            onClick={() => navigate("/sign-up")}
+          >
             Start Your Journey
           </button>
-          <p className=" text-primary underline text-base font-extrabold hover:opacity-90 cursor-pointer">
+          <p
+            className=" text-primary underline text-base font-extrabold hover:opacity-90 cursor-pointer"
+            onClick={() => navigate("/sign-up")}
+          >
             See A Dentist Now
           </p>
         </div>

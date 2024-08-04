@@ -61,7 +61,10 @@ const TopNav = () => {
             {/* <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-heading transition-all duration-500 group-hover:w-[90%] flex items-center justify-center group-focus:w-[90%]"></span> */}
           </p>
         ))}
-        <button className="bg-primarybg rounded-full px-6 py-2 text-white font-semibold cursor-pointer">
+        <button
+          className="bg-primarybg rounded-full px-6 py-2 text-white font-semibold cursor-pointer"
+          onClick={() => navigate("/dashboard")}
+        >
           My Account
         </button>
       </div>
@@ -93,7 +96,10 @@ const TopNav = () => {
                 {/* <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-heading transition-all duration-500 group-hover:w-[90%] group-focus:w-[90%]"></span> */}
               </p>
             ))}
-            <button className="bg-primarybg rounded-full px-6 py-2 text-white font-semibold mt-2">
+            <button
+              className="bg-primarybg rounded-full px-6 py-2 text-white font-semibold mt-2"
+              onClick={() => navigate("/dashboard")}
+            >
               My Account
             </button>
           </div>
