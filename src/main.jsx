@@ -27,6 +27,10 @@ import VisitHistory from "./components/pages/dashboard/VisitHistory";
 import Education from "./components/pages/dashboard/Education.jsx";
 import Prescription from "./components/pages/dashboard/Prescription.jsx";
 import Uploads from "./components/pages/dashboard/Uploads.jsx";
+import SmartScan from "./components/pages/dashboard/dashboardLinkPages/SmartScan";
+import SeeDentist from "./components/pages/dashboard/dashboardLinkPages/SeeDentist";
+import AppointmentShedule from "./components/pages/dashboard/dashboardLinkPages/AppointmentShedule";
+import Instruction from "./components/pages/dashboard/dashboardLinkPages/Instruction";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -110,6 +114,22 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/uploads",
         element: <Uploads />,
+      },
+      {
+        path: "/dashboard/smart-scan",
+        element: <SmartScan />,
+      },
+      {
+        path: "/dashboard/see-dentist",
+        element: <SeeDentist />,
+      },
+      {
+        path: "/dashboard/appointment-shedule",
+        element: <AppointmentShedule />,
+      },
+      {
+        path: "/dashboard/instruction",
+        element: <Instruction />,
       },
     ],
   },

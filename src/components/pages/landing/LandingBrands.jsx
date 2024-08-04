@@ -1,7 +1,6 @@
 import React from "react";
 import TopNav from "./../navbar/TopNav";
 import bg from "../../../assets/landing-hero.webp";
-import "./landingevolution.css";
 // import the brand logos
 import image1 from "./assets/1.webp";
 import image2 from "./assets/2.webp";

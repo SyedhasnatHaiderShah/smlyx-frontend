@@ -1,7 +1,6 @@
 import React from "react";
 import TopNav from "./../navbar/TopNav";
 import bg from "../../../assets/landing-hero.webp";
-import "./landingevolution.css";
 // import the brand logos
 import image from "./assets/PatientSatisfaction.webp";
 import { GoDotFill } from "react-icons/go";

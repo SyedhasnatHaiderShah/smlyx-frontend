@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import TopNav from "./../navbar/TopNav";
 import bg from "../../../assets/landing-hero.webp";
-import "./landingevolution.css";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -20,8 +19,7 @@ const LandingRevolution = () => {
   };
 
   return (
-
-    <div className="py-20 w-full flex flex-col md:flex-row items-center justify-center gap-10">
+    <div className="py-20 w-full flex flex-col md:flex-row items-center justify-center gap-10 container">
       {/* left */}
       <div className="md:w-1/2 w-full flex items-center justify-center flex-col px-5">
         <div className="lg:w-3/4 w-full flex items-start justify-center flex-col gap-5">
@@ -42,7 +40,6 @@ const LandingRevolution = () => {
               onClick={handleClickOpen}
             >
               Watch Video
-
             </button>
           </div>
         </div>
@@ -51,9 +48,9 @@ const LandingRevolution = () => {
       {/* right */}
 
       <div className="md:w-1/2 w-full flex items-center justify-start px-5">
-        <div className="iframe-container">
+        <div className="w-full ">
           <iframe
-            width="560"
+            width="100%"
             height="315"
             src="https://www.youtube.com/embed/AYxY0YChWhY?si=xabRQQl22dWrFzBk"
             title="YouTube video player"
@@ -61,7 +58,6 @@ const LandingRevolution = () => {
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           ></iframe>
-
         </div>
       </div>
 

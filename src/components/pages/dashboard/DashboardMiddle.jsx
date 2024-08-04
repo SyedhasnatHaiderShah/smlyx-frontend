@@ -13,7 +13,7 @@ const DashboardMiddle = () => {
         "Take photos of your mouth and teeth to instantly see any detected issues*",
       extra:
         "*For informational purposes only. Findings are not reviewed by a licensed dentist and do not constitute a dental diagnosis.",
-      route: "#",
+      route: "/dashboard/smart-scan",
     },
     {
       img: dentist,
@@ -22,7 +22,7 @@ const DashboardMiddle = () => {
       detail:
         "Get 24/7 care with a licensed dentist for conditions like toothaches, broken tooth, infections, and more.",
       extra: "",
-      route: "#",
+      route: "/dashboard/see-dentist",
     },
     {
       img: shedule,
@@ -31,7 +31,7 @@ const DashboardMiddle = () => {
       detail:
         "No rush? No problem. Select a date and time for a virtual dental visit that works for your schedule.",
       extra: "",
-      route: "#",
+      route: "/dashboard/appointment-shedule ",
     },
     {
       img: opinion,
@@ -40,7 +40,7 @@ const DashboardMiddle = () => {
       detail:
         " A licensed dentist will review your records and create a second opinion report.",
       extra: "",
-      route: "#",
+      route: "/dashboard/instruction",
     },
   ];
   return (

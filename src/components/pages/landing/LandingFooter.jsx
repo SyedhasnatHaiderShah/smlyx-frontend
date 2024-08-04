@@ -1,5 +1,4 @@
 import React from "react";
-import "./landingevolution.css";
 import { GoDotFill } from "react-icons/go";
 import logo from "../../../assets/logo.png";
 
