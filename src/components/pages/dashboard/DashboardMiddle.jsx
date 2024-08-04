@@ -3,7 +3,9 @@ import smart from "./assets/smart.png";
 import dentist from "./assets/dentist.svg";
 import shedule from "./assets/shedule.svg";
 import opinion from "./assets/opinion.svg";
+import { useNavigate } from "react-router-dom";
 const DashboardMiddle = () => {
+  const navigate = useNavigate();
   const tabsData = [
     {
       img: smart,
@@ -31,7 +33,7 @@ const DashboardMiddle = () => {
       detail:
         "No rush? No problem. Select a date and time for a virtual dental visit that works for your schedule.",
       extra: "",
-      route: "/dashboard/appointment-shedule ",
+      route: "/dashboard/appointment-shedule",
     },
     {
       img: opinion,
@@ -49,6 +51,7 @@ const DashboardMiddle = () => {
         <div
           key={index}
           className="flex items-center justify-center gap-2 w-full bg-white rounded-lg p-5  h-auto cursor-pointer flex-col md:flex-row"
+          onClick={() => navigate(tab.route)}
         >
           <div className=" w-full flex items-center justify-start gap-2 flex-col md:flex-row">
             <img src={tab.img} alt="" className=" w-20" />
