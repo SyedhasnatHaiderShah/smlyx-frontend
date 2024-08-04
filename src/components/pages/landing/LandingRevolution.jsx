@@ -20,6 +20,7 @@ const LandingRevolution = () => {
   };
 
   return (
+
     <div className="py-20 w-full flex flex-col md:flex-row items-center justify-center gap-10">
       {/* left */}
       <div className="md:w-1/2 w-full flex items-center justify-center flex-col px-5">
@@ -41,12 +42,14 @@ const LandingRevolution = () => {
               onClick={handleClickOpen}
             >
               Watch Video
+
             </button>
           </div>
         </div>
       </div>
 
       {/* right */}
+
       <div className="md:w-1/2 w-full flex items-center justify-start px-5">
         <div className="iframe-container">
           <iframe
@@ -58,6 +61,7 @@ const LandingRevolution = () => {
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           ></iframe>
+
         </div>
       </div>
 

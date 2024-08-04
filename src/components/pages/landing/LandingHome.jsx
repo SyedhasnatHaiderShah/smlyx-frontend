@@ -19,8 +19,8 @@ const LandingHome = () => {
       }}
     >
       <div className=" lg:w-1/2 w-full  flex items-center justify-center flex-col  px-5">
-        <div className=" lg:w-2/3 w-full flex items-start justify-center flex-col gap-5">
-          <p className="md:text-5xl text-2xl sm:text-3xl font-extrabold text-heading leading-snug break-words">
+        <div className=" lg:w-2/3 w-full h-full flex items-center justify-center flex-col gap-5">
+          <p className="md:text-5xl text-xl sm:text-3xl font-extrabold text-heading leading-snug break-words">
             It's Time To Take Control Of Your Dental Health
           </p>
           <p className="md:text-xl text-base font-medium text-heading leading-snug">

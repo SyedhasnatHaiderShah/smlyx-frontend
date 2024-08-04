@@ -8,10 +8,8 @@ import { GoDotFill } from "react-icons/go";
 
 const LandingTestimonial = () => {
   return (
-    <div className=" container h-full py-20  w-full flex flex-col md:flex-row items-center justify-around gap-0  ">
-      <div className="  w-full px-5 flex items-center justify-start ">
-        <img src={image} alt="" loading="lazy" className="  w-[90%]" />
-      </div>
+    <div className=" container h-full py-20  w-full flex flex-col items-center justify-center  ">
+      <img src={image} alt="" loading="lazy" className=" w-full" />
     </div>
   );
 };
