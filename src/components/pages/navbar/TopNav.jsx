@@ -38,7 +38,7 @@ const TopNav = () => {
 
   return (
     <div
-      className={`${bgColor} flex items-center justify-around h-[85px] py-3 transition-colors duration-300`}
+      className={`${bgColor} flex items-center justify-around h-[85px] py-3 transition-colors duration-300 w-full`}
     >
       <div className="flex items-center justify-center gap-3">
         <img src={logo} alt="logo" className="w-12" />
@@ -81,7 +81,7 @@ const TopNav = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="absolute top-[85px] left-5 w-[85%] bg-heading shadow-md md:hidden">
+        <div className="absolute top-[85px] left-5 w-[85%] bg-heading shadow-md md:hidden z-50 h-72 rounded-md">
           <div className="flex flex-col items-center py-4">
             {btnData.map((btn, index) => (
               <p
