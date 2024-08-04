@@ -291,9 +291,9 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
             >
               Next
             </button>
-            <p className="  text-base font-medium " onClick={goNext}>
+            {/* <p className="  text-base font-medium " onClick={goNext}>
               Skip
-            </p>
+            </p> */}
           </div>
         </form>
       </div>

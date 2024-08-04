@@ -526,9 +526,9 @@ const StepTwo = ({
           </div>
         </form>
       </div>
-      <p className="  text-base font-medium " onClick={goNext}>
+      {/* <p className="  text-base font-medium " onClick={goNext}>
         Skip
-      </p>
+      </p> */}
     </div>
   );
 };
