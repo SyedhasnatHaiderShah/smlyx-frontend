@@ -5,27 +5,70 @@ import VisitDetails from "./seeDentistsForms/VisitDetails";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+
+const ProgressBar = ({ currentStep }) => {
+  const totalSteps = 3;
+  const progressPercentage = (currentStep / totalSteps) * 100;
+
+  return (
+    <div className="w-full bg-white rounded-full h-6 mb-4">
+      <div
+        className="h-6 rounded-full bg-gradient-to-r from-primarybg via- to-primary flex items-center justify-center text-white font-bold"
+        style={{ width: `${progressPercentage}%` }}
+      >
+        {currentStep}
+      </div>
+    </div>
+  );
+};
+
 const SeeDentist = () => {
+  const [step, setStep] = useState(1);
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
+  console.log(formData);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const onSubmit = (data) => {
+    const updatedData = { ...formData, ...data };
+    setFormData(updatedData);
+
+    if (step < 2) {
+      setStep(step + 1);
+    } else {
+      console.log("Form submitted:", updatedData);
+      navigate("/dashboard");
+    }
+  };
+  const dataCollection = () => {
+    const updatedData = { ...formData, formData };
+    setFormData(updatedData);
+
+    if (step < 2) {
+      setStep(step + 1);
+    } else {
+      console.log("Form submitted:", updatedData);
+    }
+  };
   return (
     <div className=" flex items-start justify-start  w-full  flex-col  min-h-screen h-full  bg-[#eeeeee] px-5">
       <div className="   w-full mt-8 min-h-screen container ">
         <div className=" flex items-start justify-start flex-col w-full bg-white h-full gap-5 p-5 rounded-xl ">
           {/* progress number with 4 steps */}
+          <ProgressBar currentStep={step} />
 
           {/* see a dentist now */}
+
           <VisitDetails
             register={register}
-            handleSubmit={handleSubmit}
+            handleSubmit={handleSubmit(onSubmit)}
             formData={formData}
             errors={errors}
+            setFormData={setFormData}
           />
         </div>
       </div>

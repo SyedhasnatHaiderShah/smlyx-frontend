@@ -4,7 +4,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 
-// import all the components
 import Layout from "./Layout.jsx";
 import Landing from "./components/pages/landing/Landing.jsx";
 import Login from "./components/pages/auth/Login.jsx";
@@ -31,6 +30,7 @@ import SmartScan from "./components/pages/dashboard/dashboardLinkPages/SmartScan
 import SeeDentist from "./components/pages/dashboard/dashboardLinkPages/SeeDentist";
 import AppointmentShedule from "./components/pages/dashboard/dashboardLinkPages/AppointmentShedule";
 import Instruction from "./components/pages/dashboard/dashboardLinkPages/Instruction";
+import PrivacyPractices from "./components/pages/others/PrivacyPractices";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -52,6 +52,10 @@ const router = createBrowserRouter([
   {
     path: "/forgot-password",
     element: <ForgotPassword />,
+  },
+  {
+    path: "/privacy-practices",
+    element: <PrivacyPractices />,
   },
   {
     path: "*",
