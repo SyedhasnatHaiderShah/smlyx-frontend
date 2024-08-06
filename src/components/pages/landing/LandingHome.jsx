@@ -21,25 +21,30 @@ const LandingHome = () => {
       }}
     >
       <div className=" lg:w-1/2 w-full  flex items-center justify-center flex-col  px-5">
-        <div className=" lg:w-2/3 w-full h-full flex items-center justify-center flex-col gap-5">
-          <p className="md:text-5xl text-xl sm:text-3xl font-extrabold text-heading leading-snug break-words">
-            It's Time To Take Control Of Your Dental Health
-          </p>
-          <p className="md:text-xl text-base font-medium text-heading leading-snug">
-            Access all your dental needs in one location, anytime, anywhere.
-          </p>
-          <button
-            className=" bg-primary font-bold text-white px-5 py-3 rounded-full hover:opacity-90"
-            onClick={() => navigate("/sign-up")}
-          >
-            Start Your Journey
-          </button>
-          <p
-            className=" text-primary underline text-base font-extrabold hover:opacity-90 cursor-pointer"
-            onClick={() => navigate("/sign-up")}
-          >
-            See A Dentist Now
-          </p>
+        <div className=" lg:w-2/3 w-full h-full flex items-start justify-start  flex-col gap-5 px-5">
+          <div className=" flex flex-col items-start justify-start gap-3 ">
+            <p className="md:text-5xl text-xl sm:text-3xl font-extrabold text-heading !leading-tight break-words">
+              It's Time To Take Control Of Your Dental Health
+            </p>
+            <p className="md:text-xl text-base font-medium text-heading !leading-snug">
+              Access all your dental needs in one location, anytime, anywhere.
+            </p>
+          </div>
+
+          <div className=" flex items-start justify-start flex-col gap-3 ">
+            <button
+              className=" bg-primary font-bold text-white px-5 py-3 rounded-full hover:opacity-90  transition-all duration-300 ease-in-out"
+              onClick={() => navigate("/sign-up")}
+            >
+              Start Your Journey
+            </button>
+            <p
+              className=" text-primary underline text-base font-extrabold hover:opacity-90 cursor-pointer"
+              onClick={() => navigate("/sign-up")}
+            >
+              See A Dentist Now
+            </p>
+          </div>
         </div>
       </div>
     </div>

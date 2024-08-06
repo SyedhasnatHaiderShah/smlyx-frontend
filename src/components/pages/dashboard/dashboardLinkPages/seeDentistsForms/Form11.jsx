@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 
-const Form11 = ({ formData, setFormData }) => {
+const Form11 = ({ formData, setFormData, goBack, goNext }) => {
   const navigate = useNavigate();
   const symptoms = [
     "Fever",
@@ -315,15 +315,28 @@ const Form11 = ({ formData, setFormData }) => {
           </div>
         </div>
 
-        <div className="flex items-center justify-center w-full">
+        <div className="flex items-center justify-center w-full gap-3">
           <button
             className=" bg-[#605fa4] text-white text-sm font-bold px-5 py-3 rounded-full"
             type="submit"
+            onClick={goNext}
           >
             Submit and Next
           </button>
         </div>
       </form>
+      {/* <button
+        className=" bg-[#605fa4] text-white text-sm font-bold px-5 py-3 rounded-full"
+        onClick={goBack}
+      >
+        Back
+      </button>
+      <button
+        className=" bg-[#605fa4] text-white text-sm font-bold px-5 py-3 rounded-full"
+        onClick={goNext}
+      >
+        Skip
+      </button> */}
     </div>
   );
 };

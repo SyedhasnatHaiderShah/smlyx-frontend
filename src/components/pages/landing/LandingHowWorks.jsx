@@ -19,18 +19,22 @@ const LandingHowWorks = () => {
         <img src={image} alt="" loading="lazy" className=" w-full md:w-[90%]" />
       </div>
       <div className=" flex items-start justify-start flex-col gap-5 w-full  md:w-1/2">
-        <p className=" text-gray-500 text-3xl font-medium">How It Works</p>
-        {cardData.map((card, index) => (
-          <div
-            key={index}
-            className="flex items-start justify-start gap-5 md:w-2/3 w-full"
-          >
-            <GoDotFill color={index === 1 ? "#7a4c97" : "#3fbbeb"} />
-            <p className="md:text-lg text-sm text-gray-600 font-medium">
-              {card}
-            </p>
-          </div>
-        ))}
+        <p className=" text-gray-500 text-3xl font-medium w-full">
+          How It Works
+        </p>
+        <div className="flex items-start justify-start flex-col flex-wrap gap-3 w-full">
+          {cardData.map((card, index) => (
+            <div
+              key={index}
+              className="flex items-start justify-start gap-5 md:w-2/3 w-full"
+            >
+              <GoDotFill color={index === 1 ? "#7a4c97" : "#3fbbeb"} />
+              <p className="md:text-lg text-sm text-gray-600 font-medium w-full">
+                {card}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ const LandingRevolution = () => {
   };
 
   return (
-    <div className="py-20 w-full flex flex-col md:flex-row items-center justify-center gap-10 container">
+    <div className="py-20 w-full flex flex-col md:flex-row items-center justify-center gap-10 container px-5">
       {/* left */}
       <div className="md:w-1/2 w-full flex items-center justify-center flex-col px-5">
         <div className="lg:w-3/4 w-full flex items-start justify-center flex-col gap-5">

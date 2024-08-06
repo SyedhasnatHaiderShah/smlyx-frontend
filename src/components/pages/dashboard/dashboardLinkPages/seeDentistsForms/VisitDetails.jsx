@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Form11 from "./Form11";
 import AddUpdateInsurance from "./AddUpdateInsurance";
-const VisitDetails = ({ formData, setFormData }) => {
+const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
   const navigate = useNavigate();
   const [showDependent, setShowDependent] = React.useState(false);
   const [showInsurance, setShowInsurance] = useState(false);
@@ -298,7 +298,12 @@ const VisitDetails = ({ formData, setFormData }) => {
       </div>
       {showInsurance && <AddUpdateInsurance />}
       <div className=" w-full flex items-start justify-start ">
-        <Form11 formData={formData} setFormData={setFormData} />
+        <Form11
+          formData={formData}
+          setFormData={setFormData}
+          goBack={goBack}
+          goNext={goNext}
+        />
       </div>
       <div className=" flex items-center justify-center w-full">
         <button
