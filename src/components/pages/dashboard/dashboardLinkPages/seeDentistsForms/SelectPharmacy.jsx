@@ -169,7 +169,7 @@ const SelectPharmacy = ({ formData, setFormData, goBack, goNext }) => {
               </div>
               <div className="flex items-start justify-start w-full">
                 <button
-                  className="px-9 py-3 rounded-full bg-primarybg text-white text-base font-semibold"
+                  className="px-7 py-3 rounded-full bg-primarybg text-white text-base font-semibold"
                   type="submit"
                 >
                   Search Pharmacy

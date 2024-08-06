@@ -63,7 +63,7 @@ const ReviewSubmit = () => {
                 className=" w-full "
               >
                 <div className=" w-full flex items-center justify-center md:flex-row flex-col flex-wrap">
-                  <div className=" flex items-start justify-start w-full flex-col md:w-1/2 relative">
+                  <div className=" flex items-start justify-start w-full flex-col  relative">
                     <input
                       type="text"
                       placeholder="Enter pharmacy name"
@@ -85,7 +85,7 @@ const ReviewSubmit = () => {
                       </p>
                     )}
                   </div>
-                  <div className=" flex items-center justify-center w-full md:w-1/2 my-3">
+                  <div className=" flex items-center justify-center w-full  my-3">
                     <button
                       className=" px-12 py-2 w-full md:w-1/2 rounded-full bg-primarybg text-white text-sm font-bold"
                       type="submit"
