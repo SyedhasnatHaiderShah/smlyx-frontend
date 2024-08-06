@@ -103,9 +103,9 @@ const ReviewSubmit = () => {
         <p className=" text-xs text-gray-400 italic font-semibold text-center">
           Your payment method will not be charged untill your visit is complete.
         </p>
-        <div className=" flex items-center justify-center w-full gap-5">
+        <div className=" flex items-center justify-center w-full gap-5 flex-col md:flex-row">
           <button
-            className=" px-12 font-semibold py-2 rounded-full border-gray-300 border-2 text-gray-400 hover:text-gray-500 transition-all duration-300 ease-in-out "
+            className=" px-14 font-semibold py-2 rounded-full border-gray-300 border-2 text-gray-400 hover:text-gray-500 transition-all duration-300 ease-in-out "
             onClick={() => navigate("/dashboard")}
           >
             Cancel
