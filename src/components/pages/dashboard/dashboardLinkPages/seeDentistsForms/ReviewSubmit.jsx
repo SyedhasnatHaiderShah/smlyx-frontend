@@ -3,7 +3,7 @@ import PlayArrow from "@mui/icons-material/VideoCall";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-const ReviewSubmit = () => {
+const ReviewSubmit = ({ setFormData, formData, goNext }) => {
   const navigate = useNavigate();
   const [clearValue, setClearValue] = useState("");
   const {
@@ -12,7 +12,10 @@ const ReviewSubmit = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    setFormData((prevData) => ({
+      ...prevData,
+      ...data,
+    }));
   };
   return (
     <div className=" flex items-start justify-start container px-5 py-10 w-full flex-col">
@@ -68,9 +71,7 @@ const ReviewSubmit = () => {
                       type="text"
                       placeholder="Enter pharmacy name"
                       className="w-full my-3  px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold relative"
-                      {...register("pharmacyName", {
-                        required: "Subscriber Address is required",
-                      })}
+                      {...register("couponCode")}
                       // onChange={(e) => e.target.value === clearValue}
                       // value={clearValue}
                     />
@@ -79,11 +80,6 @@ const ReviewSubmit = () => {
                       fontSize="small"
                       onClick={() => setClearValue("")}
                     />
-                    {errors.pharmacyName && (
-                      <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                        {errors.pharmacyName.message}
-                      </p>
-                    )}
                   </div>
                   <div className=" flex items-center justify-center w-full  my-3">
                     <button
@@ -110,7 +106,10 @@ const ReviewSubmit = () => {
           >
             Cancel
           </button>
-          <button className=" bg-[#605fa4] px-12 font-semibold py-2 rounded-full  text-white ">
+          <button
+            className=" bg-[#605fa4] px-12 font-semibold py-2 rounded-full  text-white "
+            onClick={goNext}
+          >
             Start Visit
           </button>
         </div>

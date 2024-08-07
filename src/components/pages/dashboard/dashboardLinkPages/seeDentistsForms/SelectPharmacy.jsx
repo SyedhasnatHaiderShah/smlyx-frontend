@@ -12,6 +12,8 @@ const SelectPharmacy = ({ formData, setFormData, goBack, goNext }) => {
   } = useForm();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredPharmacies, setFilteredPharmacies] = useState([]);
+  const [selectedPharmacy, setSelectedPharmacy] = useState([]);
+  console.log(selectedPharmacy);
   const [pharmacies, setPharmacies] = useState([
     {
       name: "Pharmacy New",
@@ -27,7 +29,7 @@ const SelectPharmacy = ({ formData, setFormData, goBack, goNext }) => {
 
   const onSubmit = (data) => {
     // Perform your search logic here
-    console.log("Search Data:", data);
+    console.log(data);
     const { pharmacyName, state, city, zip } = data;
 
     const filtered = pharmacies.filter((pharmacy) => {
@@ -41,12 +43,23 @@ const SelectPharmacy = ({ formData, setFormData, goBack, goNext }) => {
     });
 
     setFilteredPharmacies(filtered);
-    setFormData(data);
-    setSearchPerformed(true); // Indicate that a search has been performed
+    setFormData((prevData) => ({
+      ...prevData,
+      ...data,
+    }));
+    setSearchPerformed(true);
   };
 
   const handleClearInput = () => {
     setSearchQuery("");
+  };
+
+  const savePharmacy = (pharmacy) => {
+    setSelectedPharmacy((prevFormData) => ({
+      ...prevFormData,
+      preferredPharmacy: pharmacy,
+    }));
+    // goNext();
   };
 
   return (
@@ -167,36 +180,90 @@ const SelectPharmacy = ({ formData, setFormData, goBack, goNext }) => {
                   </p>
                 )}
               </div>
-              <div className="flex items-start justify-start w-full">
+              <div className="flex items-center justify-center w-full ">
                 <button
-                  className="px-7 py-3 rounded-full bg-primarybg text-white text-base font-semibold"
+                  className="px-5 py-2 rounded-full bg-primarybg text-white text-base font-semibold"
                   type="submit"
                 >
                   Search Pharmacy
                 </button>
               </div>
             </div>
+
+            {searchPerformed && filteredPharmacies.length > 0 && (
+              <div className="mt-5 w-full">
+                <h3 className="text-lg font-semibold text-gray-700">
+                  Results:
+                </h3>
+                <div className=" border p-5 w-full bg-[#f2f2f2] flex items-center justify-center flex-wrap rounded-md">
+                  {filteredPharmacies.map((pharmacy, index) => (
+                    <div
+                      className=" flex-col w-96 bg-white p-5 rounded-lg m-1 gap-3"
+                      key={index}
+                    >
+                      <div className="w-full flex items-center justify-between gap-2 my-3">
+                        <p className=" text-gray-800 font-semibold">
+                          {pharmacy.name}
+                        </p>
+                        <button
+                          className="px-5 py-2 rounded-full bg-primarybg   text-white text-sm font-semibold"
+                          onClick={() => savePharmacy(pharmacy)}
+                        >
+                          Select
+                        </button>
+                      </div>
+                      <hr className=" w-full" />
+                      <div className="w-full flex items-center justify-between gap-2 my-3">
+                        <p className=" text-gray-600 text-sm font-semibold">
+                          City: {pharmacy.city}
+                        </p>
+                        <p className=" text-gray-600 text-sm font-semibold">
+                          State: {pharmacy.state}
+                        </p>
+                      </div>
+                      <hr className=" w-full" />
+                      <div className="w-full flex items-center justify-between gap-2 my-3">
+                        <p className=" text-gray-600 text-sm font-semibold">
+                          {pharmacy.zip}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {searchPerformed && filteredPharmacies.length === 0 && (
+              <div className="mt-5 w-full">
+                <h3 className="text-lg font-semibold text-gray-700">
+                  Results:
+                </h3>
+                <p className="text-gray-700">No pharmacies found.</p>
+              </div>
+            )}
+
+            <hr className=" w-full my-3" />
+            <div className=" w-full flex items-center justify-center flex-wrap gap-3 ">
+              <button
+                className="px-5 py-2 rounded-full  border-2 text-gray-500 text-base font-semibold"
+                onClick={() => navigate("/dashboard")}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-7 py-2 rounded-full   text-white bg-[#605fa4] text-base font-semibold"
+                type="submit"
+              >
+                Next
+              </button>
+              <button
+                className="px-7 py-2 rounded-full  text-white bg-primary  text-base font-semibold"
+                onClick={goNext}
+              >
+                Skip
+              </button>
+            </div>
           </form>
         </div>
-        {searchPerformed && filteredPharmacies.length > 0 && (
-          <div className="mt-5 w-full">
-            <h3 className="text-lg font-semibold text-gray-700">Results:</h3>
-            <ul className="list-disc pl-5">
-              {filteredPharmacies.map((pharmacy, index) => (
-                <li key={index} className="text-gray-700">
-                  {pharmacy.name} - {pharmacy.city}, {pharmacy.state}{" "}
-                  {pharmacy.zip}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {searchPerformed && filteredPharmacies.length === 0 && (
-          <div className="mt-5 w-full">
-            <h3 className="text-lg font-semibold text-gray-700">Results:</h3>
-            <p className="text-gray-700">No pharmacies found.</p>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -319,7 +319,7 @@ const Form11 = ({ formData, setFormData, goBack, goNext }) => {
           <button
             className=" bg-[#605fa4] text-white text-sm font-bold px-5 py-3 rounded-full"
             type="submit"
-            onClick={goNext}
+            // onClick={goNext}
           >
             Submit and Next
           </button>

@@ -14,12 +14,28 @@ const ProgressBar = ({ currentStep }) => {
   const progressPercentage = (currentStep / totalSteps) * 100;
 
   return (
-    <div className="w-full bg-slate-300 rounded-full h-6 mb-4">
+    <div className="w-full flex items-center justify-center bg-slate-300 rounded-full h-8 mb-1">
       <div
-        className="h-6 rounded-full bg-gradient-to-r from-primarybg via- to-primary flex items-center justify-center text-white font-bold"
-        style={{ width: `${progressPercentage}%` }}
+        className="h-8 rounded-full w-full bg-gradient-to-r from-primarybg via- to-primary flex items-center justify-center text-white font-bold"
+        // style={{ width: `${progressPercentage}%` }}
       >
-        {currentStep}
+        {currentStep === 1 ? (
+          <p className=" text-xs md:text-sm w-full flex items-center justify-center">
+            Step 1 Visit Details
+          </p>
+        ) : currentStep === 2 ? (
+          <p className=" text-xs  md:text-sm w-full flex items-center justify-center">
+            Step 2 Select pharmacy
+          </p>
+        ) : currentStep === 3 ? (
+          <p className=" text-xs md:text-sm w-full flex items-center justify-center">
+            Step 3 Review Pharmacy
+          </p>
+        ) : (
+          <p className=" text-xs md:text-sm w-full flex items-center justify-center">
+            Step 4 Billing Information
+          </p>
+        )}
       </div>
     </div>
   );
@@ -30,7 +46,7 @@ const SeeDentist = () => {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
-  // console.log(formData);
+  console.log(formData);
   const {
     register,
     handleSubmit,
@@ -85,10 +101,7 @@ const SeeDentist = () => {
           {/* see a dentist now */}
           {step === 1 && (
             <VisitDetails
-              register={register}
-              handleSubmit={handleSubmit(onSubmit)}
               formData={formData}
-              errors={errors}
               setFormData={setFormData}
               goBack={goBack}
               goNext={goNext}
@@ -96,10 +109,7 @@ const SeeDentist = () => {
           )}
           {step === 2 && (
             <SelectPharmacy
-              register={register}
-              handleSubmit={handleSubmit(onSubmit)}
               formData={formData}
-              errors={errors}
               setFormData={setFormData}
               goBack={goBack}
               goNext={goNext}

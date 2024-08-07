@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 const AddUpdateInsurance = () => {
   const [formData, setFormData] = useState({});
-  // console.log(formData);
+  console.log(formData);
   const {
     register,
     handleSubmit,
