@@ -9,98 +9,64 @@ import {
 } from "@stripe/react-stripe-js";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { useNavigate } from "react-router-dom";
+import { countries } from "./countries.js";
 
 // Load your Stripe publishable key
 const stripePromise = loadStripe("your-publishable-key-here");
 
-// List of all countries
-const countries = [
-  "United States",
-  "Canada",
-  "United Kingdom",
-  "Australia",
-  "India",
-  "Pakistan",
-  "UAE",
-  "Germany",
-  "France",
-  "Brazil",
-  "China",
-  "Japan",
-  "South Korea",
-  "South Africa",
-  "Mexico",
-  "Russia",
-  "Italy",
-  "Spain",
-  "Netherlands",
-  "Sweden",
-  "Norway",
-  "Denmark",
-  "Finland",
-  "New Zealand",
-  "Switzerland",
-  "Belgium",
-  "Austria",
-  "Ireland",
-  "Singapore",
-  "Malaysia",
-  "Thailand",
-  "Indonesia",
-  "Philippines",
-  "Vietnam",
-  "Saudi Arabia",
-  "Turkey",
-  "Argentina",
-  "Chile",
-  "Colombia",
-  "Peru",
-  "Venezuela",
-  "Egypt",
-  "Nigeria",
-  "Kenya",
-  "Israel",
-  "Portugal",
-  "Greece",
-  "Czech Republic",
-  "Hungary",
-  "Poland",
-  "Ukraine",
-  "Romania",
-  "Slovakia",
-  "Slovenia",
-  "Bulgaria",
-  "Croatia",
-  "Lithuania",
-  "Latvia",
-  "Estonia",
-  "Luxembourg",
-  "Iceland",
-  "Malta",
-  "Cyprus",
-  "Bahrain",
-  "Qatar",
-  "Kuwait",
-  "Oman",
-  "Lebanon",
-  "Jordan",
-  "Morocco",
-  "Tunisia",
-  "Algeria",
-  "Ethiopia",
-  "Ghana",
-  "Uganda",
-  "Tanzania",
-  "Zambia",
-  "Zimbabwe",
-];
-
 const PaymentForm = () => {
   const [formData, setFormData] = useState({});
+  const [cvc, setCvc] = useState("");
+  console.log(formData);
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useForm();
   const stripe = useStripe();
   const elements = useElements();
+
+  const expirationDate = watch("expirationDate", "");
+  const cardNumber = watch("cardNumber", "");
+
+  // Add slash automatically after two digits
+  const handleExpirationDateChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
+
+    if (value.length > 2) {
+      value = value.slice(0, 2) + "/" + value.slice(2);
+    }
+
+    setValue("expirationDate", value, { shouldValidate: true });
+  };
+
+  // Add spaces automatically after every 4 digits for card number
+  const handleCardNumberChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
+
+    if (value.length > 16) {
+      value = value.slice(0, 16);
+    }
+
+    if (value.length > 4) {
+      value = value.match(/.{1,4}/g).join(" ");
+    }
+
+    setValue("cardNumber", value, { shouldValidate: true });
+  };
+
+  const handleCVCChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
+
+    if (value.length > 3) {
+      value = value.slice(0, 3);
+    }
+
+    setValue("cvc", value, { shouldValidate: true });
+  };
 
   const onSubmit = async (data) => {
     setFormData((prevData) => ({
@@ -189,12 +155,15 @@ const PaymentForm = () => {
                   id="cardNumber"
                   placeholder="1234 1234 1234 1234"
                   {...register("cardNumber", { required: true })}
+                  onChange={handleCardNumberChange}
+                  value={cardNumber}
+                  maxLength={19}
                   className="mt-1 block w-full outline-none border p-2 rounded-2xl rounded-b-none border-gray-300 placeholder:font-medium shadow-sm focus:ring-indigo-800 focus:border-primarybg font-semibold text-gray-500 px-3 relative"
                   required
                 />
                 <CreditCardIcon
                   fontSize="medium"
-                  className="absolute right-5 bottom-2 text-gray-500"
+                  className="absolute right-5 sm:bottom-2 bottom-11 text-gray-500  "
                 />
               </div>
               <div className="flex items-start justify-start w-full">
@@ -205,19 +174,19 @@ const PaymentForm = () => {
                     required: true,
                     pattern: /^(0[1-9]|1[0-2])\/\d{2}$/,
                   })}
+                  onChange={handleExpirationDateChange}
                   className="block w-full outline-none border p-2 rounded-2xl rounded-r-none rounded-tl-none border-gray-300 placeholder:font-medium border-r-0 shadow-sm focus:ring-indigo-800 focus:border-primarybg font-semibold text-gray-500 px-3 relative"
-                  required
                   maxLength="5"
                 />
-
                 <input
-                  type="number"
+                  type="text"
                   placeholder="CVC"
                   {...register("cvc", { required: true })}
+                  onChange={handleCVCChange}
+                  value={cvc}
                   className="block w-full outline-none border p-2 rounded-2xl rounded-tr-none rounded-l-none border-l-0 border-gray-300 placeholder:font-medium shadow-sm focus:ring-indigo-800 focus:border-primarybg font-semibold text-gray-500 px-3 relative"
+                  maxLength={3}
                   required
-                  min={0}
-                  max={999}
                 />
               </div>
             </div>
@@ -249,11 +218,16 @@ const PaymentForm = () => {
               <select
                 id="country"
                 {...register("country", { required: true })}
-                className="block w-full rounded-full border-primarybg focus:ring-primarybg py-2 text-sm outline-primarybg focus:border-primarybg sm:text-sm px-3"
+                className="block w-full rounded-full border-primarybg focus:ring-primarybg py-2 text-sm outline-primarybg focus:border-primarybg sm:text-sm px-3 font-semibold text-gray-500
+                "
                 required
               >
                 {countries.map((country) => (
-                  <option key={country} value={country}>
+                  <option
+                    key={country}
+                    value={country}
+                    className=" text-sm font-medium text-gray-500"
+                  >
                     {country}
                   </option>
                 ))}

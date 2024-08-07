@@ -12,6 +12,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const onSubmit = (data) => {
     setFormData(data);
+    navigate("/login");
     // console.log(data);
   };
   return (
@@ -31,6 +32,7 @@ const ForgotPassword = () => {
         <form
           action="submit"
           className="flex items-center justify-center flex-col gap-5 w-full h-full px-10"
+          onSubmit={handleSubmit(onSubmit)}
         >
           <p className=" text-[#a53794] text-2xl font-semibold text-center">
             Forgot Password
@@ -64,7 +66,7 @@ const ForgotPassword = () => {
             type="submit"
             className=" bg-[#484691] text-white text-base font-bold hover:opacity-90  px-12 py-2 rounded-full "
             // disabled={!errors.email && !errors.password ? true : false}
-            onClick={handleSubmit(onSubmit)}
+            // onClick={handleSubmit(onSubmit)}
           >
             Send
           </button>
