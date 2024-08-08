@@ -425,7 +425,7 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                     <span className=" text-red-500 text-xl"> *</span>
                   </label>
                   <select
-                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2  focus:outline-primary  text-sm font-bold"
                     {...register("painLevel", {
                       required: "Pain level is required",
                     })}
@@ -462,7 +462,12 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                         {...register("symptoms")}
                         value={symptom}
                       />
-                      <label htmlFor={`symptom-${index}`}>{symptom}</label>
+                      <label
+                        htmlFor={`symptom-${index}`}
+                        className=" font-medium text-sm"
+                      >
+                        {symptom}
+                      </label>
                     </div>
                   ))}
                   {errors.symptoms && (
@@ -489,7 +494,12 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                           })}
                           className="mr-2"
                         />
-                        <label htmlFor="allergies-yes">Yes</label>
+                        <label
+                          htmlFor="allergies-yes"
+                          className=" font-medium text-sm"
+                        >
+                          Yes
+                        </label>
                       </div>
                       <div className="flex items-center">
                         <input
@@ -501,7 +511,12 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                           })}
                           className="mr-2"
                         />
-                        <label htmlFor="allergies-no">No</label>
+                        <label
+                          htmlFor="allergies-no"
+                          className=" font-medium text-sm"
+                        >
+                          No
+                        </label>
                       </div>
                     </div>
                     <div className="w-full md:w-1/3">
@@ -530,7 +545,12 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                           })}
                           className="mr-2"
                         />
-                        <label htmlFor="medical-conditions-yes">Yes</label>
+                        <label
+                          htmlFor="medical-conditions-yes"
+                          className=" font-medium text-sm"
+                        >
+                          Yes
+                        </label>
                       </div>
                       <div className="flex items-center">
                         <input
@@ -542,7 +562,12 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                           })}
                           className="mr-2"
                         />
-                        <label htmlFor="medical-conditions-no">No</label>
+                        <label
+                          htmlFor="medical-conditions-no"
+                          className=" font-medium text-sm"
+                        >
+                          No
+                        </label>
                       </div>
                     </div>
                     <div className="w-full md:w-1/3">
@@ -571,7 +596,12 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                           })}
                           className="mr-2"
                         />
-                        <label htmlFor="medications-yes">Yes</label>
+                        <label
+                          htmlFor="medications-yes"
+                          className=" font-medium text-sm"
+                        >
+                          Yes
+                        </label>
                       </div>
                       <div className="flex items-center">
                         <input
@@ -583,7 +613,12 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                           })}
                           className="mr-2"
                         />
-                        <label htmlFor="medications-no">No</label>
+                        <label
+                          htmlFor="medications-no"
+                          className=" font-medium text-sm"
+                        >
+                          No
+                        </label>
                       </div>
                     </div>
                     <div className="w-full md:w-1/3">
@@ -606,7 +641,7 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                   </label>
                   <input
                     type="date"
-                    className="w-full md:w-1/3 px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                    className="w-full md:w-1/3 px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium text-gray-500 placeholder:text-gray-400  text-sm font-semibold"
                     {...register("lastDentalExam", {
                       required: "Last dental exam date is required",
                       validate: validateDateNotInFuture,

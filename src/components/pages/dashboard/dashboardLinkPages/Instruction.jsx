@@ -1,6 +1,10 @@
 import React from "react";
 import img from "../assets/opinion.svg";
+import { useNavigate } from "react-router-dom";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+
 const Instruction = () => {
+  const navigate = useNavigate();
   const steps = [
     "Follow our guide to request your records or upload your own",
     "A licensed dentist will review your case",
@@ -20,9 +24,21 @@ const Instruction = () => {
           </p>
           <div className=" flex items-start justify-start  gap-3 flex-col">
             {steps.map((step, index) => (
-              <p className=" text-sm font-semibold  text-gray-800 " key={index}>
-                {step}
-              </p>
+              <div
+                className=" flex items-start justify-start gap-3"
+                key={index}
+              >
+                <div className=" w-9 h-9 bg-[#e0c84b] flex items-center justify-center rounded-full">
+                  <ChevronRightIcon className=" text-white" />
+                </div>
+
+                <p
+                  className=" text-sm font-semibold  text-gray-800 "
+                  key={index}
+                >
+                  {step}
+                </p>
+              </div>
             ))}
           </div>
           <p className=" text-sm font-semibold  text-primarybg my-3 ">
@@ -30,7 +46,12 @@ const Instruction = () => {
             regarding your specific case.
           </p>
 
-          <button>Next</button>
+          <button
+            onClick={() => navigate("/dashboard/instruction-multiform")}
+            className=" bg-[#605fa4] text-white w-1/3 py-2 rounded-full text-center "
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>

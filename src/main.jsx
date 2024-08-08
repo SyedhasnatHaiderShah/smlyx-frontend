@@ -31,6 +31,7 @@ import SeeDentist from "./components/pages/dashboard/dashboardLinkPages/SeeDenti
 import AppointmentShedule from "./components/pages/dashboard/dashboardLinkPages/AppointmentShedule";
 import Instruction from "./components/pages/dashboard/dashboardLinkPages/Instruction";
 import PrivacyPractices from "./components/pages/others/PrivacyPractices";
+import InstructionMultiForm from "./components/pages/dashboard/dashboardLinkPages/InstructionMultiForm";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -134,6 +135,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/instruction",
         element: <Instruction />,
+      },
+      {
+        path: "/dashboard/instruction-multiform",
+        element: <InstructionMultiForm />,
       },
     ],
   },
