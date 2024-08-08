@@ -59,7 +59,7 @@ const SelectPharmacy = ({ formData, setFormData, goBack, goNext }) => {
       ...prevFormData,
       preferredPharmacy: pharmacy,
     }));
-    // goNext();
+    goNext();
   };
 
   return (

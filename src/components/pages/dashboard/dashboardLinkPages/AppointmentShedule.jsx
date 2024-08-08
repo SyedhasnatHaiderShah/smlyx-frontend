@@ -22,23 +22,23 @@ const ProgressBar = ({ currentStep }) => {
       >
         {currentStep === 1 ? (
           <p className=" text-xs md:text-sm w-full flex items-center justify-center">
-            Step 1 Visit Details
+            Step 1/5: Visit Details
           </p>
         ) : currentStep === 2 ? (
           <p className=" text-xs  md:text-sm w-full flex items-center justify-center">
-            Step 2 Select pharmacy
+            Step 2/5: Select pharmacy
           </p>
         ) : currentStep === 3 ? (
           <p className=" text-xs md:text-sm w-full flex items-center justify-center">
-            Step 3 Date and Time
+            Step 3/5: Date and Time
           </p>
         ) : currentStep === 4 ? (
           <p className=" text-xs md:text-sm w-full flex items-center justify-center">
-            Step 4 Review Pharmacy
+            Step 4/5: Review Pharmacy
           </p>
         ) : (
           <p className=" text-xs md:text-sm w-full flex items-center justify-center">
-            Step 5 Billing Information
+            Step 5/5: Billing Information
           </p>
         )}
       </div>

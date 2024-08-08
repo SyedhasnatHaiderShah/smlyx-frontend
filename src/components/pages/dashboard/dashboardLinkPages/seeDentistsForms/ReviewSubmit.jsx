@@ -31,6 +31,14 @@ const ReviewSubmit = ({ setFormData, formData, goNext }) => {
             <p className=" text-base font-semibold text-gray-600">Visit for</p>
             <p className=" text- font-bold text-gray-800">User name</p>
           </div>
+          <div className=" flex items-start flex-col gap-2 justify-start w-full">
+            <p className=" text-base font-semibold text-gray-600">
+              Date and Time
+            </p>
+            <p className=" text-sm font-bold text-gray-800">
+              {formData.appointmentDate || ""}
+            </p>
+          </div>
           <div className=" flex items-start flex-col gap-5 justify-start w-full">
             <p className=" text-base font-bold text-primary">
               Once you click "start Visit", you will be taken into a virtual

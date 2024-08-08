@@ -183,7 +183,7 @@ const PaymentForm = () => {
                   placeholder="CVC"
                   {...register("cvc", { required: true })}
                   onChange={handleCVCChange}
-                  value={cvc}
+                  // value={cvc}
                   className="block w-full outline-none border p-2 rounded-2xl rounded-tr-none rounded-l-none border-l-0 border-gray-300 placeholder:font-medium shadow-sm focus:ring-indigo-800 focus:border-primarybg font-semibold text-gray-500 px-3 relative"
                   maxLength={3}
                   required
