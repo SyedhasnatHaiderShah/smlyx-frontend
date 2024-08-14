@@ -32,10 +32,15 @@ import AppointmentShedule from "./components/pages/dashboard/dashboardLinkPages/
 import Instruction from "./components/pages/dashboard/dashboardLinkPages/Instruction";
 import PrivacyPractices from "./components/pages/others/PrivacyPractices";
 import InstructionMultiForm from "./components/pages/dashboard/dashboardLinkPages/InstructionMultiForm";
+import Derma from "./components/pages/derma/Derma";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Landing />,
+  },
+  {
+    path: "/derma",
+    element: <Derma />,
   },
   {
     path: "/login",
