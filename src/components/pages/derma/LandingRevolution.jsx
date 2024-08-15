@@ -72,7 +72,7 @@ const LandingRevolution = () => {
     {
       title: "Enhanced Marketing Strategies",
       content:
-        "Boost your clinic’s visibility and patient engagement with AI-enhanced marketing strategies. Utilize data-driven insights to optimize your marketing campaigns and reach a wider audience.",
+        "Boost your clinic’s visibility and patient engagement with AI-enhanced marketing strategies. Utilize data-driven insights to optimize your marketing campaigns.",
       icon: <AutoAwesomeIcon fontSize="large" />,
     },
     {
@@ -125,7 +125,7 @@ const LandingRevolution = () => {
                     {item.icon}
                   </p>
                 </div>
-                <p className="sm:text-2xl font-bold text-[#605fa4] break-words w-2/3 flex items-center justify-center">
+                <p className="text-xl font-bold text-[#605fa4] break-words w-2/3 flex items-center justify-center">
                   {item.title}
                 </p>
               </div>

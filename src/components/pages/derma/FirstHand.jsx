@@ -7,6 +7,12 @@ import image2 from "./assets/two.jpg";
 import image3 from "./assets/three.jpg";
 
 const FirstHand = () => {
+  const [showMore, setShowMore] = React.useState(false);
+  const [expandedIndex, setExpandedIndex] = React.useState(null);
+
+  const handleShowMoreClick = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
   const brandData = [
     {
       img: image1,
@@ -41,7 +47,7 @@ const FirstHand = () => {
         {brandData.map((item, index) => (
           <div
             key={index}
-            className=" w-full sm:w-96  flex items-start justify-start flex-col gap-5 p-5 shadow-md hover:shadow-lg rounded-lg transition-all duration-200 ease-in-out "
+            className=" w-full sm:w-5/12 md:w-4/12 lg:w-3/12  flex items-start justify-start flex-col gap-5 p-5 shadow-md hover:shadow-lg rounded-lg transition-all duration-200 ease-in-out min-h-[420px]  "
           >
             <img
               src={item.img}
@@ -49,9 +55,17 @@ const FirstHand = () => {
               className=" w-full object-cover object-center rounded-md"
               loading="lazy"
             />
-            <p className=" text-gray-700 text-3xl  font-bold">{item.title}</p>
-            <p className=" text-gray-500 text-base  font-medium">
-              {item.detail}
+            <p className=" text-gray-700 text-2xl  font-bold">{item.title}</p>
+            <p className="text-gray-500 text-base font-medium">
+              {expandedIndex === index
+                ? item.detail
+                : `${item.detail.slice(0, 100)}...`}
+              <span
+                className="italic font-bold hover:underline px-2 cursor-pointer text-sm text-primarybg"
+                onClick={() => handleShowMoreClick(index)}
+              >
+                {expandedIndex === index ? "Show Less" : "Show More..."}
+              </span>
             </p>
           </div>
         ))}

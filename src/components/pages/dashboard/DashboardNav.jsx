@@ -31,6 +31,7 @@ const DashboardNav = () => {
     {
       head: "Setting",
       detail: [
+        { title: "Home", route: "/" },
         { title: "Profile Setting", route: "/dashboard/profile-setting" },
         { title: "Change Password", route: "/dashboard/change-password" },
         {

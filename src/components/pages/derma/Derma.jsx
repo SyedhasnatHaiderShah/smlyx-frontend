@@ -10,6 +10,9 @@ import DermaCustomer from "./WhyChoose";
 import WhyChoose from "./WhyChoose";
 import Carousel from "./Carousel";
 import FirstHand from "./FirstHand";
+import DermaAccordion from "../../utils/DermaAccordion";
+import FAQ from "./FAQ";
+import SimpleStep from "./SimpleStep";
 
 const Landing = () => {
   return (
@@ -20,9 +23,10 @@ const Landing = () => {
       <LandingRevolution />
       <WhyChoose />
       <FirstHand />
-      <LandingHowWorks />
-      <LandingAiScan />
-      <LandingTestimonial />
+      <SimpleStep />
+
+      {/* accordion */}
+      <FAQ />
       <LandingFooter />
     </div>
   );
