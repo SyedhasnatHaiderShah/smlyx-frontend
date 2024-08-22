@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Form11 from "./Form11";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import AddUpdateInsurance from "./AddUpdateInsurance";
+import { useRef } from "react";
+import SignatureCanvas from "react-signature-canvas";
 const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
   const {
     register,
@@ -84,13 +86,46 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
   };
 
   const onSubmit = (data) => {
-    setFormData(data);
+    setFormData((prev) => ({ ...prev, ...data }));
     goNext();
   };
 
   // useEffect(() => {
   //   handlePatientChange();
   // }, [formData]);
+
+  // signature part
+  const sigCanvas = useRef(null);
+
+  const clearSignature = () => {
+    sigCanvas.current.clear();
+  };
+
+  // Save the signature as an image in FormData
+  const saveSignature = () => {
+    // Convert the canvas to a Base64 image string
+    const dataUrl = sigCanvas.current.toDataURL("image/png");
+
+    // Convert the Base64 string to a Blob
+    const byteString = atob(dataUrl.split(",")[1]);
+    const mimeString = dataUrl.split(",")[0].split(":")[1].split(";")[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ab], { type: mimeString });
+
+    // Create a new FormData instance
+    // const formData = new FormData();
+    setFormData((prev) => ({ ...prev, signature: blob }));
+
+    // Append the Blob to FormData as an image file
+    // formData.append('signature', blob, 'signature.png');
+
+    // Now you can send formData via an HTTP request (e.g., using fetch or axios)
+    console.log(formData);
+  };
 
   return (
     <div className=" flex items-start justify-start flex-col w-full gap-2">
@@ -358,7 +393,7 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
       {showInsurance && <AddUpdateInsurance />}
       {/* isnurance add update ended */}
 
-      {/* form 1/1 */}
+      {/*intake form 11 */}
       <div className=" w-full flex items-start justify-start   ">
         <div className="flex flex-col bg-[#eeeeee] w-full px-5 py-8 rounded-lg gap-3">
           <p className=" text-lg text-gray-800 font-bold">
@@ -693,12 +728,36 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                 </p>
 
                 {/* signature */}
-                <div className=" my-2 w-full">
+                {/* <div className=" my-4 w-full flex items-center justify-center flex-col gap-3 md:items-start md:justify-start ">
                   <p className=" text-sm font-bold text-gray-800">Signature</p>
-                  <div className=" bg-[#f5f5eb] w-full p-2 rounded-lg h-10 ">
+                  <div className=" bg-[#f5f5eb]  p-2 rounded-lg h-52 w-72 ">
                     <AutorenewIcon />
                   </div>
                   <p className=" text-gray-400 text-sm font-bold text-center">
+                    Patient / Responsible Party Signature
+                  </p>
+                </div> */}
+                <div className="my-4 w-full flex items-center justify-center flex-col gap-3 md:items-start md:justify-start">
+                  <p className="text-sm font-bold text-gray-800">Signature</p>
+                  <div className="bg-[#f5f5eb] p-2 rounded-lg h-52 w-72 relative">
+                    <SignatureCanvas
+                      ref={sigCanvas}
+                      penColor="black"
+                      canvasProps={{
+                        width: 288,
+                        height: 208,
+                        className: "signatureCanvas",
+                      }}
+                      backgroundColor="#f5f5eb"
+                    />
+                    <p
+                      className="absolute top-2 right-2 cursor-pointer"
+                      onClick={clearSignature}
+                    >
+                      <AutorenewIcon />
+                    </p>
+                  </div>
+                  <p className="text-gray-400 text-sm font-bold text-center">
                     Patient / Responsible Party Signature
                   </p>
                 </div>

@@ -31,7 +31,7 @@ const DashboardNav = () => {
     {
       head: "Setting",
       detail: [
-        { title: "Home", route: "/" },
+        // { title: "Home", route: "/" },
         { title: "Profile Setting", route: "/dashboard/profile-setting" },
         { title: "Change Password", route: "/dashboard/change-password" },
         {
@@ -54,7 +54,7 @@ const DashboardNav = () => {
         <img src={logo} alt="logo" className="w-12" />
         <p
           className="text-4xl bg-gradient-to-r from-primarybg via-heading to-primary text-transparent cursor-pointer bg-clip-text w-32 font-bold"
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/")}
         >
           SMLYX
         </p>
