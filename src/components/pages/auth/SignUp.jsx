@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const ProgressBar = ({ currentStep }) => {
   const totalSteps = 3;
@@ -23,7 +25,7 @@ const ProgressBar = ({ currentStep }) => {
 const SignUp = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
-  // console.log(formData);
+  console.log(formData);
   const {
     register,
     handleSubmit,
@@ -31,15 +33,64 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const updatedData = { ...formData, ...data };
     setFormData(updatedData);
 
-    if (step < 3) {
-      setStep(step + 1);
-    } else {
-      console.log("Form submitted:", updatedData);
-      navigate("/dashboard");
+    try {
+      // new logic
+      if (step === 1) {
+        // Move to Step 2 if insurance is Yes
+        setStep(updatedData.insurance === "Yes" ? step + 1 : step + 2);
+      } else if (step === 2) {
+        // Move to Step 3
+        setStep(step + 1);
+      } else if (step === 3) {
+        // Final submission
+
+        // old but working
+        // Handle navigation based on the current step
+        // if (step === 1) {
+        //   if (updatedData.insurance === "Yes") {
+        //     // Move to Step 2 for insurance details
+        //     setStep(step + 1);
+        //   } else {
+        //     // Skip to Step 3 if no insurance
+        //     setStep(step + 2);
+        //   }
+        // } else if (step === 2) {
+        //   // If we're on Step 2 (insurance details), move to Step 3
+        //   setStep(step + 1);
+        // } else if (step === 3) {
+        // Final submission on Step 3
+
+        const { confirmPassword, ...submissionData } = updatedData;
+
+        // API call using try-catch for error handling
+        const response = await axios.post(
+          "http://localhost:3000/users/registeruser",
+          submissionData
+        );
+
+        // If the registration is successful
+        console.log("User successfully registered:", response.data);
+        navigate("/dashboard");
+        toast.success("User successfully registered");
+      }
+    } catch (error) {
+      // Catch any errors and handle them
+      // alert("Error registering user: " + error.message);
+      // console.error("Error registering user:", error);
+      // toast.error(error.response);
+
+      const errorMessage = error.response?.data?.message || "An error occurred";
+      const errorCode = error.response?.data?.statusCode || "Unknown Error";
+
+      // Log or display the error messages
+      console.error("Error messages:", errorMessage);
+      console.error("Error code:", errorCode);
+      toast.error(errorMessage);
+      toast.error(errorCode);
     }
   };
 
@@ -64,6 +115,7 @@ const SignUp = () => {
       <div className=" py-12 w-full container">
         <ProgressBar currentStep={step} />
         {step === 1 && (
+          // first form
           <StepOne
             register={register}
             handleSubmit={handleSubmit(onSubmit)}
@@ -74,6 +126,7 @@ const SignUp = () => {
           />
         )}
         {step === 2 && (
+          // insurance form
           <StepTwo
             register={register}
             handleSubmit={handleSubmit(onSubmit)}
@@ -84,6 +137,7 @@ const SignUp = () => {
           />
         )}
         {step === 3 && (
+          // password form
           <StepThree
             register={register}
             handleSubmit={handleSubmit(onSubmit)}

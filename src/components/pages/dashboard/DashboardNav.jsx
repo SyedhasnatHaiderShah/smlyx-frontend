@@ -116,14 +116,14 @@ const DashboardNav = () => {
                 patientInfoData={patientInfoData}
                 handleMenuToggle={handleMenuToggle}
               />{" "}
-              <ExpandMoreIcon className=" text-white" />
+              {/* <ExpandMoreIcon className=" text-white" /> */}
             </div>
             <div className=" flex items-center justify-center ">
               <PopOverTwo
                 patientInfoData={settingsData}
                 handleMenuToggle={handleMenuToggle}
               />
-              <ExpandMoreIcon className=" text-white" />
+              {/* <ExpandMoreIcon className=" text-white" /> */}
             </div>
             {/* 
       {btnData.map((btn, index) => (

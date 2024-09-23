@@ -1,8 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import React from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Layout from "./Layout.jsx";
 import Landing from "./components/pages/landing/Landing.jsx";
@@ -151,6 +154,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>
-    <RouterProvider router={router} />
+    <StrictMode>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </StrictMode>
   </>
 );

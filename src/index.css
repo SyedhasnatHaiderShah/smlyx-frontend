@@ -7,3 +7,10 @@
 * {
   font-family: "Quicksand", sans-serif;
 }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: #40baea #fff;
+  scroll-snap-type: y mandatory;
+  /* scroll-snap-stop: always; */
+}

@@ -167,7 +167,7 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
               <div className=" w-1/2 flex items-start justify-start gap-2 md:mb-3 mb-0">
                 <input
                   type="checkbox"
-                  {...register("agreement", {
+                  {...register("receiveText", {
                     required: "This checkbox is required.",
                     require: true,
                   })}
@@ -179,9 +179,9 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
                   opt-out at any time.*
                 </span>
               </div>
-              {errors.agreement && (
+              {errors.receiveText && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                  {errors.agreement.message}
+                  {errors.receiveText.message}
                 </p>
               )}
             </div>
@@ -250,7 +250,7 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
                 <label className="radio-option text-base font-semibold">
                   <input
                     type="radio"
-                    value="yes"
+                    value="Yes"
                     {...register("insurance", {
                       required: "Please select an option.",
                     })}
@@ -260,7 +260,7 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
                 <label className="radio-option text-base font-semibold">
                   <input
                     type="radio"
-                    value="no"
+                    value="No"
                     {...register("insurance", {
                       required: "Please select an option.",
                     })}

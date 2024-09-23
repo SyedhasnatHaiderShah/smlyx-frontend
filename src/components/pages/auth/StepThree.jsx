@@ -78,7 +78,7 @@ const StepThree = ({
         className="flex items-center justify-center flex-col w-full md:w-1/2"
       >
         {/* Password */}
-        <div className="flex items-start justify-center flex-col min-w-[300px] sm:w-full py-0 relative">
+        <div className="flex items-start justify-center flex-col min-w-[300px] sm:w-full py-0 relative px-5">
           <div className="flex items-center justify-between w-full">
             <label
               htmlFor="password"
@@ -130,7 +130,7 @@ const StepThree = ({
         </div>
 
         {/* Confirm Password */}
-        <div className="flex items-start justify-center flex-col min-w-[300px] sm:w-full py-0 relative">
+        <div className="flex items-start justify-center flex-col min-w-[300px] sm:w-full py-0 relative px-5">
           <div className="flex items-center justify-between w-full">
             <label
               htmlFor="confirm password"
@@ -140,7 +140,7 @@ const StepThree = ({
             </label>
             <p
               className="text-sm text-gray-500 font-bold hover:underline cursor-pointer"
-              onClick={() => setShowConfirm(!show)}
+              onClick={() => setShowConfirm(!showConfirm)}
             >
               Show Confirm Password
             </p>
@@ -191,7 +191,7 @@ const StepThree = ({
             </div>
           </div>
 
-          <div className=" flex items-center justify-center gap-5">
+          <div className=" flex items-center justify-center gap-5 flex-col md:flex-row">
             <button
               className="bg-[#1587ff] text-white rounded-full py-2 px-5"
               onClick={goBack}

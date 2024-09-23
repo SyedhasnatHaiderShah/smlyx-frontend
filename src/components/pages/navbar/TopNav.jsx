@@ -96,7 +96,7 @@ const TopNav = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="absolute top-[85px] left-5 w-[95%] bg-heading shadow-md lg:hidden z-50 h-72 rounded-md">
+        <div className="absolute top-[85px] right-4 w-[90%] bg-heading shadow-md lg:hidden z-50 h-auto rounded-md">
           <div className="flex flex-col items-center py-4">
             {btnData.map((btn, index) => (
               <p
@@ -108,7 +108,7 @@ const TopNav = () => {
                 className={`text-white px-6 py-2 font-medium cursor-pointer w-52 text-center relative group transition-all duration-300 ease-in-out ${
                   activeLink === btn.route
                     ? "bg-primarybg text-white rounded"
-                    : "hover:bg-primarybg hover:text-white"
+                    : "hover:bg-primarybg hover:text-white hover:rounded-md"
                 }`}
               >
                 {btn.title}

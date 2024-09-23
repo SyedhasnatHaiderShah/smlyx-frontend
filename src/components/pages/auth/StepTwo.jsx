@@ -190,8 +190,8 @@ const StepTwo = ({
               </label>
               <select
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
-                {...register("relation", {
-                  required: "Relation is required",
+                {...register("patientRelation", {
+                  required: "patientRelation is required",
                 })}
               >
                 <option value="">Select Relation</option>
@@ -202,9 +202,9 @@ const StepTwo = ({
                 <option value="Parent">Parent</option>
                 <option value="Other">Other</option>
               </select>
-              {errors.relation && (
+              {errors.patientRelation && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                  {errors.relation.message}
+                  {errors.patientRelation.message}
                 </p>
               )}
             </div>
@@ -519,12 +519,21 @@ const StepTwo = ({
               type="submit"
               className="bg-[#484691] text-white rounded-lg py-2 px-5"
               // disabled={errors ? true : false}
-              onClick={handleSubmit}
+              // onClick={handleSubmit}
             >
               Next
             </button>
           </div>
         </form>
+        <div className=" w-full flex items-end justify-end">
+          <button
+            className=" font-medium text-[#484691] rounded-lg py-2 px-5"
+            // disabled={errors ? true : false}
+            onClick={goNext}
+          >
+            Skip
+          </button>
+        </div>
       </div>
       {/* <p className="  text-base font-medium " onClick={goNext}>
         Skip
