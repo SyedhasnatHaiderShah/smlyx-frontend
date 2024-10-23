@@ -164,7 +164,7 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
           {/* checkbox */}
           <div className=" flex items-center justify-center md:flex-row flex-col w-full gap-5 my-2">
             <div className=" flex items-end justify-end w-full flex-col">
-              <div className=" w-1/2 flex items-start justify-start gap-2 md:mb-3 mb-0">
+              <div className=" md:w-1/2 w-full flex items-start justify-start gap-2 md:mb-3 mb-0">
                 <input
                   type="checkbox"
                   {...register("receiveText", {

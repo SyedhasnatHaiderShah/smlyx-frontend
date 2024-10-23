@@ -24,7 +24,7 @@ const ConsentForm = ({
       ...data,
     }));
     goNext();
-    console.log(formData); // Handle form submission
+    // console.log(formData); // Handle form submission
   };
 
   const clearSignature = () => {

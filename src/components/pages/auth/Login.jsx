@@ -1,23 +1,63 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.png";
-
-// import react-hook-form
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData } from "../../../redux/slices/userSlice";
 const Login = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  console.log(" user :", user);
   const [showPassword, setShowPassword] = React.useState(false);
+  const [loginError, setLoginError] = React.useState("");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = (data) => {
-    console.log(data);
-    navigate("/dashboard");
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/auth/login",
+        data
+      );
+      const userData = response.data;
+      const { access_token, ...remaining } = userData;
+      console.log(remaining);
+      if (remaining) {
+        dispatch(setUserData(remaining));
+      }
+      // console.log(userData);
+      // console.log(respose);
+      const token = response.data.access_token;
+      localStorage.setItem("token", token);
+      localStorage.setItem("id", response.data?.id);
+      // console.log(token);
+      localStorage.setItem("userName", response.data?.firstName);
+
+      // console.log(data);
+      toast.success("Login successful");
+      navigate("/dashboard");
+    } catch (error) {
+      // setLoginError(error.response.data.message);
+      // toast.error(error.response.data.message);
+      toast.error("Login failed");
+    }
   };
+
+  // Check if the user is already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/dashboard"); // Redirect if the user is already logged in
+    }
+  }, [navigate]);
   return (
-    <div className=" flex items-center justify-center h-screen flex-col bg-[#eeeeee] gap-5">
+    <div className=" flex items-center justify-center h-screen flex-col bg-[#eeeeee] gap-5 w-full px-5">
       {/* logo */}
       <div className="flex items-center justify-center gap-3">
         <img src={logo} alt="logo" className="w-12" />
@@ -29,9 +69,10 @@ const Login = () => {
         </p>
       </div>
       {/* form */}
-      <div className=" flex items-center justify-center flex-col  gap-5 w-[420px] h-96 rounded-3xl bg-white">
+      <div className=" flex items-center justify-center flex-col  gap-5 md:w-[420px] w-full h-96 rounded-3xl bg-white">
         <form
           action="submit"
+          onSubmit={handleSubmit(onSubmit)}
           className="flex items-center justify-center flex-col gap-5 w-full h-full px-10"
         >
           <p className=" text-[#a53794] text-2xl font-semibold text-center">

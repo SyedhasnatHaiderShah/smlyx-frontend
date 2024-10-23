@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DashboardNav from "../DashboardNav";
 import InsuranceProfile from "./InsuranceProfile";
@@ -7,8 +7,18 @@ import { useForm } from "react-hook-form";
 import MyDependents from "./MyDependents";
 import EditInsurance from "./EditInsurance";
 import { HiChevronDown } from "react-icons/hi";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setDependentsData } from "../../../../redux/slices/dependentsSlice";
 
 const DependentsHome = () => {
+  const dispatch = useDispatch();
+  const userDependentsData = useSelector(
+    (state) => state.dependents.dependents
+  );
+  console.log(userDependentsData);
+  const userId = localStorage.getItem("id");
+  const token = localStorage.getItem("token");
   // add dependents here
   const [showAddDependents, setShowAddDependents] = useState(false);
 
@@ -16,32 +26,8 @@ const DependentsHome = () => {
   const [currentEditUserId, setCurrentEditUserId] = useState(null);
 
   // fetch user data
-  const [userData, setUserData] = useState([
-    {
-      id: 1,
-      firstName: "John",
-      lastName: "Doe",
-      dependentRelation: "Parent",
-      dateOfBirth: "10/01/1999",
-      haveInsurance: "yes",
-    },
-    {
-      id: 2,
-      firstName: "Jane",
-      lastName: "Doe",
-      dependentRelation: "Parent",
-      dateOfBirth: "01/07/2000",
-      haveInsurance: "yes",
-    },
-    {
-      id: 3,
-      firstName: "Bob",
-      lastName: "Smith",
-      dependentRelation: "Sibling",
-      dateOfBirth: "18/11/1995",
-      haveInsurance: "yes",
-    },
-  ]);
+  const [userData, setUserData] = useState([]);
+  // console.log(userData);
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
@@ -57,7 +43,7 @@ const DependentsHome = () => {
     const updatedData = { ...formData, ...data };
     setFormData(updatedData);
 
-    if (data.haveInsurance === "yes" && step < 2) {
+    if (data.haveInsurance === "Yes" && step < 2) {
       setStep(step + 1);
     } else {
       // console.log("Form submitted:", updatedData);
@@ -70,13 +56,36 @@ const DependentsHome = () => {
     );
   };
 
+  const fetchDependentsData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/dependents/getDependents/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // console.log(response.data);
+      setUserData(response.data);
+      dispatch(setDependentsData(response.data));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  useEffect(() => {
+    fetchDependentsData();
+  }, [showAddDependents, step, setCurrentEditUserId]);
+
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl px-5 min-h-screen gap-5">
       <div className="flex items-center justify-center w-full flex-col rounded-lg container my-5">
         <div className="flex items-start justify-start w-full text-sm font-bold text-gray-500 my-2">
           <span
             className="mx-1 hover:text-primarybg cursor-pointer"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/dashboard")}
           >
             Home
           </span>{" "}
@@ -104,8 +113,11 @@ const DependentsHome = () => {
 
         {/* show dependents form here */}
         <div className=" w-full">
-          {showAddDependents ? <MyDependents /> : ""}
+          {showAddDependents && (
+            <MyDependents setShowAddDependents={setShowAddDependents} />
+          )}
         </div>
+        <br />
 
         {/* fetch user data edit here */}
         <div className=" bg-white rounded-xl px-5 py-5 w-full">
@@ -124,7 +136,11 @@ const DependentsHome = () => {
                 </div>
               </div>
               {currentEditUserId === data.id && (
-                <EditInsurance fetchData={data} />
+                // edit dependents component here
+                <EditInsurance
+                  fetchData={data}
+                  setCurrentEditUserId={setCurrentEditUserId}
+                />
               )}
             </div>
           ))}

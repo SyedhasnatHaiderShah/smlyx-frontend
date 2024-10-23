@@ -4,10 +4,20 @@ import DashboardNav from "../DashboardNav";
 import InsuranceProfile from "./InsuranceProfile";
 import InsuranceInfo from "./InsuranceInfo";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import axios from "axios";
 
-const MyDependents = () => {
+const MyDependents = ({ setShowAddDependents }) => {
+  // multi step
+  const [externalStates, setExternalStates] = useState([]);
+  const token = localStorage.getItem("token");
+  // +add dependents component
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({});
+  const [imageUrl, setImageUrl] = useState(null);
+  const [formData, setFormData] = useState({
+    // profilePictureUrl: null,
+    file: null,
+  });
   // console.log(formData);
   const {
     register,
@@ -16,14 +26,40 @@ const MyDependents = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = (data) => {
-    const updatedData = { ...formData, ...data };
-    setFormData(updatedData);
+  const onSubmit = async (data) => {
+    // console.log(data);
+    const userId = localStorage.getItem("id");
+    console.log(userId);
+    // console.log(typeof userId);
+    const updatedData = { userId, ...data, file: formData.file };
+    // setFormData(updatedData);
+    // console.log(updatedData);
 
-    if (data.haveInsurance === "yes" && step < 2) {
+    if (data.haveInsurance === "Yes" && step < 2) {
       setStep(step + 1);
     } else {
       // console.log("Form submitted:", updatedData);
+      try {
+        // console.log(updatedData);
+        const response = await axios.post(
+          "http://localhost:3000/dependents/create",
+          updatedData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+          // headers: { "Content-Type": "multipart/form-data" },
+        );
+        console.log("Form submitted successfully:", response.data);
+        toast.success("Dependents added successfully");
+        setFormData({});
+        setShowAddDependents(false);
+      } catch (error) {
+        console.error("Error submitting the form:", error);
+        toast.error("Error submitting the form");
+      }
     }
   };
 
@@ -58,7 +94,7 @@ const MyDependents = () => {
   };
 
   return (
-    <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl px-5 min-h-screen">
+    <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl min-h-screen">
       <div className="flex items-center justify-center w-full flex-col rounded-lg">
         {/* <div className="flex items-start justify-start w-full text-sm font-bold text-gray-500 my-2">
           <span
@@ -104,6 +140,8 @@ const MyDependents = () => {
             goBack={goBack}
             goNext={goNext}
             watch={watch}
+            setFormData={setFormData}
+            setExternalStates={setExternalStates}
           />
         )}
 
@@ -115,6 +153,7 @@ const MyDependents = () => {
             formData={formData}
             goBack={goBack}
             goNext={goNext}
+            externalStates={externalStates}
           />
         )}
       </div>

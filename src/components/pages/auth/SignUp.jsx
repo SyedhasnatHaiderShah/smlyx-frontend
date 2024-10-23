@@ -25,7 +25,7 @@ const ProgressBar = ({ currentStep }) => {
 const SignUp = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
-  console.log(formData);
+  // console.log(formData);
   const {
     register,
     handleSubmit,
@@ -87,10 +87,10 @@ const SignUp = () => {
       const errorCode = error.response?.data?.statusCode || "Unknown Error";
 
       // Log or display the error messages
-      console.error("Error messages:", errorMessage);
-      console.error("Error code:", errorCode);
+      // console.error("Error messages:", errorMessage);
+      // console.error("Error code:", errorCode);
       toast.error(errorMessage);
-      toast.error(errorCode);
+      // toast.error(errorCode);
     }
   };
 

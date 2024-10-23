@@ -28,7 +28,7 @@ const DateAndTime = ({ formData, setFormData, goBack, goNext }) => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     setFormData((prevData) => ({
       ...prevData,
       ...data,

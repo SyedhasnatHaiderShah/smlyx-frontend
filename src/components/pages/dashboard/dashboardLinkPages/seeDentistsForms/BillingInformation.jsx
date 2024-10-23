@@ -17,7 +17,7 @@ const stripePromise = loadStripe("your-publishable-key-here");
 const PaymentForm = () => {
   const [formData, setFormData] = useState({});
   const [cvc, setCvc] = useState("");
-  console.log(formData);
+  // console.log(formData);
   const navigate = useNavigate();
   const {
     register,

@@ -22,6 +22,24 @@ export default function BasicPopover({
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
+  const handleSignOut = () => {
+    // Clear session data or tokens (localStorage, cookies, etc.)
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("id");
+    // Assuming token is stored here
+    // Redirect to login or home page
+    navigate("/login");
+  };
+
+  const handleItemClick = (item2) => {
+    if (item2.title === "Sign Out" || item2.route === "#") {
+      handleSignOut();
+    } else {
+      navigate(item2.route);
+    }
+  };
+
   return (
     <div className=" hover:border-b-2 hover:border-[#605fa4] ">
       {patientInfoData.map((item, index) => (
@@ -60,7 +78,7 @@ export default function BasicPopover({
                 >
                   <p
                     className=" hover:underline cursor-pointer    font-medium "
-                    onClick={() => navigate(item2.route)}
+                    onClick={() => handleItemClick(item2)}
                   >
                     {item2.title}
                   </p>

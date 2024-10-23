@@ -3,6 +3,8 @@ import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -36,6 +38,7 @@ import Instruction from "./components/pages/dashboard/dashboardLinkPages/Instruc
 import PrivacyPractices from "./components/pages/others/PrivacyPractices";
 import InstructionMultiForm from "./components/pages/dashboard/dashboardLinkPages/InstructionMultiForm";
 import Derma from "./components/pages/derma/Derma";
+import AuthWrapper from "./components/AuthWrapper.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -72,7 +75,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Layout />,
+    element: (
+      <AuthWrapper>
+        <Layout />
+      </AuthWrapper>
+    ), // Wrap the dashboard with AuthWrapper
     children: [
       { path: "/dashboard", element: <Dashboard /> },
 
@@ -155,8 +162,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>
     <StrictMode>
-      <RouterProvider router={router} />
-      <ToastContainer />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+        <ToastContainer position="top-center" />
+      </Provider>
     </StrictMode>
   </>
 );

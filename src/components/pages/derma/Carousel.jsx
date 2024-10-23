@@ -5,6 +5,7 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { useState } from "react";
 import "./carousel.css";
+import { toast } from "react-toastify";
 
 const Carousel = () => {
   const [api, setApi] = useState([]);
@@ -16,7 +17,8 @@ const Carousel = () => {
       setApi(data);
       // console.log(data)
     } catch (error) {
-      console.log(error);
+      // toast.error(error.response.data.message);
+      // console.log(error);
     }
   };
 

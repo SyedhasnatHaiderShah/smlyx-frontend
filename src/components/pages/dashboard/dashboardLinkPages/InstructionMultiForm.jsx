@@ -47,7 +47,7 @@ const InstructionMultiForm = () => {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
-  console.log(formData);
+  // console.log(formData);
   const {
     register,
     handleSubmit,
@@ -60,7 +60,7 @@ const InstructionMultiForm = () => {
     if (step < 4) {
       setStep(step + 1);
     } else {
-      console.log("Form submitted:", updatedData);
+      // console.log("Form submitted:", updatedData);
       navigate("/dashboard");
     }
   };
@@ -71,7 +71,7 @@ const InstructionMultiForm = () => {
     if (step < 4) {
       setStep(step + 1);
     } else {
-      console.log("Form submitted:", updatedData);
+      // console.log("Form submitted:", updatedData);
     }
   };
 

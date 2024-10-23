@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DashboardNav from "../DashboardNav";
 import { FaUpload, FaTrash } from "react-icons/fa";
+import countryStateCityData from "./countryStateCityData.json";
 
 const InsuranceProfile = ({
   register,
@@ -11,10 +12,56 @@ const InsuranceProfile = ({
   formData,
   goNext,
   watch,
+  setFormData,
+  setExternalStates,
 }) => {
-  const [profileImage, setProfileImage] = useState(null);
+  // const [profileImage, setProfileImage] = useState(null);
   const firstName = watch("firstName", "");
   const lastName = watch("lastName", "");
+  const [filePreview, setFilePreview] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [singleState, setSingleState] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const [timezone, setTimezone] = useState("");
+  // Function to handle country selection
+  const handleCountryChange = (event) => {
+    const country = event.target.value;
+    setSelectedCountry(country);
+    setStates(Object.keys(countryStateCityData[country].states));
+  };
+
+  // Function to handle state selection
+  const handleStateChange = (event) => {
+    const state = event.target.value;
+    setSingleState(state);
+    setStates(Object.keys(countryStateCityData[selectedCountry].states));
+    setExternalStates(
+      Object.keys(countryStateCityData[selectedCountry].states)
+    );
+    const selectedCities =
+      countryStateCityData[selectedCountry].states[state].cities;
+    setCities(Object.keys(selectedCities));
+  };
+
+  const handleCityChange = (event) => {
+    const city = event.target.value;
+    const currentZipCode =
+      countryStateCityData[selectedCountry].states[singleState].cities[city]
+        .zipcode;
+    setZipcode(currentZipCode);
+    const currentTimeZone =
+      countryStateCityData[selectedCountry].states[singleState].cities[city]
+        .timezone;
+    setTimezone(currentTimeZone);
+  };
+  const handleZipCodeChange = (event) => {
+    console.log(states);
+    console.log(cities);
+    const zipCode = event.target.value;
+    console.log(zipCode);
+  };
 
   const getInitials = () => {
     const firstInitial = firstName.charAt(0).toUpperCase();
@@ -22,24 +69,37 @@ const InsuranceProfile = ({
     return `${firstInitial}${lastInitial}`;
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.size <= 1048576) {
-      // Check file size (1MB = 1048576 bytes)
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert("File should be smaller than 1MB");
-    }
-  };
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file && file.size <= 1048576) {
+  //     // Check file size (1MB = 1048576 bytes)
+  //     const reader = new FileReader();
+  //     console.log(reader.result);
+  //     reader.onloadend = () => {
+  //       setProfileImage(reader.result);
+  //       setFormData((prev) => ({
+  //         ...prev,
+  //         profilePictureUrl: reader.result,
+  //       }));
+  //       console.log(formData);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   } else {
+  //     alert("File should be smaller than 1MB");
+  //   }
+  // };
 
   const handleImageRemove = () => {
-    setProfileImage(null);
+    setFormData((prevData) => ({
+      ...prevData,
+      file: null,
+    }));
+    setFilePreview(null);
+    document.getElementById("fileInput").value = "";
+    // console.log("Image removed");
+    // setProfileImage(null);
     // Reset file input value
-    document.getElementById("profilePicture").value = "";
+    // document.getElementById("profilePicture").value = "";
   };
   // dob
   const validateAge = (value) => {
@@ -70,6 +130,38 @@ const InsuranceProfile = ({
     return `${month}/${day}/${year}`;
   };
 
+  // handle imagechange
+  const handleImageChange = (e) => {
+    const selectedFile = e.target.files[0];
+    console.log(selectedFile);
+    // Get the selected file
+    // Create a preview URL
+    setFilePreview(URL.createObjectURL(selectedFile));
+
+    // Read the file as base64 (if you need this for further processing)
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFilePreview(reader.result);
+    };
+    reader.readAsDataURL(selectedFile);
+
+    // Update formData state with the selected file
+    setFormData((prevData) => ({
+      ...prevData,
+      file: selectedFile,
+    }));
+  };
+
+  // const handleFileRemove = () => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     file: null,
+  //   }));
+  //   setFilePreview(null);
+  //   setIsPDF(false);
+  //   document.getElementById("fileInput").value = "";
+  // };
+
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5">
       {/* <DashboardNav /> */}
@@ -82,9 +174,9 @@ const InsuranceProfile = ({
             {/* File input */}
             <div className="flex items-start justify-start w-full gap-5">
               <div className="flex items-start justify-start">
-                {profileImage ? (
+                {filePreview ? (
                   <img
-                    src={profileImage}
+                    src={filePreview}
                     alt="Profile"
                     className="w-24 h-24 rounded-full object-cover"
                   />
@@ -105,7 +197,7 @@ const InsuranceProfile = ({
                 )}
               </div>
               <div className="relative w-40 flex flex-col gap-5">
-                {profileImage && (
+                {filePreview ? (
                   <button
                     type="button"
                     className="flex items-center justify-center w-40 px-0 py-2 bg-red-500 rounded-full cursor-pointer text-white mt-2"
@@ -114,19 +206,30 @@ const InsuranceProfile = ({
                     <FaTrash className="mx-1" />
                     <span>Remove Photo</span>
                   </button>
+                ) : (
+                  <div className="flex items-center justify-center w-40 px-0 py-2 bg-primarybg rounded-full cursor-pointer text-white">
+                    <FaUpload className="mr-2" />
+                    <span>Upload </span>
+                  </div>
                 )}
-                <input
-                  type="file"
-                  id="profilePicture"
-                  className="w-full h-10 opacity-0 absolute z-10 cursor-pointer"
-                  {...register("profilePicture")}
-                  onChange={handleImageChange}
-                />
-
-                <div className="flex items-center justify-center w-40 px-0 py-2 bg-primarybg rounded-full cursor-pointer text-white">
-                  <FaUpload className="mr-2" />
-                  <span>Upload</span>
-                </div>
+                {!filePreview && (
+                  <input
+                    // required
+                    type="file"
+                    id="profilePictureUrl"
+                    className="w-full h-10 opacity-0 absolute z-10 cursor-pointer"
+                    // {...register("file", {
+                    //   required: "Profile Picture is required",
+                    // })}
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                )}
+                {/* {errors.profilePictureUrl && (
+                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                    {errors.profilePictureUrl.message}
+                  </p>
+                )} */}
 
                 <span className="text-sm font-semibold text-gray-400 my-5">
                   (File should be smaller than 1MB)
@@ -151,6 +254,10 @@ const InsuranceProfile = ({
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                   {...register("firstName", {
                     required: "First Name is required",
+                    // pattern: {
+                    //   value: /^[A-Za-z]+$/i,
+                    //   message: "Only alphabets are allowed",
+                    // },
                   })}
                 />
                 {errors.firstName && (
@@ -228,11 +335,14 @@ const InsuranceProfile = ({
                   })}
                 >
                   <option value="">Select Relation</option>
-                  <option value="Alabama">Father</option>
-                  <option value="Alaska">Mother</option>
-                  <option value="Arizona">Son</option>
-                  <option value="Arizona">Brother</option>
-                  <option value="United States"> Daughter</option>
+                  <option value="Father">Father</option>
+                  <option value="Mother">Mother</option>
+                  <option value="Son">Son</option>
+                  <option value="Brother">Brother</option>
+                  <option value="Daughter"> Daughter</option>
+                  <option value="Spouse">Spouse</option>
+                  <option value="Friend">Friend</option>
+                  <option value="Other">Other</option>
                 </select>
                 {errors.dependentRelation && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -287,7 +397,7 @@ const InsuranceProfile = ({
                   </p>
                 )}
               </div>
-              <div className="flex items-start justify-start w-full flex-col">
+              <div className=" flex items-start justify-start w-full flex-col">
                 <label
                   htmlFor="subscriberDateOfBirth"
                   className="float-left mr-auto font-semibold"
@@ -297,10 +407,11 @@ const InsuranceProfile = ({
                 </label>
                 <input
                   defaultValue={formData.dateOfBirth || ""}
-                  type="text"
+                  type="date"
                   pattern="\d{2}/\d{2}/\d{4}"
                   placeholder="MM/DD/YYYY"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                  max={getTodayDate()}
                   {...register("dateOfBirth", {
                     required: "Date of Birth is required",
                     validate: validateAge,
@@ -366,12 +477,14 @@ const InsuranceProfile = ({
                     required: "Country is required",
                   })}
                   defaultValue={formData.country || ""}
+                  onChange={handleCountryChange}
                 >
-                  <option value="">Select Country</option>
-                  <option value="Alabama">Alabama</option>
-                  <option value="Alaska">Alaska</option>
-                  <option value="Arizona">Arizona</option>
-                  <option value="United States">United States</option>
+                  {/* Extracting countries from the JSON object */}
+                  {Object.keys(countryStateCityData).map((country) => (
+                    <option key={country} value={country}>
+                      {country}
+                    </option>
+                  ))}
                 </select>
                 {errors.country && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -392,12 +505,17 @@ const InsuranceProfile = ({
                   {...register("state", {
                     required: "State is required",
                   })}
-                  value={"Arizona"}
+                  onChange={handleStateChange}
                 >
-                  <option value="">Select State</option>
-                  <option value="Alabama">Alabama</option>
-                  <option value="Aaska">Aaska</option>
-                  <option value="Arizona">Arizona</option>
+                  {states.length > 0 ? (
+                    states.map((state) => (
+                      <option key={state} value={state}>
+                        {state}
+                      </option>
+                    ))
+                  ) : (
+                    <option disabled>No states available</option>
+                  )}
                 </select>
                 {errors.state && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -421,11 +539,17 @@ const InsuranceProfile = ({
                   {...register("city", {
                     required: "City is required",
                   })}
+                  onChange={handleCityChange}
                 >
-                  <option value="">Select City</option>
-                  <option value="Alabama">Alabama</option>
-                  <option value="Aaska">Aaska</option>
-                  <option value="Arizona">Arizona</option>
+                  {cities.length > 0 ? (
+                    cities.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))
+                  ) : (
+                    <option disabled>No cities available</option>
+                  )}
                 </select>
                 {errors.city && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -447,11 +571,9 @@ const InsuranceProfile = ({
                     required: "Zip Code is required",
                   })}
                   defaultValue={formData.zipCode}
+                  onChange={handleZipCodeChange}
                 >
-                  <option value="">Select Zip Code</option>
-                  <option value="Alabama">4800</option>
-                  <option value="Aaska">5320</option>
-                  <option value="Arizona">4120</option>
+                  <option value="zipCode">{zipcode}</option>
                 </select>
                 {errors.zipCode && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -476,10 +598,17 @@ const InsuranceProfile = ({
                     required: "Time Zone is required",
                   })}
                 >
-                  <option value="">Select Time Zone</option>
-                  <option value="Alabama">Alabama</option>
-                  <option value="Aaska">Aaska</option>
-                  <option value="Arizona">Arizona</option>
+                  <option value="zipCode">{timezone}</option>
+
+                  {/* {timezone.length > 0 ? (
+                    cities.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))
+                  ) : (
+                    <option disabled>No cities available</option>
+                  )} */}
                 </select>
                 {errors.timeZone && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -502,7 +631,7 @@ const InsuranceProfile = ({
                   <label className="radio-option text-base font-semibold flex items-center justify-center ">
                     <input
                       type="radio"
-                      value="yes"
+                      value="Yes"
                       {...register("haveInsurance")}
                     />
                     Yes
@@ -510,7 +639,7 @@ const InsuranceProfile = ({
                   <label className="radio-option text-base font-semibold flex items-center justify-center ">
                     <input
                       type="radio"
-                      value="no"
+                      value="No"
                       {...register("haveInsurance")}
                     />
                     No

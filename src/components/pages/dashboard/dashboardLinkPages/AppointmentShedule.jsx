@@ -51,7 +51,7 @@ const AppointmentShedule = () => {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
-  console.log(formData);
+  // console.log(formData);
   const {
     register,
     handleSubmit,

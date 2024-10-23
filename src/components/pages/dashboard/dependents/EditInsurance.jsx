@@ -1,13 +1,26 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import EditInsuranceProfile from "./EditInsuranceProfile";
 import EditInsuranceInfo from "./EditInsuranceInfo";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const EditInsurance = ({ fetchData }) => {
+const EditInsurance = ({ fetchData, setCurrentEditUserId }) => {
+  // console.log(fetchData.id);
+  console.log(fetchData);
+  const id = fetchData?.id;
+  const userId = localStorage.getItem("id");
+  const token = localStorage.getItem("token");
+  // console.log(userId, token);
+  const [externalStates, setExternalStates] = useState([]);
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({});
-  // console.log(formData);
+  const [formData, setFormData] = useState({
+    // profilePictureUrl: null,
+    file: null,
+  });
+
+  console.log(formData);
   const {
     register,
     handleSubmit,
@@ -15,14 +28,38 @@ const EditInsurance = ({ fetchData }) => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = (data) => {
-    const updatedData = { ...formData, ...data };
-    setFormData(updatedData);
 
-    if (data.haveInsurance === "yes" && step < 2) {
+  const onSubmit = async (data) => {
+    const updatedData = { file: formData.file, userId, ...data };
+    // setFormData(updatedData);
+    console.log(updatedData);
+
+    if (data.haveInsurance === "Yes" && step < 2) {
       setStep(step + 1);
     } else {
       // console.log("Form submitted:", updatedData);
+      try {
+        // Make the PATCH request to update the dependent
+        await axios.patch(
+          `http://localhost:3000/dependents/update/${id}`, // Replace with your actual API endpoint
+          updatedData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // console.log("Form submitted and data updated:", response.data);
+        // Optionally navigate to a different page after successful submission
+        toast.success("Dependent updated successfully");
+        setCurrentEditUserId(null);
+        // navigate("/dashboard/my-dependents"); // Replace with the actual path
+      } catch (error) {
+        // console.error("Error updating dependent:", error);
+        toast.error(error.response.data.message);
+      }
     }
   };
 
@@ -79,6 +116,7 @@ const EditInsurance = ({ fetchData }) => {
       <div className=" w-full">
         {step === 1 && (
           <EditInsuranceProfile
+            setFormData={setFormData}
             register={register}
             handleSubmit={handleSubmit(onSubmit)}
             errors={errors}
@@ -87,6 +125,7 @@ const EditInsurance = ({ fetchData }) => {
             goBack={goBack}
             goNext={goNext}
             watch={watch}
+            setExternalStates={setExternalStates}
           />
         )}
 
@@ -98,6 +137,8 @@ const EditInsurance = ({ fetchData }) => {
             formData={formData}
             goBack={goBack}
             goNext={goNext}
+            fetchData={fetchData}
+            externalStates={externalStates}
           />
         )}
       </div>

@@ -5,6 +5,8 @@ import checkGreen from "./small-check-circle-green.svg";
 import { useNavigate } from "react-router-dom";
 import TopNav from "./../navbar/TopNav";
 import DashboardNav from "../dashboard/DashboardNav";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const ChangePassword = () => {
   const {
@@ -64,10 +66,88 @@ const ChangePassword = () => {
     },
   ];
 
-  const onSubmit = (data) => {
-    setFormData(data);
-    // console.log(data);
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      // Check if the passwords are populated
+      if (!data.currentPassword || !data.newPassword || !data.confirmPassword) {
+        toast.error("Please provide all password fields");
+        return;
+      }
+
+      // Prepare data for the request
+      const requestData = {
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+      };
+
+      // Send a POST request to change the password
+      const response = await axios.put(
+        "http://localhost:3000/auth/change-password",
+        requestData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Send the auth token in the headers
+          },
+        }
+      );
+
+      // Check for successful response
+      if (response.status === 200) {
+        toast.success("Password changed successfully"); // Notify user of success
+        navigate("/dashboard"); // Navigate back to dashboard
+      } else {
+        toast.error(response.data.message || "Failed to change password"); // Show error message if response is not 200
+      }
+    } catch (error) {
+      toast.error(
+        "Error changing password: " +
+          (error.response?.data?.message || error.message) // Display specific error message if available
+      );
+      console.error("Error changing password:", error); // Log the full error details for debugging
+    }
   };
+
+  // const onSubmit = async (data) => {
+  //   try {
+  //     // Check if the passwords are populated
+  //     if (!data.currentPassword || !data.newPassword) {
+  //       toast.error("Please provide both current and new passwords");
+  //       return;
+  //     }
+
+  //     const response = await axios.post(
+  //       "http://localhost:3000/auth/change-password",
+  //       data,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       }
+  //     );
+
+  //     // Check for successful response
+  //     if (response.status === 200) {
+  //       toast.success("Password changed successfully");
+  //       navigate("/dashboard");
+  //     } else {
+  //       toast.error(response.data.message || "Failed to change password");
+  //     }
+  //   } catch (error) {
+  //     toast.error(
+  //       "Error changing password: " +
+  //         (error.response?.data?.message || error.message)
+  //     );
+  //     console.error("Error changing password:", error); // Log the full error details
+  //   }
+  // };
+
+  // const onSubmit = (data) => {
+  //   setFormData(data);
+  //   // console.log(data);
+  // };
 
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl  md:px-12 px-5 min-h-screen gap-3 ">

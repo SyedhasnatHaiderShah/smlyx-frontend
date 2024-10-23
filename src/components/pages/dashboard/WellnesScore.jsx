@@ -8,7 +8,7 @@ const WellnessScore = () => {
         <div className="flex items-start justify-start w-full text-sm font-bold text-gray-500 my-2">
           <span
             className="mx-1 hover:text-primarybg cursor-pointer"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/dashboard")}
           >
             Home
           </span>{" "}

@@ -7,7 +7,9 @@ const InsuranceInfo = ({
   formData,
   goNext,
   goBack,
+  externalStates,
 }) => {
+  console.log(externalStates);
   const today = new Date().toISOString().split("T")[0];
   // dob
   const validateAge = (value) => {
@@ -90,7 +92,7 @@ const InsuranceInfo = ({
           <div className=" flex items-start justify-start w-full flex-col">
             <div className=" flex items-start justify-start w-full flex-col">
               <label
-                htmlFor="relation"
+                htmlFor="patientRelation"
                 className="float-left mr-auto font-semibold"
               >
                 Patient Relation to insurance Subscriber
@@ -98,7 +100,7 @@ const InsuranceInfo = ({
               </label>
               <select
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
-                {...register("relation", {
+                {...register("patientRelation", {
                   required: "Relation is required",
                 })}
               >
@@ -110,9 +112,9 @@ const InsuranceInfo = ({
                 <option value="Parent">Parent</option>
                 <option value="Other">Other</option>
               </select>
-              {errors.relation && (
+              {errors.patientRelation && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                  {errors.relation.message}
+                  {errors.patientRelation.message}
                 </p>
               )}
             </div>
@@ -212,8 +214,33 @@ const InsuranceInfo = ({
                 )}
               </div>
             </div>
+            {/* date of birth */}
             <div className=" flex items-start justify-start w-full flex-col">
-              {/* date of birth */}
+              <label
+                htmlFor="subscriberDateOfBirth"
+                className="float-left mr-auto font-semibold"
+              >
+                Date of Birth <span className=" text-red-500 text-xl"> *</span>
+              </label>
+              <input
+                defaultValue={formData.subscriberDateOfBirth || ""}
+                type="date"
+                pattern="\d{2}/\d{2}/\d{4}"
+                placeholder="MM/DD/YYYY"
+                className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                max={getTodayDate()}
+                {...register("subscriberDateOfBirth", {
+                  required: "Date of Birth is required",
+                  validate: validateAge,
+                })}
+              />
+              {errors.subscriberDateOfBirth && (
+                <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                  {errors.subscriberDateOfBirth.message}
+                </p>
+              )}
+            </div>
+            {/* <div className=" flex items-start justify-start w-full flex-col">
               <label
                 htmlFor="subscriberDateOfBirth"
                 className="float-left mr-auto font-semibold"
@@ -238,7 +265,7 @@ const InsuranceInfo = ({
                   {errors.subscriberDateOfBirth.message}
                 </p>
               )}
-            </div>
+            </div> */}
           </div>
 
           <div className=" flex items-center justify-center md:flex-row flex-col w-full gap-5">
@@ -378,10 +405,19 @@ const InsuranceInfo = ({
                 })}
                 defaultValue={formData.state}
               >
-                <option value="">Select State</option>
+                {externalStates.length > 0 ? (
+                  externalStates.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>No states available</option>
+                )}
+                {/* <option value="">Select State</option>
                 <option value="Alabama">Alabama</option>
                 <option value="Aaska">Aaska</option>
-                <option value="Arizona">Arizona</option>
+                <option value="Arizona">Arizona</option> */}
               </select>
               {errors.subscriberState && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -434,9 +470,9 @@ const InsuranceInfo = ({
           </div>
         </form>
       </div>
-      <p className="  text-base font-medium " onClick={goNext}>
+      {/* <p className="  text-base font-medium " onClick={goNext}>
         Skip
-      </p>
+      </p> */}
     </div>
   );
 };

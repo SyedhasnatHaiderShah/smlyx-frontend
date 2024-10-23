@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { HiMenu, HiX } from "react-icons/hi";
 
 const TopNav = () => {
+  const [userName, setUserName] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
@@ -13,10 +14,12 @@ const TopNav = () => {
   const btnData = [
     { title: "Home", route: "/" },
     { title: "Derma", route: "/derma" },
-    { title: "How It Works", route: "/how-it-works" },
-    { title: "Education", route: "/education" },
+    // { title: "How It Works", route: "/how-it-works" },
+    // { title: "Education", route: "/education" },
     { title: "About Us", route: "/about" },
-    { title: "Sign in", route: "/login" },
+    // { title: !userName && "Sign in", route: "/login" },
+    // add the logout button
+    // { title: userName && "Sign out", route: "/logout" },
   ];
 
   const handleMenuToggle = () => {
@@ -24,6 +27,12 @@ const TopNav = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    const name = localStorage.getItem("userName");
+    if (name) {
+      setUserName(name);
+    }
+
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       if (scrollTop > 0) {
@@ -43,6 +52,13 @@ const TopNav = () => {
   const handleNavigation = (route) => {
     setActiveLink(route);
     navigate(route);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("id");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   return (
@@ -76,6 +92,34 @@ const TopNav = () => {
             )}
           </p>
         ))}
+
+        {!localStorage.getItem("token") && (
+          <button
+            className="bg-white rounded-full px-6 py-2 text-primarybg font-medium cursor-pointer"
+            onClick={() => handleNavigation("/login")}
+          >
+            Sign In
+          </button>
+        )}
+        {/* {!userName && (
+          <button
+            className="bg-white rounded-full px-6 py-2 text-primarybg font-semibold cursor-pointer"
+            onClick={() => handleNavigation("/login")}
+          >
+            Sign In
+          </button>
+        )} */}
+        {localStorage.getItem("token") && (
+          <button
+            className="bg-white rounded-full px-6 py-2 text-primarybg font-medium cursor-pointer"
+            onClick={handleLogout}
+          >
+            Log out
+          </button>
+        )}
+        {/* {userName && (
+         
+        )} */}
         <button
           className="bg-primarybg rounded-full px-6 py-2 text-white font-semibold cursor-pointer"
           onClick={() => handleNavigation("/dashboard")}
@@ -114,6 +158,30 @@ const TopNav = () => {
                 {btn.title}
               </p>
             ))}
+            {!localStorage.getItem("token") && (
+              <button
+                className="bg-white rounded-full px-6 py-2 text-primarybg font-semibold cursor-pointer"
+                onClick={() => handleNavigation("/login")}
+              >
+                Sign In
+              </button>
+            )}
+            {localStorage.getItem("token") && (
+              <button
+                className=" rounded-full px-6 py-2 text-white font-medium cursor-pointer"
+                onClick={handleLogout}
+              >
+                Log out
+              </button>
+            )}
+            {/* {userName && (
+              <button
+                className="bg-white rounded-full px-6 py-2 text-primarybg font-semibold cursor-pointer"
+                onClick={handleLogout}
+              >
+                Log out
+              </button>
+            )} */}
             <button
               className="bg-primarybg rounded-full px-6 py-2 text-white font-semibold mt-2"
               onClick={() => handleNavigation("/dashboard")}

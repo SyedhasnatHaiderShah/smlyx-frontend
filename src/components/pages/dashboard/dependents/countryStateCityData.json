@@ -1,0 +1,226 @@
+{
+  "United States": {
+    "states": {
+      "Alabama": {
+        "cities": {
+          "Birmingham": {
+            "zipcode": "35201",
+            "timezone": "Central Standard Time (CST)"
+          },
+          "Montgomery": {
+            "zipcode": "36101",
+            "timezone": "Central Standard Time (CST)"
+          },
+          "Mobile": {
+            "zipcode": "36601",
+            "timezone": "Central Standard Time (CST)"
+          },
+          "Huntsville": {
+            "zipcode": "35801",
+            "timezone": "Central Standard Time (CST)"
+          }
+        }
+      },
+      "California": {
+        "cities": {
+          "Los Angeles": {
+            "zipcode": "90001",
+            "timezone": "Pacific Standard Time (PST)"
+          },
+          "San Francisco": {
+            "zipcode": "94101",
+            "timezone": "Pacific Standard Time (PST)"
+          },
+          "San Diego": {
+            "zipcode": "92101",
+            "timezone": "Pacific Standard Time (PST)"
+          }
+        }
+      },
+      "New York": {
+        "cities": {
+          "New York City": {
+            "zipcode": "10001",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Buffalo": {
+            "zipcode": "14201",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Rochester": {
+            "zipcode": "14601",
+            "timezone": "Eastern Standard Time (EST)"
+          }
+        }
+      },
+      "Texas": {
+        "cities": {
+          "Houston": {
+            "zipcode": "77001",
+            "timezone": "Central Standard Time (CST)"
+          },
+          "Dallas": {
+            "zipcode": "75201",
+            "timezone": "Central Standard Time (CST)"
+          },
+          "Austin": {
+            "zipcode": "73301",
+            "timezone": "Central Standard Time (CST)"
+          }
+        }
+      }
+    }
+  },
+  "Canada": {
+    "states": {
+      "Ontario": {
+        "cities": {
+          "Toronto": {
+            "zipcode": "M5A",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Ottawa": {
+            "zipcode": "K1A",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Mississauga": {
+            "zipcode": "L5A",
+            "timezone": "Eastern Standard Time (EST)"
+          }
+        }
+      },
+      "British Columbia": {
+        "cities": {
+          "Vancouver": {
+            "zipcode": "V5K",
+            "timezone": "Pacific Standard Time (PST)"
+          },
+          "Victoria": {
+            "zipcode": "V8W",
+            "timezone": "Pacific Standard Time (PST)"
+          },
+          "Surrey": {
+            "zipcode": "V3R",
+            "timezone": "Pacific Standard Time (PST)"
+          }
+        }
+      },
+      "Quebec": {
+        "cities": {
+          "Montreal": {
+            "zipcode": "H1A",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Quebec City": {
+            "zipcode": "G1A",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Laval": {
+            "zipcode": "H7A",
+            "timezone": "Eastern Standard Time (EST)"
+          }
+        }
+      }
+    }
+  },
+  "United Kingdom": {
+    "states": {
+      "England": {
+        "cities": {
+          "London": {
+            "zipcode": "EC1A",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Birmingham": {
+            "zipcode": "B1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Manchester": {
+            "zipcode": "M1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          }
+        }
+      },
+      "Scotland": {
+        "cities": {
+          "Edinburgh": {
+            "zipcode": "EH1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Glasgow": {
+            "zipcode": "G1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Aberdeen": {
+            "zipcode": "AB1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          }
+        }
+      }
+    }
+  },
+  "Australia": {
+    "states": {
+      "New South Wales": {
+        "cities": {
+          "Sydney": {
+            "zipcode": "2000",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Newcastle": {
+            "zipcode": "2300",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Central Coast": {
+            "zipcode": "2250",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          }
+        }
+      },
+      "Victoria": {
+        "cities": {
+          "Melbourne": {
+            "zipcode": "3000",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Geelong": {
+            "zipcode": "3220",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Ballarat": {
+            "zipcode": "3350",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          }
+        }
+      }
+    }
+  },
+  "Germany": {
+    "states": {
+      "Bavaria": {
+        "cities": {
+          "Munich": {
+            "zipcode": "80331",
+            "timezone": "Central European Time (CET)"
+          },
+          "Nuremberg": {
+            "zipcode": "90402",
+            "timezone": "Central European Time (CET)"
+          },
+          "Augsburg": {
+            "zipcode": "86150",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Berlin": {
+        "cities": {
+          "Berlin": {
+            "zipcode": "10115",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DashboardNav from "../DashboardNav";
 import { FaUpload, FaTrash } from "react-icons/fa";
+import countryStateCityData from "./countryStateCityData.json";
 
 const EditInsuranceProfile = ({
   register,
@@ -12,8 +13,89 @@ const EditInsuranceProfile = ({
   goNext,
   watch,
   fetchData,
+  setFormData,
+  setExternalStates,
 }) => {
-  const [profileImage, setProfileImage] = useState(null);
+  console.log(fetchData);
+  // country, state, city, zipcode, timezone dynamically selet options state
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [states, setStates] = useState([]);
+  console.log(states);
+  const [cities, setCities] = useState([]);
+  const [singleState, setSingleState] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const [timezone, setTimezone] = useState("");
+  const [filePreview, setFilePreview] = useState(null);
+  // Function to handle country selection
+  const handleCountryChange = (event) => {
+    const country = event.target.value;
+    setSelectedCountry(country);
+    setStates(Object.keys(countryStateCityData[country].states));
+  };
+
+  const handleStateChange = (event) => {
+    const state = event.target.value; // Selected state
+    console.log("Selected state:", state);
+
+    // Update the selected state
+    setSingleState(state);
+
+    // Set the list of states for the selected country
+    setStates(Object.keys(countryStateCityData[selectedCountry].states));
+    setExternalStates(
+      Object.keys(countryStateCityData[selectedCountry].states)
+    );
+    // Extract the cities for the selected state
+    const selectedCities =
+      countryStateCityData[selectedCountry].states[state].cities;
+
+    // Log and set the cities
+    console.log("Selected cities:", selectedCities);
+    setCities(Object.keys(selectedCities)); // Get city names as keys
+
+    // Optional: You can further log or use the cities and their details as needed
+    Object.keys(selectedCities).forEach((city) => {
+      console.log(`City: ${city}, Details: `, selectedCities[city]);
+    });
+  };
+
+  // // Function to handle state selection
+  // const handleStateChange = (event) => {
+  //   const state = event.target.value;
+  //   console.log(state);
+  //   setSingleState(state);
+  //   setStates(Object.keys(countryStateCityData[selectedCountry].states));
+  //   console.log(states);
+  //   setExternalStates(
+  //     Object.keys(countryStateCityData[selectedCountry].states)
+  //   );
+  //   const allCities = states.map((state) => {
+  //     return states[state].cities;
+  //   });
+  //   console.log(allCities);
+  //   console.log(Object.keys(allCities));
+
+  //   const selectedCities =
+  //     countryStateCityData[selectedCountry].states[state].cities;
+  //   console.log(selectedCities);
+  //   setCities(Object.keys(selectedCities));
+  // };
+
+  const handleCityChange = (event) => {
+    const city = event.target.value;
+    console.log(city);
+    const currentZipCode =
+      countryStateCityData[selectedCountry].states[singleState].cities[city]
+        .zipcode;
+    setZipcode(currentZipCode);
+    const currentTimeZone =
+      countryStateCityData[selectedCountry].states[singleState].cities[city]
+        .timezone;
+    setTimezone(currentTimeZone);
+  };
+
+  // console.log(fetchData);
+  const [profileImage, setProfileImage] = useState(fetchData.fileUrl || null);
   const firstName = watch("firstName", "");
   const lastName = watch("lastName", "");
 
@@ -22,25 +104,38 @@ const EditInsuranceProfile = ({
     const lastInitial = lastName.charAt(0).toUpperCase();
     return `${firstInitial}${lastInitial}`;
   };
-
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.size <= 1048576) {
-      // Check file size (1MB = 1048576 bytes)
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert("File should be smaller than 1MB");
-    }
-  };
+    const selectedFile = e.target.files[0];
+    console.log(selectedFile);
+    // Get the selected file
+    // Create a preview URL
+    setProfileImage(URL.createObjectURL(selectedFile));
 
+    // Read the file as base64 (if you need this for further processing)
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFilePreview(reader.result);
+    };
+    reader.readAsDataURL(selectedFile);
+
+    // Update formData state with the selected file
+    setFormData((prevData) => ({
+      ...prevData,
+      file: selectedFile,
+    }));
+  };
   const handleImageRemove = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      file: null,
+    }));
     setProfileImage(null);
+    // setFilePreview(null);
+    document.getElementById("fileInput").value = "";
+    // console.log("Image removed");
+    // setProfileImage(null);
     // Reset file input value
-    document.getElementById("profilePicture").value = "";
+    // document.getElementById("profilePicture").value = "";
   };
   // dob
   const validateAge = (value) => {
@@ -93,7 +188,7 @@ const EditInsuranceProfile = ({
               <div className="flex items-start justify-start">
                 {profileImage ? (
                   <img
-                    src={fetchData.img || profileImage}
+                    src={profileImage || fetchData.fileUrl}
                     alt="Profile"
                     className="w-24 h-24 rounded-full object-cover"
                   />
@@ -114,7 +209,7 @@ const EditInsuranceProfile = ({
                 )}
               </div>
               <div className="relative w-40 flex flex-col gap-5">
-                {profileImage && (
+                {profileImage ? (
                   <button
                     type="button"
                     className="flex items-center justify-center w-40 px-0 py-2 bg-red-500 rounded-full cursor-pointer text-white mt-2"
@@ -123,19 +218,22 @@ const EditInsuranceProfile = ({
                     <FaTrash className="mx-1" />
                     <span>Remove Photo</span>
                   </button>
+                ) : (
+                  <div className="flex items-center justify-center w-40 px-0 py-2 bg-primarybg rounded-full cursor-pointer text-white">
+                    <FaUpload className="mr-2" />
+                    <span>Upload </span>
+                  </div>
                 )}
-                <input
-                  type="file"
-                  id="profilePicture"
-                  className="w-full h-10 opacity-0 absolute z-10 cursor-pointer"
-                  {...register("profilePicture")}
-                  onChange={handleImageChange}
-                />
-
-                <div className="flex items-center justify-center w-40 px-0 py-2 bg-primarybg rounded-full cursor-pointer text-white">
-                  <FaUpload className="mr-2" />
-                  <span>Upload</span>
-                </div>
+                {!profileImage && (
+                  <input
+                    type="file"
+                    id="profilePictureUrl"
+                    className="w-full h-10 opacity-0 absolute z-10 cursor-pointer"
+                    accept="image/*"
+                    // {...register("profilePicture")}
+                    onChange={handleImageChange}
+                  />
+                )}
 
                 <span className="text-sm font-semibold text-gray-400 my-5">
                   (File should be smaller than 1MB)
@@ -154,7 +252,7 @@ const EditInsuranceProfile = ({
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={fetchData.firstName || formData.firstName}
+                  defaultValue={fetchData.firstName}
                   type="text"
                   placeholder="First Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -178,7 +276,7 @@ const EditInsuranceProfile = ({
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={fetchData.lastName || formData.lastName}
+                  defaultValue={fetchData.lastName}
                   type="text"
                   placeholder="Last Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -203,7 +301,7 @@ const EditInsuranceProfile = ({
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.emergencyContactPhoneNumber || ""}
+                  defaultValue={fetchData.emergencyContactPhoneNumber}
                   type="tel"
                   placeholder="(XXX)XXX-XXXX"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -235,14 +333,17 @@ const EditInsuranceProfile = ({
                   {...register("dependentRelation", {
                     required: "Select Relation is required",
                   })}
-                  defaultValue={fetchData.dependentRelation || ""}
+                  defaultValue={fetchData.dependentRelation}
                 >
                   <option value="">Select Relation</option>
-                  <option value="Alabama">Father</option>
-                  <option value="Alaska">Mother</option>
-                  <option value="Arizona">Son</option>
-                  <option value="Arizona">Brother</option>
-                  <option value="United States"> Daughter</option>
+                  <option value="Father">Father</option>
+                  <option value="Mother">Mother</option>
+                  <option value="Son">Son</option>
+                  <option value="Brother">Brother</option>
+                  <option value="Daughter"> Daughter</option>
+                  <option value="Spouse"> Spouse</option>
+                  <option value="Friend"> Friend</option>
+                  <option value="Other"> Other</option>
                 </select>
                 {errors.dependentRelation && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -264,6 +365,8 @@ const EditInsuranceProfile = ({
                     <input
                       type="radio"
                       value="Male"
+                      defaultValue={fetchData.gender}
+                      defaultChecked={fetchData.gender}
                       {...register("gender", {
                         required: "Please select a  Gender.",
                       })}
@@ -306,7 +409,7 @@ const EditInsuranceProfile = ({
                   <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={fetchData.dateOfBirth || getDefaultDate()}
+                  defaultValue={fetchData.dateOfBirth}
                   type="date"
                   pattern="\d{2}/\d{2}/\d{4}"
                   placeholder="MM/DD/YYYY"
@@ -335,6 +438,7 @@ const EditInsuranceProfile = ({
                   Primary Address
                 </label>
                 <textarea
+                  defaultValue={fetchData.primaryAddress}
                   cols={30}
                   rows={5}
                   type="text"
@@ -351,6 +455,7 @@ const EditInsuranceProfile = ({
                   Secondary Address
                 </label>
                 <textarea
+                  defaultValue={fetchData.secondaryAddress}
                   cols={30}
                   rows={5}
                   type="text"
@@ -371,17 +476,25 @@ const EditInsuranceProfile = ({
                   Country <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <select
+                  defaultValue={fetchData.country}
+                  defaultChecked={fetchData.country}
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
                   {...register("country", {
                     required: "Country is required",
                   })}
-                  defaultValue={formData.country || ""}
+                  onChange={handleCountryChange}
                 >
-                  <option value="">Select Country</option>
+                  {Object.keys(countryStateCityData).map((country) => (
+                    <option key={country} value={country}>
+                      {country}
+                    </option>
+                  ))}
+
+                  {/* <option value="">Select Country</option>
                   <option value="Alabama">Alabama</option>
                   <option value="Alaska">Alaska</option>
                   <option value="Arizona">Arizona</option>
-                  <option value="United States">United States</option>
+                  <option value="United States">United States</option> */}
                 </select>
                 {errors.country && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -398,16 +511,28 @@ const EditInsuranceProfile = ({
                   State <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <select
+                  defaultValue={fetchData.state}
+                  // defaultChecked={fetchData.state}
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
                   {...register("state", {
                     required: "State is required",
                   })}
-                  value={"Arizona"}
+                  // value={"Arizona"}
+                  onChange={handleStateChange}
                 >
-                  <option value="">Select State</option>
+                  {states.length > 0 ? (
+                    states.map((state) => (
+                      <option key={state} value={state}>
+                        {state}
+                      </option>
+                    ))
+                  ) : (
+                    <option disabled>No states available</option>
+                  )}
+                  {/* <option value="">Select State</option>
                   <option value="Alabama">Alabama</option>
                   <option value="Aaska">Aaska</option>
-                  <option value="Arizona">Arizona</option>
+                  <option value="Arizona">Arizona</option> */}
                 </select>
                 {errors.state && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -427,15 +552,27 @@ const EditInsuranceProfile = ({
                   City <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <select
+                  defaultValue={fetchData.city}
+                  defaultChecked={fetchData.city}
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
                   {...register("city", {
                     required: "City is required",
                   })}
+                  onChange={handleCityChange}
                 >
-                  <option value="">Select City</option>
+                  {cities.length > 0 ? (
+                    cities.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))
+                  ) : (
+                    <option disabled>No cities available</option>
+                  )}
+                  {/* <option value="">Select City</option>
                   <option value="Alabama">Alabama</option>
                   <option value="Aaska">Aaska</option>
-                  <option value="Arizona">Arizona</option>
+                  <option value="Arizona">Arizona</option> */}
                 </select>
                 {errors.city && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -456,12 +593,15 @@ const EditInsuranceProfile = ({
                   {...register("zipCode", {
                     required: "Zip Code is required",
                   })}
-                  defaultValue={formData.zipCode}
+                  defaultValue={fetchData.zipCode}
+                  defaultChecked={fetchData.zipCode}
                 >
+                  <option value="zipCode">{zipcode}</option>
+                  {/* 
                   <option value="">Select Zip Code</option>
                   <option value="Alabama">4800</option>
                   <option value="Aaska">5320</option>
-                  <option value="Arizona">4120</option>
+                  <option value="Arizona">4120</option> */}
                 </select>
                 {errors.zipCode && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -481,15 +621,19 @@ const EditInsuranceProfile = ({
                   Time Zone <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <select
+                  defaultValue={fetchData.timeZone}
+                  defaultChecked={fetchData.timeZone}
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
                   {...register("timeZone", {
                     required: "Time Zone is required",
                   })}
                 >
-                  <option value="">Select Time Zone</option>
+                  <option value="zipCode">{timezone}</option>
+
+                  {/* <option value="">Select Time Zone</option>
                   <option value="Alabama">Alabama</option>
                   <option value="Aaska">Aaska</option>
-                  <option value="Arizona">Arizona</option>
+                  <option value="Arizona">Arizona</option> */}
                 </select>
                 {errors.timeZone && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -511,16 +655,22 @@ const EditInsuranceProfile = ({
                 <div className="flex items-start justify-center gap-3 w-full">
                   <label className="radio-option text-base font-semibold flex items-center justify-center ">
                     <input
+                      defaultValue={fetchData.haveInsurance === "Yes" && "Yes"}
+                      defaultChecked={
+                        fetchData.haveInsurance === "Yes" && "Yes"
+                      }
                       type="radio"
-                      value="yes"
+                      value="Yes"
                       {...register("haveInsurance")}
                     />
                     Yes
                   </label>
                   <label className="radio-option text-base font-semibold flex items-center justify-center ">
                     <input
+                      defaultValue={fetchData.haveInsurance === "No" && "No"}
+                      defaultChecked={fetchData.haveInsurance === "No" && "No"}
                       type="radio"
-                      value="no"
+                      value="No"
                       {...register("haveInsurance")}
                     />
                     No

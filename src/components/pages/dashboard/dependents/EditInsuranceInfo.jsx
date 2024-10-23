@@ -7,6 +7,8 @@ const EditInsuranceInfo = ({
   formData,
   goNext,
   goBack,
+  fetchData,
+  externalStates,
 }) => {
   const today = new Date().toISOString().split("T")[0];
 
@@ -69,7 +71,8 @@ const EditInsuranceInfo = ({
                 {...register("dentalInsuranceCarrier", {
                   required: "Dental Insurance Carrier is required",
                 })}
-                defaultValue={formData.dentalInsuranceCarrier}
+                defaultValue={fetchData.dentalInsuranceCarrier}
+                defaultChecked={fetchData.dentalInsuranceCarrier}
               >
                 <option value="">Select Insurance Carrier</option>
                 <option value="Delta Dental">Delta Dental</option>
@@ -98,8 +101,10 @@ const EditInsuranceInfo = ({
                 <span className=" text-red-500 text-xl"> *</span>
               </label>
               <select
+                defaultValue={fetchData.patientRelation}
+                defaultChecked={fetchData.patientRelation}
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
-                {...register("relation", {
+                {...register("patientRelation", {
                   required: "Relation is required",
                 })}
               >
@@ -111,9 +116,9 @@ const EditInsuranceInfo = ({
                 <option value="Parent">Parent</option>
                 <option value="Other">Other</option>
               </select>
-              {errors.relation && (
+              {errors.patientRelation && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                  {errors.relation.message}
+                  {errors.patientRelation.message}
                 </p>
               )}
             </div>
@@ -128,7 +133,7 @@ const EditInsuranceInfo = ({
                 <span className=" text-red-500 text-xl"> *</span>
               </label>
               <input
-                defaultValue={formData.firstName}
+                defaultValue={fetchData.subscriberFirstName}
                 type="text"
                 placeholder="Subscriber First Name"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -151,7 +156,7 @@ const EditInsuranceInfo = ({
                 <span className=" text-red-500 text-xl"> *</span>
               </label>
               <input
-                defaultValue={formData.lastName}
+                defaultValue={fetchData.subscriberLastName}
                 type="text"
                 placeholder="Subscriber Last Name"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -177,6 +182,8 @@ const EditInsuranceInfo = ({
                 <div className="radio-options flex items-start justify-center gap-5 w-full">
                   <label className="radio-option text-base font-semibold">
                     <input
+                      defaultChecked={fetchData.subscriberGender}
+                      defaultValue={fetchData.subscriberGender}
                       type="radio"
                       value="Male"
                       {...register("subscriberGender", {
@@ -223,7 +230,7 @@ const EditInsuranceInfo = ({
                 <span className=" text-red-500 text-xl"> *</span>
               </label>
               <input
-                defaultValue={formData.dob}
+                defaultValue={fetchData.subscriberDateOfBirth}
                 type="date"
                 pattern="\d{2}/\d{2}/\d{4}"
                 placeholder="MM/DD/YYYY"
@@ -252,7 +259,7 @@ const EditInsuranceInfo = ({
                 <span className=" text-red-500 text-xl"> *</span>
               </label>
               <input
-                defaultValue={formData.subscriberId}
+                defaultValue={fetchData.subscriberId}
                 type="text"
                 placeholder="Subscriber ID"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -275,7 +282,7 @@ const EditInsuranceInfo = ({
                 Employer
               </label>
               <input
-                defaultValue={formData.employer}
+                defaultValue={fetchData.employer}
                 type="text"
                 placeholder="Employer"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -294,7 +301,7 @@ const EditInsuranceInfo = ({
                 <span className=" text-red-500 text-xl"> *</span>
               </label>
               <input
-                defaultValue={formData.groupNo}
+                defaultValue={fetchData.groupNo}
                 type="text"
                 placeholder="Group No"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -324,7 +331,7 @@ const EditInsuranceInfo = ({
                 <span className=" text-red-500 text-xl"> *</span>
               </label>
               <input
-                defaultValue={formData.subscriberAddress}
+                defaultValue={fetchData.subscriberAddress}
                 type="text"
                 placeholder="subscriberAddress"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -348,7 +355,8 @@ const EditInsuranceInfo = ({
                 <span className=" text-red-500 text-xl"> *</span>
               </label>
               <input
-                defaultValue={formData.subscriberCity}
+                defaultValue={fetchData.subscriberCity}
+                defaultChecked={fetchData.subscriberCity}
                 type="text"
                 placeholder="City"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -379,10 +387,19 @@ const EditInsuranceInfo = ({
                 })}
                 defaultValue={formData.state}
               >
-                <option value="">Select State</option>
+                {externalStates.length > 0 ? (
+                  externalStates.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>No states available</option>
+                )}
+                {/* <option value="">Select State</option>
                 <option value="Alabama">Alabama</option>
                 <option value="Aaska">Aaska</option>
-                <option value="Arizona">Arizona</option>
+                <option value="Arizona">Arizona</option> */}
               </select>
               {errors.subscriberState && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -399,7 +416,7 @@ const EditInsuranceInfo = ({
                 Subscriber Zip <span className=" text-red-500 text-xl"> *</span>
               </label>
               <input
-                defaultValue={formData.subscriberZip}
+                defaultValue={fetchData.subscriberZip}
                 type="number"
                 placeholder="Zip Code"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"

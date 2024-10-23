@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { HiMenu, HiX } from "react-icons/hi";
@@ -8,7 +8,9 @@ import PopOver from "../../utils/PopOver";
 import PopOverTwo from "../../utils/PopOverTwo";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RightDrawer from "./../../utils/RightDrawer";
+import UserManuDashboard from "../../utils/UserManuDashboard";
 const DashboardNav = () => {
+  const [userName, setUserName] = useState(null);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -48,13 +50,26 @@ const DashboardNav = () => {
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {
+    const name = localStorage.getItem("userName");
+    if (name) {
+      setUserName(name);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+    navigate("/login");
+  };
+
   return (
     <div className="bg-[#eeeeee] flex items-center justify-between h-[85px] py-1  w-full px-5 md:px-10 ">
       <div className="flex items-center justify-center gap-3">
         <img src={logo} alt="logo" className="w-12" />
         <p
           className="text-4xl bg-gradient-to-r from-primarybg via-heading to-primary text-transparent cursor-pointer bg-clip-text w-32 font-bold"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard")}
         >
           SMLYX
         </p>
@@ -76,18 +91,32 @@ const DashboardNav = () => {
             patientInfoData={settingsData}
           />
           {/* for user name to make the seprate look */}
-          <div className=" flex items-center justify-center gap-0 cursor-pointer">
+
+          {localStorage.getItem("userName") ? (
+            <div className=" flex items-center justify-center gap-0 cursor-pointer">
+              <p
+                // onClick={() => navigate(btn.route)}
+                // key={index}
+                className="text-[#983794] md:px-2 px-0 text-sm md:text-base   py-2 font-bold cursor-pointer relative group"
+              >
+                {/* <span className=" w-16 h-16 bg-heading text-white rounded-full">UN</span> */}
+                {userName}
+                {/* <UserManuDashboard userName={userName} /> */}
+                <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-heading transition-all duration-500 group-hover:w-[90%] flex items-center justify-center group-focus:w-[90%]"></span>
+              </p>
+              {/* {btn.icon && btn.icon} */}
+            </div>
+          ) : (
             <p
               // onClick={() => navigate(btn.route)}
               // key={index}
               className="text-[#983794] md:px-2 px-0 text-sm md:text-base   py-2 font-bold cursor-pointer relative group"
             >
               {/* <span className=" w-16 h-16 bg-heading text-white rounded-full">UN</span> */}
-              User Name
+              no user found!
               <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-heading transition-all duration-500 group-hover:w-[90%] flex items-center justify-center group-focus:w-[90%]"></span>
             </p>
-            {/* {btn.icon && btn.icon} */}
-          </div>
+          )}
           {/* <button className="bg-primarybg rounded-full px-6 py-2 text-white font-semibold cursor-pointer">
             My Account
           </button> */}

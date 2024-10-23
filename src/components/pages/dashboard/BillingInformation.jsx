@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DashboardNav from "./DashboardNav";
+import { useSelector } from "react-redux";
+
 const BillingInformation = () => {
+  const state = useSelector((state) => state.user);
   const {
     register,
     handleSubmit,
@@ -20,7 +23,7 @@ const BillingInformation = () => {
       <div className="flex items-start justify-start w-full text-sm font-bold text-gray-500 container">
         <span
           className="mx-1 hover:text-primarybg cursor-pointer"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard")}
         >
           Home
         </span>{" "}
@@ -44,7 +47,7 @@ const BillingInformation = () => {
                   Email<span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={"uaf.khurram@gmail.com"}
+                  defaultValue={state?.email || ""}
                   type="email"
                   placeholder="Email"
                   className=" w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 bg-gray-200 text-heading text-sm font-semibold"

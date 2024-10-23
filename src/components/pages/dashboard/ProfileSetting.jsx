@@ -3,14 +3,21 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DashboardNav from "./DashboardNav";
 import { FaUpload, FaTrash } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux"; // Import useDispatch from Redux
+import { setUserData } from "../../../redux/slices/userSlice";
 
 const ProfileSetting = () => {
+  const user = useSelector((state) => state.user);
+  // console.log(" user :", user);
+  // console.log(user);
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
   } = useForm();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [profileImage, setProfileImage] = useState(null);
@@ -26,6 +33,12 @@ const ProfileSetting = () => {
   const onSubmit = (data) => {
     setFormData(data);
     console.log(data);
+    dispatch(
+      setUserData({
+        ...data, // Include all the data fields from the form
+        // profileImage,  // Include the profile image if updated
+      })
+    );
   };
 
   const handleImageChange = (e) => {
@@ -85,7 +98,7 @@ const ProfileSetting = () => {
         <div className="flex items-start justify-start w-full text-sm font-bold text-gray-500 my-2">
           <span
             className="mx-1 hover:text-primarybg cursor-pointer"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/dashboard")}
           >
             Home
           </span>{" "}
@@ -101,7 +114,7 @@ const ProfileSetting = () => {
             </p>
 
             {/* File input */}
-            <div className="flex items-start justify-start w-full gap-5">
+            {/* <div className="flex items-start justify-start w-full gap-5">
               <div className="flex items-start justify-start">
                 {profileImage ? (
                   <img
@@ -143,7 +156,7 @@ const ProfileSetting = () => {
                   (File should be smaller than 1MB)
                 </span>
               </div>
-            </div>
+            </div> */}
 
             {/* Other inputs */}
             <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
@@ -292,7 +305,7 @@ const ProfileSetting = () => {
                   Email<span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={"uaf.khurram@gmail.com"}
+                  defaultValue={user.email || ""}
                   type="email"
                   placeholder="Email"
                   className=" w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 bg-gray-200 text-heading text-sm font-semibold"
@@ -422,11 +435,11 @@ const ProfileSetting = () => {
                 </label>
                 <select
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
-                  {...register("subscriberState", {
+                  {...register("subscriberCountry", {
                     required: "Subscriber State is required",
                   })}
-                  value="United States"
-                  disabled
+                  defaultValue={user.country}
+                  // disabled
                 >
                   <option value="">Select Country</option>
                   <option value="Alabama">Alabama</option>
@@ -434,9 +447,9 @@ const ProfileSetting = () => {
                   <option value="Arizona">Arizona</option>
                   <option value="United States">United States</option>
                 </select>
-                {errors.subscriberState && (
+                {errors.country && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.subscriberState.message}
+                    {errors.country.message}
                   </p>
                 )}
               </div>
@@ -488,9 +501,9 @@ const ProfileSetting = () => {
                   <option value="Aaska">Aaska</option>
                   <option value="Arizona">Arizona</option>
                 </select>
-                {errors.subscriberState && (
+                {errors.city && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.subscriberState.message}
+                    {errors.city.message}
                   </p>
                 )}
               </div>
@@ -514,9 +527,9 @@ const ProfileSetting = () => {
                   <option value="Aaska">5320</option>
                   <option value="Arizona">4120</option>
                 </select>
-                {errors.subscriberState && (
+                {errors.zipCode && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.subscriberState.message}
+                    {errors.zipCode.message}
                   </p>
                 )}
               </div>
