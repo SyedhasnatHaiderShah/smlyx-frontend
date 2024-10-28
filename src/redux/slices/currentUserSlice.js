@@ -2,7 +2,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  userName: localStorage.getItem("userName") || "",
+  firstName: localStorage.getItem("userName") || "",
+  lastName: localStorage.getItem("lastName") || "",
 };
 
 const userSlice = createSlice({
@@ -10,7 +11,8 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.userName = action.payload.userName;
+      state.firstName = action.payload.firstName;
+      state.lastName = action.payload.lastName;
       // state.avatarUrl = action.payload.avatarUrl;
     },
   },

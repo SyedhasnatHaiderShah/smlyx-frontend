@@ -5,14 +5,15 @@ import NorthIcon from "@mui/icons-material/North";
 import { useSelector } from "react-redux";
 
 const DashboardHeader = () => {
-  const userName = useSelector((state) => state.currentUser.userName);
-  console.log(userName);
+  const firstName = useSelector((state) => state.currentUser.firstName);
+  const lastName = useSelector((state) => state.currentUser.lastName);
+  console.log(lastName);
   useEffect(() => {}, []);
   return (
     <div className=" flex items-start justify-start container gap-5 w-full md:mt-16 mt-10 flex-col md:min-h-96 h-full rounded-xl">
       <div className=" w-full px-5">
         <p className=" flex items-start justify-start w-full md:text-2xl text-xl font-semibold text-primary">
-          {userName}
+          {firstName} {lastName}
         </p>
       </div>
       <div className=" flex items-center justify-between gap-5 md:flex-row flex-col flex-wrap bg-white w-full p-5 rounded-xl">

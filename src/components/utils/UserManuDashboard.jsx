@@ -11,9 +11,12 @@ export default function BasicMenu() {
   const dispatch = useDispatch();
 
   const dependentsData = useSelector((state) => state.dependents.currentUser);
-  // console.log(dependentsData);
+  console.log(dependentsData);
 
-  const userName = useSelector((state) => state.currentUser.userName);
+  const firstName = useSelector((state) => state.currentUser.firstName);
+  const lastName = useSelector((state) => state.currentUser.lastName);
+
+  console.log("firstName:", firstName, "lastName:", lastName);
 
   // console.log(userName);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -31,10 +34,8 @@ export default function BasicMenu() {
   };
 
   const handleClose = (item) => {
-    setUser(item);
-    dispatch(setUser({ userName: item.firstName }));
-
-    // Set the selected user
+    console.log("Selected Item:", item); // Log item to ensure lastName is there
+    dispatch(setUser({ firstName: item.firstName, lastName: item.lastName }));
     setAnchorEl(null); // Close the menu
   };
 
@@ -48,7 +49,7 @@ export default function BasicMenu() {
         onClick={handleClick}
         className="text-[#983794] md:px-2 px-0 text-sm md:text-base   py-2 font-bold cursor-pointer relative group"
       >
-        {userName}
+        {firstName} {lastName}
         <ExpandMoreIcon />
       </p>
       <Menu
@@ -78,8 +79,10 @@ export default function BasicMenu() {
               }}
             />
             <p className="text-[#983794] md:px-2 px-0 text-sm md:text-base   py-2 font-bold cursor-pointer relative group">
-              {item.firstName}
+              {item.firstName} {""}
+              {item.lastName}
             </p>
+            <p className="text-[#983794] md:px-2 px-0 text-sm md:text-base   py-2 font-bold cursor-pointer relative group"></p>
           </MenuItem>
         ))}
       </Menu>
