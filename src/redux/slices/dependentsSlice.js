@@ -2,7 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Initial state for dependents
 const initialState = {
-  dependents: [], // Initialize with an empty array
+  dependents: [],
+  currentUser: [],
+  userName: localStorage.getItem("userName") || "",
+  fileUrl: "",
+  // Initialize with an empty array
 };
 
 export const dependentsSlice = createSlice({
@@ -11,7 +15,15 @@ export const dependentsSlice = createSlice({
   reducers: {
     // Action to set all dependents
     setDependentsData: (state, action) => {
-      state.dependents = action.payload; // Replace dependents with the fetched data
+      state.userData = action.payload; // Replace dependents with the fetched data
+    },
+    setUser: (state, action) => {
+      state.userName = action.payload.userName;
+      state.fileUrl = action.payload.fileUrl;
+    },
+
+    setCurrentUser: (state, action) => {
+      state.currentUser = action.payload;
     },
 
     // Action to add a single dependent
@@ -44,6 +56,8 @@ export const dependentsSlice = createSlice({
 // Exporting the actions
 export const {
   setDependentsData,
+  setUser,
+  setCurrentUser,
   addDependent,
   updateDependent,
   removeDependent,

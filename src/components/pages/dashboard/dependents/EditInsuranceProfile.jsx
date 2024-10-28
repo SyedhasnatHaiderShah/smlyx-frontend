@@ -16,11 +16,11 @@ const EditInsuranceProfile = ({
   setFormData,
   setExternalStates,
 }) => {
-  console.log(fetchData);
+  // console.log(fetchData);
   // country, state, city, zipcode, timezone dynamically selet options state
   const [selectedCountry, setSelectedCountry] = useState("");
   const [states, setStates] = useState([]);
-  console.log(states);
+  // console.log(states);
   const [cities, setCities] = useState([]);
   const [singleState, setSingleState] = useState("");
   const [zipcode, setZipcode] = useState("");
@@ -35,7 +35,7 @@ const EditInsuranceProfile = ({
 
   const handleStateChange = (event) => {
     const state = event.target.value; // Selected state
-    console.log("Selected state:", state);
+    // console.log("Selected state:", state);
 
     // Update the selected state
     setSingleState(state);
@@ -50,12 +50,12 @@ const EditInsuranceProfile = ({
       countryStateCityData[selectedCountry].states[state].cities;
 
     // Log and set the cities
-    console.log("Selected cities:", selectedCities);
+    // console.log("Selected cities:", selectedCities);
     setCities(Object.keys(selectedCities)); // Get city names as keys
 
     // Optional: You can further log or use the cities and their details as needed
     Object.keys(selectedCities).forEach((city) => {
-      console.log(`City: ${city}, Details: `, selectedCities[city]);
+      // console.log(`City: ${city}, Details: `, selectedCities[city]);
     });
   };
 
@@ -688,12 +688,6 @@ const EditInsuranceProfile = ({
                 type="submit"
               >
                 Next
-              </button>
-              <button
-                className="bg-primarybg font-medium text-white rounded-full py-1 "
-                onClick={goNext}
-              >
-                skip
               </button>
             </div>
           </div>

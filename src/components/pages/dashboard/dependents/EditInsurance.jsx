@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const EditInsurance = ({ fetchData, setCurrentEditUserId }) => {
   // console.log(fetchData.id);
-  console.log(fetchData);
+  // console.log(fetchData);
   const id = fetchData?.id;
   const userId = localStorage.getItem("id");
   const token = localStorage.getItem("token");
@@ -20,7 +20,7 @@ const EditInsurance = ({ fetchData, setCurrentEditUserId }) => {
     file: null,
   });
 
-  console.log(formData);
+  // console.log(formData);
   const {
     register,
     handleSubmit,
@@ -32,7 +32,7 @@ const EditInsurance = ({ fetchData, setCurrentEditUserId }) => {
   const onSubmit = async (data) => {
     const updatedData = { file: formData.file, userId, ...data };
     // setFormData(updatedData);
-    console.log(updatedData);
+    // console.log(updatedData);
 
     if (data.haveInsurance === "Yes" && step < 2) {
       setStep(step + 1);
@@ -98,15 +98,15 @@ const EditInsurance = ({ fetchData, setCurrentEditUserId }) => {
       <div className="flex items-center justify-center w-full flex-col rounded-lg">
         <div className="flex items-center justify-center w-full text-xl font-semibold">
           <p
-            className={`rounded-full rounded-r-none  w-full md:w-1/2 text-center py-3 ${
-              step === 1 ? "bg-white cursor-pointer" : "bg-[#eeeeee]"
+            className={`rounded-full rounded-r-none my-3  w-full md:w-1/2 text-center py-3 ${
+              step === 1 ? "bg-primarybg text-white" : "bg-white text-primary "
             }`}
           >
             Profile
           </p>
           <p
-            className={`rounded-full rounded-s-none w-full md:w-1/2 text-center py-3 ${
-              step === 2 ? "bg-white cursor-pointer" : "bg-[#eeeeee]"
+            className={`rounded-full rounded-s-none my-3 w-full md:w-1/2 text-center py-3 ${
+              step === 2 ? "bg-primarybg text-white" : "bg-white text-primary "
             }`}
           >
             Insurance Info

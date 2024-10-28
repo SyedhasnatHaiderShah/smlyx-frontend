@@ -100,9 +100,11 @@ const DashboardNav = () => {
                 className="text-[#983794] md:px-2 px-0 text-sm md:text-base   py-2 font-bold cursor-pointer relative group"
               >
                 {/* <span className=" w-16 h-16 bg-heading text-white rounded-full">UN</span> */}
-                {userName}
-                {/* <UserManuDashboard userName={userName} /> */}
-                <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-heading transition-all duration-500 group-hover:w-[90%] flex items-center justify-center group-focus:w-[90%]"></span>
+                {/* {userName} */}
+                <div className=" w-full flex items-center justify-center ">
+                  <UserManuDashboard />
+                </div>
+                <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-[90%] flex items-center justify-center group-focus:w-[90%]"></span>
               </p>
               {/* {btn.icon && btn.icon} */}
             </div>

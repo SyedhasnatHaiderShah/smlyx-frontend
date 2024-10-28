@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import wellness from "./assets/icon-wellness-score.svg";
 import DashboardChart from "../../utils/DashboardChart";
 import NorthIcon from "@mui/icons-material/North";
+import { useSelector } from "react-redux";
 
 const DashboardHeader = () => {
-  const userName = localStorage.getItem("userName");
-  // useEffect(() => {}, [title]);
+  const userName = useSelector((state) => state.currentUser.userName);
+  console.log(userName);
+  useEffect(() => {}, []);
   return (
     <div className=" flex items-start justify-start container gap-5 w-full md:mt-16 mt-10 flex-col md:min-h-96 h-full rounded-xl">
       <div className=" w-full px-5">

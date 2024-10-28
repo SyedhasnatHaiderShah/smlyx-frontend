@@ -4,23 +4,27 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar"; // Import Avatar from MUI
 import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/slices/currentUserSlice";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export default function BasicMenu({ userName }) {
+export default function BasicMenu() {
   const dispatch = useDispatch();
 
-  const dependentsData = useSelector((state) => state.dependents.dependents);
-  console.log(dependentsData);
+  const dependentsData = useSelector((state) => state.dependents.currentUser);
+  // console.log(dependentsData);
 
-  const [user, setUser] = React.useState(null);
+  const userName = useSelector((state) => state.currentUser.userName);
+
+  // console.log(userName);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
   // Set the initial user once dependentsData is loaded
-  React.useEffect(() => {
-    if (dependentsData && dependentsData.length > 0) {
-      setUser(dependentsData[0]);
-    }
-  }, [dependentsData]);
+  // React.useEffect(() => {
+  //   if (dependentsData && dependentsData.length > 0) {
+  //     setUser(dependentsData[0]);
+  //   }
+  // }, [dependentsData]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,7 +32,7 @@ export default function BasicMenu({ userName }) {
 
   const handleClose = (item) => {
     setUser(item);
-    dispatch(setUser({ userName: item.firstName, avatarUrl: item.fileUrl }));
+    dispatch(setUser({ userName: item.firstName }));
 
     // Set the selected user
     setAnchorEl(null); // Close the menu
@@ -36,15 +40,17 @@ export default function BasicMenu({ userName }) {
 
   return (
     <div>
-      <Button
+      <p
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
+        className="text-[#983794] md:px-2 px-0 text-sm md:text-base   py-2 font-bold cursor-pointer relative group"
       >
-        {localStorage.getItem("userName")}
-      </Button>
+        {userName}
+        <ExpandMoreIcon />
+      </p>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -53,16 +59,27 @@ export default function BasicMenu({ userName }) {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
+        style={{
+          marginRight: "30px",
+        }}
       >
         {dependentsData?.map((item, index) => (
-          <MenuItem key={index} onClick={() => handleClose(item)}>
+          <MenuItem
+            key={index}
+            onClick={() => handleClose(item)}
+            style={{
+              minWidth: "150px",
+            }}
+          >
             <Avatar
               src={item.fileUrl}
               style={{
                 marginRight: "8px",
               }}
             />
-            {item.firstName}
+            <p className="text-[#983794] md:px-2 px-0 text-sm md:text-base   py-2 font-bold cursor-pointer relative group">
+              {item.firstName}
+            </p>
           </MenuItem>
         ))}
       </Menu>
