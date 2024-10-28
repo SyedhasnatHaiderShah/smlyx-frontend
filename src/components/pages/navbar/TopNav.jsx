@@ -55,9 +55,10 @@ const TopNav = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("id");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("token");
+    // localStorage.removeItem("id");
+    // localStorage.removeItem("userName");
+    // localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/login");
   };
 

@@ -24,9 +24,10 @@ export default function BasicPopover({
 
   const handleSignOut = () => {
     // Clear session data or tokens (localStorage, cookies, etc.)
-    localStorage.removeItem("token");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("id");
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("userName");
+    // localStorage.removeItem("id");
+    localStorage.clear();
     // Assuming token is stored here
     // Redirect to login or home page
     navigate("/login");

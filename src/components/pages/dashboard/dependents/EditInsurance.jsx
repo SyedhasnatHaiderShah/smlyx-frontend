@@ -57,7 +57,7 @@ const EditInsurance = ({ fetchData, setCurrentEditUserId }) => {
         setCurrentEditUserId(null);
         // navigate("/dashboard/my-dependents"); // Replace with the actual path
       } catch (error) {
-        // console.error("Error updating dependent:", error);
+        console.error("Error updating dependent:", error);
         toast.error(error.response.data.message);
       }
     }

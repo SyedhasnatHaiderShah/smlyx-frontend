@@ -16,7 +16,7 @@ const DependentsHome = () => {
   const userDependentsData = useSelector(
     (state) => state.dependents.dependents
   );
-  console.log(userDependentsData);
+  // console.log(userDependentsData);
   const userId = localStorage.getItem("id");
   const token = localStorage.getItem("token");
   // add dependents here

@@ -58,8 +58,10 @@ const DashboardNav = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userName");
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("userName");
+    // localStorage.removeItem("email")
+    localStorage.clear();
     navigate("/login");
   };
 

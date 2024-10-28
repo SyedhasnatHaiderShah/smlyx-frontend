@@ -47,7 +47,7 @@ const BillingInformation = () => {
                   Email<span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={state?.email || ""}
+                  defaultValue={localStorage.getItem("email") || ""}
                   type="email"
                   placeholder="Email"
                   className=" w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 bg-gray-200 text-heading text-sm font-semibold"

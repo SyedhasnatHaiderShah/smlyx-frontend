@@ -27,33 +27,28 @@ const Login = () => {
       );
       const userData = response.data;
       const { access_token, ...remaining } = userData;
-      console.log(remaining);
       if (remaining) {
         dispatch(setUserData(remaining));
       }
-      // console.log(userData);
-      // console.log(respose);
       const token = response.data.access_token;
       localStorage.setItem("token", token);
       localStorage.setItem("id", response.data?.id);
-      // console.log(token);
+      localStorage.setItem("email", response.data?.email);
       localStorage.setItem("userName", response.data?.firstName);
 
-      // console.log(data);
+      console.log(data);
       toast.success("Login successful");
       navigate("/dashboard");
     } catch (error) {
       // setLoginError(error.response.data.message);
-      // toast.error(error.response.data.message);
       toast.error("Login failed");
     }
   };
 
-  // Check if the user is already logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/dashboard"); // Redirect if the user is already logged in
+      navigate("/dashboard");
     }
   }, [navigate]);
   return (

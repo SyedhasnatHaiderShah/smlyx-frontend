@@ -1,9 +1,37 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import {
+  setCurrentUser,
+  setDependentsData,
+} from "../redux/slices/dependentsSlice";
+import { useDispatch } from "react-redux";
 
 const AuthWrapper = ({ children }) => {
   const navigate = useNavigate();
+  const userId = localStorage.getItem("id");
+  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+  // get the all dependents by id to call itself for all the dashboard
+  const fetchDependentsData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/dependents/getDependents/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // console.log(response.data);
+      // dispatch(setDependentsData(response.data));
+      dispatch(setCurrentUser(response.data));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   useEffect(() => {
     const validateToken = async () => {
@@ -28,8 +56,9 @@ const AuthWrapper = ({ children }) => {
         navigate("/login");
       }
     };
-
     validateToken();
+
+    fetchDependentsData();
   }, [navigate]);
 
   return children;
