@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import DashboardNav from "./DashboardNav";
-import { FaUpload, FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux"; // Import useDispatch from Redux
+import { useDispatch } from "react-redux";
 import { setUserData } from "../../../redux/slices/userSlice";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const ProfileSetting = () => {
+  const email = localStorage.getItem("email");
+  const token = localStorage.getItem("token");
   const user = useSelector((state) => state.user);
-  // console.log(" user :", user);
-  // console.log(user);
+  const userId = localStorage.getItem("id");
   const {
     register,
     handleSubmit,
@@ -20,45 +21,33 @@ const ProfileSetting = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
-  const [profileImage, setProfileImage] = useState(null);
-  const firstName = watch("firstName", "");
-  const lastName = watch("lastName", "");
 
-  const getInitials = () => {
-    const firstInitial = firstName.charAt(0).toUpperCase();
-    const lastInitial = lastName.charAt(0).toUpperCase();
-    return `${firstInitial}${lastInitial}`;
-  };
-
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     setFormData(data);
-    console.log(data);
+    // console.log(data);
     dispatch(
       setUserData({
-        ...data, // Include all the data fields from the form
-        // profileImage,  // Include the profile image if updated
+        ...data,
       })
     );
-  };
+    try {
+      const updatedData = { ...data, userId };
+      await axios.patch(
+        `http://localhost:3000/profile/profileSetting`,
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.size <= 1048576) {
-      // Check file size (1MB = 1048576 bytes)
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert("File should be smaller than 1MB");
+      toast.success("Profile Successfully Updated!");
+    } catch (error) {
+      // console.log(error.message);
+      toast.error(error.message);
     }
-  };
-
-  const handleImageRemove = () => {
-    setProfileImage(null);
-    // Reset file input value
-    document.getElementById("profilePicture").value = "";
   };
 
   // dob
@@ -90,8 +79,6 @@ const ProfileSetting = () => {
     return `${month}/${day}/${year}`;
   };
 
-  // Function to get the default date value (example: '2023-01-01')
-
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5">
       <div className="flex items-center justify-center w-full flex-col rounded-lg container my-5">
@@ -112,52 +99,6 @@ const ProfileSetting = () => {
             <p className="text-xl text-primary font-semibold my-3 w-full">
               Profile Setting
             </p>
-
-            {/* File input */}
-            {/* <div className="flex items-start justify-start w-full gap-5">
-              <div className="flex items-start justify-start">
-                {profileImage ? (
-                  <img
-                    src={profileImage}
-                    alt="Profile"
-                    className="w-24 h-24 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="w-24 h-24 rounded-full bg-[#0a1d62] text-white flex items-center justify-center text-3xl font-bold">
-                    {getInitials()}
-                  </div>
-                )}
-              </div>
-              <div className="relative w-40 flex flex-col gap-5">
-                {profileImage && (
-                  <button
-                    type="button"
-                    className="flex items-center justify-center w-40 px-0 py-2 bg-red-500 rounded-full cursor-pointer text-white mt-2"
-                    onClick={handleImageRemove}
-                  >
-                    <FaTrash className="mx-1" />
-                    <span>Remove Photo</span>
-                  </button>
-                )}
-                <input
-                  type="file"
-                  id="profilePicture"
-                  className="w-full h-10 opacity-0 absolute z-10 cursor-pointer"
-                  {...register("profilePicture")}
-                  onChange={handleImageChange}
-                />
-
-                <div className="flex items-center justify-center w-40 px-0 py-2 bg-primarybg rounded-full cursor-pointer text-white">
-                  <FaUpload className="mr-2" />
-                  <span>Upload</span>
-                </div>
-
-                <span className="text-sm font-semibold text-gray-400 my-5">
-                  (File should be smaller than 1MB)
-                </span>
-              </div>
-            </div> */}
-
             {/* Other inputs */}
             <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
               <div className="flex items-start justify-start w-full flex-col">
@@ -305,7 +246,7 @@ const ProfileSetting = () => {
                   Email<span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={user.email || ""}
+                  defaultValue={email || user.email}
                   type="email"
                   placeholder="Email"
                   className=" w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 bg-gray-200 text-heading text-sm font-semibold"
@@ -362,7 +303,7 @@ const ProfileSetting = () => {
                     <input
                       type="radio"
                       id="yes"
-                      value="yes"
+                      value="Yes"
                       {...register("receivedText", {
                         required: "This field is required",
                       })}
@@ -374,7 +315,7 @@ const ProfileSetting = () => {
                     <input
                       type="radio"
                       id="no"
-                      value="no"
+                      value="No"
                       {...register("receivedText", {
                         required: "This field is required",
                       })}
