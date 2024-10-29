@@ -6,8 +6,16 @@ import { useDispatch } from "react-redux";
 import { setUserData } from "../../../redux/slices/userSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import countryStateCityData from "./dependents/countryStateCityData.json";
 const ProfileSetting = () => {
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [states, setStates] = useState([]);
+  const [externalStates, setExternalStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [singleState, setSingleState] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const [timezone, setTimezone] = useState("");
+
   const email = localStorage.getItem("email");
   const token = localStorage.getItem("token");
   const user = useSelector((state) => state.user);
@@ -50,11 +58,9 @@ const ProfileSetting = () => {
     }
   };
 
-  // dob
   const validateAge = (value) => {
     const today = new Date();
-    const [month, day, year] = value.split("/");
-    const dob = new Date(`${year}-${month}-${day}`);
+    const dob = new Date(value); // Parses YYYY-MM-DD format directly
 
     if (dob > today) {
       return "Date of Birth cannot be in the future.";
@@ -65,9 +71,14 @@ const ProfileSetting = () => {
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
       age--;
     }
+
     if (age < 18) {
       return "A parent or legal guardian must create an account and add you as a dependent.";
     }
+    if (age > 100) {
+      return "Age can't be greater than 100 years.";
+    }
+
     return true;
   };
 
@@ -76,7 +87,87 @@ const ProfileSetting = () => {
     const day = String(today.getDate()).padStart(2, "0");
     const month = String(today.getMonth() + 1).padStart(2, "0");
     const year = today.getFullYear();
-    return `${month}/${day}/${year}`;
+    return `${year}-${month}-${day}`; // Output format adjusted for HTML date input
+  };
+
+  const formatPhoneNumber = (value) => {
+    // Remove all non-digit characters
+    const digits = value.replace(/\D/g, "");
+
+    // Format according to (XXX)-XXX-XXXX pattern
+    const part1 = digits.slice(0, 3);
+    const part2 = digits.slice(3, 6);
+    const part3 = digits.slice(6, 10);
+
+    if (part3) return `(${part1})-${part2}-${part3}`;
+    else if (part2) return `(${part1})-${part2}`;
+    else if (part1) return `(${part1}`;
+    return digits;
+  };
+  // dob
+  // const validateAge = (value) => {
+  //   const today = new Date();
+  //   const [month, day, year] = value.split("/");
+  //   const dob = new Date(`${year}-${month}-${day}`);
+
+  //   if (dob > today) {
+  //     return "Date of Birth cannot be in the future.";
+  //   }
+
+  //   let age = today.getFullYear() - dob.getFullYear();
+  //   const monthDiff = today.getMonth() - dob.getMonth();
+  //   if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+  //     age--;
+  //   }
+  //   if (age < 18) {
+  //     return "A parent or legal guardian must create an account and add you as a dependent.";
+  //   }
+  //   return true;
+  // };
+
+  // const getTodayDate = () => {
+  //   const today = new Date();
+  //   const day = String(today.getDate()).padStart(2, "0");
+  //   const month = String(today.getMonth() + 1).padStart(2, "0");
+  //   const year = today.getFullYear();
+  //   return `${month}/${day}/${year}`;
+  // };
+
+  const handleCountryChange = (event) => {
+    const country = event.target.value;
+    setSelectedCountry(country);
+    setStates(Object.keys(countryStateCityData[country].states));
+  };
+
+  // Function to handle state selection
+  const handleStateChange = (event) => {
+    const state = event.target.value;
+    setSingleState(state);
+    setStates(Object.keys(countryStateCityData[selectedCountry].states));
+    setExternalStates(
+      Object.keys(countryStateCityData[selectedCountry].states)
+    );
+    const selectedCities =
+      countryStateCityData[selectedCountry].states[state].cities;
+    setCities(Object.keys(selectedCities));
+  };
+
+  const handleCityChange = (event) => {
+    const city = event.target.value;
+    const currentZipCode =
+      countryStateCityData[selectedCountry].states[singleState].cities[city]
+        .zipcode;
+    setZipcode(currentZipCode);
+    const currentTimeZone =
+      countryStateCityData[selectedCountry].states[singleState].cities[city]
+        .timezone;
+    setTimezone(currentTimeZone);
+  };
+  const handleZipCodeChange = (event) => {
+    console.log(states);
+    console.log(cities);
+    const zipCode = event.target.value;
+    console.log(zipCode);
   };
 
   return (
@@ -209,7 +300,7 @@ const ProfileSetting = () => {
                   </p>
                 )}
               </div>
-              <div className="flex items-start justify-start w-full flex-col">
+              <div className=" flex items-start justify-start w-full flex-col">
                 <label
                   htmlFor="subscriberDateOfBirth"
                   className="float-left mr-auto font-semibold"
@@ -218,17 +309,28 @@ const ProfileSetting = () => {
                   <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.dateOfBirth}
+                  defaultValue={formData.dateOfBirth || ""}
                   type="date"
-                  pattern="\d{2}/\d{2}/\d{4}"
                   placeholder="MM/DD/YYYY"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  max={getTodayDate()}
+                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                  max={getTodayDate()} // Now in YYYY-MM-DD format
                   {...register("dateOfBirth", {
                     required: "Date of Birth is required",
                     validate: validateAge,
                   })}
                 />
+                {/* <input
+                  defaultValue={formData.dateOfBirth || ""}
+                  type="date"
+                  pattern="\d{2}/\d{2}/\d{4}"
+                  placeholder="MM/DD/YYYY"
+                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                  max={getTodayDate()}
+                  {...register("dateOfBirth", {
+                    required: "Date of Birth is required",
+                    validate: validateAge,
+                  })}
+                /> */}
                 {errors.dateOfBirth && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
                     {errors.dateOfBirth.message}
@@ -274,16 +376,21 @@ const ProfileSetting = () => {
                   Phone
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
+
                 <input
-                  defaultValue={"(123)123-1234"}
+                  defaultValue=""
                   type="tel"
                   placeholder="(XXX)-XXX-XXXX"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                   {...register("phone", {
                     required: "Phone number is required",
                     pattern: {
-                      value: /^[+]?[0-9]{10,14}$/,
-                      message: "Invalid phone number",
+                      value: /^\(\d{3}\)-\d{3}-\d{4}$/,
+                      message:
+                        "Phone number must be in the format (XXX)-XXX-XXXX",
+                    },
+                    onChange: (e) => {
+                      e.target.value = formatPhoneNumber(e.target.value);
                     },
                   })}
                 />
@@ -380,13 +487,15 @@ const ProfileSetting = () => {
                     required: "Subscriber State is required",
                   })}
                   defaultValue={user.country}
+                  onChange={handleCountryChange}
+
                   // disabled
                 >
-                  <option value="">Select Country</option>
-                  <option value="Alabama">Alabama</option>
-                  <option value="Alaska">Alaska</option>
-                  <option value="Arizona">Arizona</option>
-                  <option value="United States">United States</option>
+                  {Object.keys(countryStateCityData).map((country) => (
+                    <option key={country} value={country}>
+                      {country}
+                    </option>
+                  ))}
                 </select>
                 {errors.country && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -407,12 +516,18 @@ const ProfileSetting = () => {
                   {...register("state", {
                     required: "State is required",
                   })}
-                  value={"Arizona"}
+                  // value={"Arizona"}
+                  onChange={handleStateChange}
                 >
-                  <option value="">Select State</option>
-                  <option value="Alabama">Alabama</option>
-                  <option value="Aaska">Aaska</option>
-                  <option value="Arizona">Arizona</option>
+                  {states.length > 0 ? (
+                    states.map((state) => (
+                      <option key={state} value={state}>
+                        {state}
+                      </option>
+                    ))
+                  ) : (
+                    <option disabled>No states available</option>
+                  )}
                 </select>
                 {errors.state && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -436,11 +551,17 @@ const ProfileSetting = () => {
                   {...register("city", {
                     required: "City is required",
                   })}
+                  onChange={handleCityChange}
                 >
-                  <option value="">Select City</option>
-                  <option value="Alabama">Alabama</option>
-                  <option value="Aaska">Aaska</option>
-                  <option value="Arizona">Arizona</option>
+                  {cities.length > 0 ? (
+                    cities.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))
+                  ) : (
+                    <option disabled>No cities available</option>
+                  )}
                 </select>
                 {errors.city && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -462,11 +583,9 @@ const ProfileSetting = () => {
                     required: "Zip Code is required",
                   })}
                   defaultValue={formData.state}
+                  onChange={handleZipCodeChange}
                 >
-                  <option value="">Select Zip Code</option>
-                  <option value="Alabama">4800</option>
-                  <option value="Aaska">5320</option>
-                  <option value="Arizona">4120</option>
+                  <option value="zipCode">{zipcode}</option>
                 </select>
                 {errors.zipCode && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -491,10 +610,7 @@ const ProfileSetting = () => {
                     required: "Time Zone is required",
                   })}
                 >
-                  <option value="">Select State</option>
-                  <option value="Alabama">Alabama</option>
-                  <option value="Aaska">Aaska</option>
-                  <option value="Arizona">Arizona</option>
+                  <option value="zipCode">{timezone}</option>
                 </select>
                 {errors.timeZone && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
