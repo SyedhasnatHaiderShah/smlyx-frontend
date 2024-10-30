@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -20,16 +20,19 @@ const ProfileSetting = () => {
   const token = localStorage.getItem("token");
   const user = useSelector((state) => state.user);
   const userId = localStorage.getItem("id");
+
+  const [getProfile, setGetProfile] = useState({});
+  console.log(getProfile);
+  console.log(getProfile.gender);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({});
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
   } = useForm();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({});
-
   const onSubmit = async (data) => {
     setFormData(data);
     // console.log(data);
@@ -40,8 +43,10 @@ const ProfileSetting = () => {
     );
     try {
       const updatedData = { ...data, userId };
+      console.log(updatedData);
+
       await axios.patch(
-        `http://localhost:3000/profile/profileSetting`,
+        "http://localhost:3000/profile/profileSetting",
         updatedData,
         {
           headers: {
@@ -104,34 +109,6 @@ const ProfileSetting = () => {
     else if (part1) return `(${part1}`;
     return digits;
   };
-  // dob
-  // const validateAge = (value) => {
-  //   const today = new Date();
-  //   const [month, day, year] = value.split("/");
-  //   const dob = new Date(`${year}-${month}-${day}`);
-
-  //   if (dob > today) {
-  //     return "Date of Birth cannot be in the future.";
-  //   }
-
-  //   let age = today.getFullYear() - dob.getFullYear();
-  //   const monthDiff = today.getMonth() - dob.getMonth();
-  //   if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-  //     age--;
-  //   }
-  //   if (age < 18) {
-  //     return "A parent or legal guardian must create an account and add you as a dependent.";
-  //   }
-  //   return true;
-  // };
-
-  // const getTodayDate = () => {
-  //   const today = new Date();
-  //   const day = String(today.getDate()).padStart(2, "0");
-  //   const month = String(today.getMonth() + 1).padStart(2, "0");
-  //   const year = today.getFullYear();
-  //   return `${month}/${day}/${year}`;
-  // };
 
   const handleCountryChange = (event) => {
     const country = event.target.value;
@@ -170,6 +147,30 @@ const ProfileSetting = () => {
     console.log(zipCode);
   };
 
+  // get the profile
+
+  const getProfileById = async () => {
+    console.log(userId);
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/profile/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setGetProfile(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getProfileById();
+  }, []);
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5">
       <div className="flex items-center justify-center w-full flex-col rounded-lg container my-5">
@@ -182,6 +183,7 @@ const ProfileSetting = () => {
           </span>{" "}
           / Profile Setting
         </div>
+        {/* <button onClick={() => getProfileById()}>click me</button> */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex items-center justify-center flex-col w-full bg-white rounded-2xl p-5 container "
@@ -201,7 +203,7 @@ const ProfileSetting = () => {
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.firstName}
+                  defaultValue={getProfile.firstName}
                   type="text"
                   placeholder="First Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -223,7 +225,7 @@ const ProfileSetting = () => {
                   Middle Name
                 </label>
                 <input
-                  defaultValue={formData.middleName}
+                  defaultValue={getProfile.middleName}
                   type="text"
                   placeholder="Middle Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -239,7 +241,7 @@ const ProfileSetting = () => {
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.lastName}
+                  defaultValue={getProfile.lastName}
                   type="text"
                   placeholder="Last Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -309,7 +311,7 @@ const ProfileSetting = () => {
                   <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.dateOfBirth || ""}
+                  defaultValue={getProfile.dateOfBirth || ""}
                   type="date"
                   placeholder="MM/DD/YYYY"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -378,7 +380,7 @@ const ProfileSetting = () => {
                 </label>
 
                 <input
-                  defaultValue=""
+                  defaultValue={getProfile.phone}
                   type="tel"
                   placeholder="(XXX)-XXX-XXXX"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -415,6 +417,7 @@ const ProfileSetting = () => {
                         required: "This field is required",
                       })}
                       className="mr-2"
+                      defaultValue={getProfile.receivedText}
                     />
                     <label htmlFor="yes" className="mr-4 font-semibold">
                       Yes
@@ -446,7 +449,7 @@ const ProfileSetting = () => {
                   Address 1
                 </label>
                 <input
-                  defaultValue={formData.subscriberAddress}
+                  defaultValue={getProfile.addressOne}
                   type="text"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                   {...register("addressOne")}
@@ -461,7 +464,7 @@ const ProfileSetting = () => {
                   Address 2
                 </label>
                 <input
-                  defaultValue={formData.addressTwo}
+                  defaultValue={getProfile.addressTwo}
                   type="text"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                   {...register("addressTwo", {
@@ -483,7 +486,7 @@ const ProfileSetting = () => {
                 </label>
                 <select
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
-                  {...register("subscriberCountry", {
+                  {...register("country", {
                     required: "Subscriber State is required",
                   })}
                   defaultValue={user.country}
@@ -518,6 +521,7 @@ const ProfileSetting = () => {
                   })}
                   // value={"Arizona"}
                   onChange={handleStateChange}
+                  defaultValue={getProfile.state}
                 >
                   {states.length > 0 ? (
                     states.map((state) => (
@@ -552,6 +556,7 @@ const ProfileSetting = () => {
                     required: "City is required",
                   })}
                   onChange={handleCityChange}
+                  defaultValue={getProfile.city}
                 >
                   {cities.length > 0 ? (
                     cities.map((city) => (
@@ -582,10 +587,10 @@ const ProfileSetting = () => {
                   {...register("zipCode", {
                     required: "Zip Code is required",
                   })}
-                  defaultValue={formData.state}
+                  defaultValue={formData.zipCode}
                   onChange={handleZipCodeChange}
                 >
-                  <option value="zipCode">{zipcode}</option>
+                  <option value={zipcode}>{zipcode}</option>
                 </select>
                 {errors.zipCode && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -605,12 +610,13 @@ const ProfileSetting = () => {
                   Time Zone <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <select
+                  defaultValue={formData.timeZone}
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
                   {...register("timeZone", {
                     required: "Time Zone is required",
                   })}
                 >
-                  <option value="zipCode">{timezone}</option>
+                  <option value={timezone}>{timezone}</option>
                 </select>
                 {errors.timeZone && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
