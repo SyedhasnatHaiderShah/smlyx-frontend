@@ -56,7 +56,9 @@ const AuthWrapper = ({ children }) => {
         navigate("/login");
       }
     };
-    validateToken();
+
+    // temperarily its removing to see the dashbaord
+    // validateToken();
 
     fetchDependentsData();
   }, [navigate]);
