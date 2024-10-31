@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import DashboardNav from "./DashboardNav";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const InsuranceInformation = () => {
   const [formData, setFormData] = useState({});
-  // console.log(formData);
+  console.log(formData);
   const {
     register,
     handleSubmit,
@@ -14,12 +16,34 @@ const InsuranceInformation = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = (data) => {
-    const updatedData = { ...formData, ...data };
-    setFormData(updatedData);
 
-    // console.log("Form submitted:", updatedData);
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("id");
+  const onSubmit = async (data) => {
+    try {
+      const updatedData = { userId, ...data };
+
+      await axios.post("http://localhost:3000/insurance", updatedData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      toast.success("Insurance data submitted successfully");
+      console.log("Insurance data submitted successfully");
+    } catch (error) {
+      toast.error(
+        "Error submitting insurance data:",
+        error.response?.data || error.message
+      );
+      console.error(
+        "Error submitting insurance data:",
+        error.response?.data || error.message
+      );
+    }
   };
+
   const today = new Date().toISOString().split("T")[0];
 
   const validateAge = (value) => {
@@ -66,13 +90,13 @@ const InsuranceInformation = () => {
           >
             <div className=" flex items-start justify-start  flex-col md:w-1/2 w-full">
               <label
-                htmlFor="sameInsuranceForAllDependents"
+                htmlFor="insuranceForAll"
                 className="mr-2 text-base font-semibold"
               >
                 <input
                   type="checkbox"
-                  id="sameInsuranceForAllDependents"
-                  {...register("sameInsuranceForAllDependents")}
+                  id="insuranceForAll"
+                  {...register("insuranceForAll")}
                   className="mr-2"
                 />
                 Apply the same insurance to all dependents
@@ -126,12 +150,14 @@ const InsuranceInformation = () => {
                 })}
               >
                 <option value="">Select Relation</option>
-                <option value="Self">Self</option>
                 <option value="Spouse">Spouse</option>
+                <option value="Self">Self</option>
                 <option value="Child">Child</option>
+                <option value="Child">Employee</option>
+                <option value="Dependent">Handicapped Dependent</option>
                 <option value="Dependent">Dependent</option>
-                <option value="Parent">Parent</option>
-                <option value="Other">Other</option>
+                <option value="Dependent">Significant Other</option>
+                <option value="Parent">Injured Plaintiff</option>
               </select>
               {errors.relation && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
