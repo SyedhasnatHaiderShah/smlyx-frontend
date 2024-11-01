@@ -10,9 +10,6 @@ import { useSelector } from "react-redux";
 
 export default function TransitionsModal({ setImageUploaded }) {
   const id = localStorage.getItem("id");
-  console.log(typeof id);
-  const idTypeChangedtoNumber = Number(id);
-  console.log(idTypeChangedtoNumber);
   // Getting user data from Redux store
   const [formData, setFormData] = useState({
     userId: id,
@@ -128,11 +125,14 @@ export default function TransitionsModal({ setImageUploaded }) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>
-        <button className="bg-primarybg text-white px-5 rounded-full py-2">
-          + Add Upload
-        </button>
-      </Button>
+      {/* <Button onClick={handleOpen}> */}
+      <button
+        className="bg-primarybg text-white px-5 rounded-full py-2 z-0"
+        onClick={handleOpen}
+      >
+        + Add Upload
+      </button>
+      {/* </Button> */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

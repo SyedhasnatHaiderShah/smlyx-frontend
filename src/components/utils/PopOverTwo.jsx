@@ -3,11 +3,7 @@ import Popover from "@mui/material/Popover";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
 
-export default function BasicPopover({
-  btn,
-  patientInfoData,
-  handleMenuToggle,
-}) {
+export default function BasicPopover({ patientInfoData, handleMenuToggle }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -67,10 +63,7 @@ export default function BasicPopover({
               horizontal: "left",
             }}
           >
-            <div
-              className=" w-[200px] bg-[#7a4c97] text-white shadow-md min-h-16 flex
-         items-center justify-centerop p-5  flex-col gap-2 rounded text-sm"
-            >
+            <div className=" w-[200px] bg-[#7a4c97] text-white shadow-md min-h-16 flex items-center justify-center p-5  flex-col gap-2 rounded text-sm">
               {item.detail.map((item2, index2) => (
                 <div
                   key={index2}
@@ -78,7 +71,7 @@ export default function BasicPopover({
                   onClick={handleMenuToggle}
                 >
                   <p
-                    className=" hover:underline cursor-pointer    font-medium "
+                    className=" hover:underline cursor-pointer    font-medium  "
                     onClick={() => handleItemClick(item2)}
                   >
                     {item2.title}
