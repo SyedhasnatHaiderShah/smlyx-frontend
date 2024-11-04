@@ -8,7 +8,11 @@ import AutorenewIcon from "@mui/icons-material/Autorenew";
 import AddUpdateInsurance from "./AddUpdateInsurance";
 import { useRef } from "react";
 import SignatureCanvas from "react-signature-canvas";
+import { useSelector } from "react-redux";
 const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
+  const users = useSelector((state) => state.dependents.currentUser);
+  console.log(users.map((item) => item.firstName));
+
   const {
     register,
     handleSubmit,
@@ -152,10 +156,15 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
               {...register("patient", { required: "Patient is required" })}
               // onChange={handlePatientChange}
             >
-              <option value="">Select Patient</option>
+              {users.map((user) => (
+                <option key={user.id} value={user.firstName}>
+                  {user.firstName}
+                </option>
+              ))}
+              {/* <option value="">Select Patient</option>
               <option value="user1">user1</option>
               <option value="user2">user2</option>
-              <option value="user3">user3</option>
+              <option value="user3">user3</option> */}
             </select>
             {errors.patient && (
               <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -165,7 +174,7 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
           </div>
         </form>
         <p
-          className=" underline text-sm text-gray-400 font-medium cursor-pointer"
+          className=" underline text-sm text-gray-400 font-medium cursor-pointer py-2"
           onClick={() => setShowDependent(!showDependent)}
         >
           + Add Dependent
@@ -323,14 +332,15 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                   )}
                 </div>
               </div>
-              <div className=" flex items-center justify-center my-5"></div>
-              <button
-                className=" border rounded-full px-8 py-2 bg-primarybg text-white "
-                type="submit"
-                //   onClick={(e) => e.preventDefault()}
-              >
-                Add Dependent
-              </button>
+              <div className=" flex items-center justify-center my-5">
+                <button
+                  className=" border rounded-full px-8 py-2 bg-primarybg text-white "
+                  type="submit"
+                  //   onClick={(e) => e.preventDefault()}
+                >
+                  Add Dependent
+                </button>
+              </div>
             </form>
           </div>
         )}
@@ -359,8 +369,8 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
             </p>
           )}
         </div>
-        <div className=" flex items-start justify-start w-full gap-3">
-          <div className=" bg-[#e0c84b]  w-10 h-6 rounded-full flex items-center justify-center  ">
+        <div className=" flex items-start justify-start w-full gap-3 py-3">
+          <div className=" bg-[#e0c84b]  w-10 py-2 rounded-full flex items-center justify-center  ">
             <PriorityHighIcon fontSize="" className=" text-white" />
           </div>
           <p className=" text-gray-500 font-semibold ">

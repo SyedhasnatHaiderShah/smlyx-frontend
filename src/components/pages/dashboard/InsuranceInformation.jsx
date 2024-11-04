@@ -23,7 +23,7 @@ const InsuranceInformation = () => {
     try {
       const updatedData = { userId, ...data };
 
-      await axios.post("http://localhost:3000/insurance", updatedData, {
+      await axios.patch("http://localhost:3000/insurance", updatedData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -72,6 +72,28 @@ const InsuranceInformation = () => {
     return `${month}/${day}/${year}`;
   };
 
+  const getInsuranceById = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/insurance/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Authorization header
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log(response.data);
+      setFormData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getInsuranceById();
+  }, []);
   return (
     <div className=" bg-[#eeeeee]  w-full flex items-center justify-start flex-col rounded-2xl md:px-12 px-5 ">
       <div className=" flex items-start justify-start gap-5 flex-col w-full container bg-white px-5 md:px-10 xl:px-16 rounded-lg py-10">
@@ -98,6 +120,7 @@ const InsuranceInformation = () => {
                   id="insuranceForAll"
                   {...register("insuranceForAll")}
                   className="mr-2"
+                  defaultChecked={formData.insuranceForAll || false}
                 />
                 Apply the same insurance to all dependents
               </label>
@@ -148,6 +171,7 @@ const InsuranceInformation = () => {
                 {...register("relation", {
                   required: "Relation is required",
                 })}
+                defaultValue={formData.relation}
               >
                 <option value="">Select Relation</option>
                 <option value="Spouse">Spouse</option>
@@ -175,7 +199,7 @@ const InsuranceInformation = () => {
                   <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.firstName}
+                  defaultValue={formData.subscriberFirstName}
                   type="text"
                   placeholder="Subscriber First Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -198,7 +222,7 @@ const InsuranceInformation = () => {
                   <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.lastName}
+                  defaultValue={formData.subscriberLastName}
                   type="text"
                   placeholder="Subscriber Last Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -229,6 +253,7 @@ const InsuranceInformation = () => {
                         {...register("subscriberGender", {
                           required: "Please select an option.",
                         })}
+                        defaultChecked={formData.subscriberGender === "Male"}
                       />
                       Male
                     </label>
@@ -239,6 +264,7 @@ const InsuranceInformation = () => {
                         {...register("subscriberGender", {
                           required: "Please select an option.",
                         })}
+                        defaultChecked={formData.subscriberGender === "Female"}
                       />
                       Female
                     </label>

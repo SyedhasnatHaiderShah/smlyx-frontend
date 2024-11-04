@@ -121,29 +121,37 @@ const DependentsHome = () => {
 
         {/* fetch user data edit here */}
         <div className=" bg-white rounded-xl px-5 py-5 w-full">
-          {userData.map((data) => (
-            <div key={data.id} className=" flex flex-col w-full gap-5 ">
-              <div
-                className="flex items-center justify-between min-h-12 border p-5 font-bold cursor-pointer text-sm"
-                onClick={() => handleEdit(data.id)}
-              >
-                <p className=" ">{data.firstName}</p>
-                <div className=" flex items-center justify-end w-1/2 gap-1">
-                  <div className=" px-5 py-1 bg-primarybg text-white rounded-full">
-                    Edit
+          {userData.length > 0 ? (
+            userData.map((data) => (
+              <div key={data.id} className=" flex flex-col w-full gap-5 ">
+                <div
+                  className="flex items-center justify-between min-h-12 border p-5 font-bold cursor-pointer text-sm"
+                  onClick={() => handleEdit(data.id)}
+                >
+                  <p className=" ">{data.firstName}</p>
+                  <div className=" flex items-center justify-end w-1/2 gap-1">
+                    <div className=" px-5 py-1 bg-primarybg text-white rounded-full">
+                      Edit
+                    </div>
+                    <HiChevronDown className=" text-primarybg text-xl" />
                   </div>
-                  <HiChevronDown className=" text-primarybg text-xl" />
                 </div>
+                {currentEditUserId === data.id && (
+                  // edit dependents component here
+                  <EditInsurance
+                    fetchData={data}
+                    setCurrentEditUserId={setCurrentEditUserId}
+                  />
+                )}
               </div>
-              {currentEditUserId === data.id && (
-                // edit dependents component here
-                <EditInsurance
-                  fetchData={data}
-                  setCurrentEditUserId={setCurrentEditUserId}
-                />
-              )}
+            ))
+          ) : (
+            <div className=" w-full bg-white rounded-2xl flex items-center justify-center p-5 ">
+              <p className=" text-3xl font-bold text-gray-500">
+                No dependents found!
+              </p>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

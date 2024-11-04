@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddUpdateInsurance = () => {
+  const userId = localStorage.getItem("id");
+  const token = localStorage.getItem("token");
   const [formData, setFormData] = useState({});
   console.log(formData);
   const {
@@ -12,11 +16,32 @@ const AddUpdateInsurance = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = (data) => {
-    const updatedData = { ...formData, ...data };
-    setFormData(updatedData);
+  const onSubmit = async (data) => {
+    // const updatedData = { ...formData, ...data };
+    // setFormData(updatedData);
 
-    // console.log("Form submitted:", updatedData);
+    try {
+      const updatedData = { userId, ...data };
+
+      await axios.patch("http://localhost:3000/insurance", updatedData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      toast.success("Insurance data submitted successfully");
+      console.log("Insurance data submitted successfully");
+    } catch (error) {
+      toast.error(
+        "Error submitting insurance data:",
+        error.response?.data || error.message
+      );
+      console.error(
+        "Error submitting insurance data:",
+        error.response?.data || error.message
+      );
+    }
   };
   const today = new Date().toISOString().split("T")[0];
 

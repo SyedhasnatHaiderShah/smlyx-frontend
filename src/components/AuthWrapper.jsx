@@ -26,12 +26,15 @@ const AuthWrapper = ({ children }) => {
       );
 
       // console.log(response.data);
+      dispatch(setCurrentUser());
       // dispatch(setDependentsData(response.data));
       dispatch(setCurrentUser(response.data));
     } catch (error) {
       console.log(error.message);
     }
   };
+
+  // fetch all the dependents
 
   useEffect(() => {
     const validateToken = async () => {
@@ -58,7 +61,7 @@ const AuthWrapper = ({ children }) => {
     };
 
     // temperarily its removing to see the dashbaord
-    // validateToken();
+    validateToken();
 
     fetchDependentsData();
   }, [navigate]);
