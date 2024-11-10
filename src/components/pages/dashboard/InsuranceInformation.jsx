@@ -23,6 +23,7 @@ const InsuranceInformation = () => {
     try {
       const updatedData = { userId, ...data };
 
+      console.log(updatedData);
       await axios.patch("http://localhost:3000/insurance", updatedData, {
         headers: {
           "Content-Type": "application/json",
@@ -78,13 +79,13 @@ const InsuranceInformation = () => {
         `http://localhost:3000/insurance/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Authorization header
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
       );
 
-      console.log(response.data);
+      // console.log(response.data);
       setFormData(response.data);
     } catch (error) {
       console.log(error);

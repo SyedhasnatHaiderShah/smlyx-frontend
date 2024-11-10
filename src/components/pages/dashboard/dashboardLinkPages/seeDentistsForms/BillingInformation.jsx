@@ -10,11 +10,13 @@ import {
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { useNavigate } from "react-router-dom";
 import { countries } from "./countries.js";
+import { toast } from "react-toastify";
 
 // Load your Stripe publishable key
 const stripePromise = loadStripe("your-publishable-key-here");
 
-const PaymentForm = () => {
+const PaymentForm = ({ goNext }) => {
+  const email = localStorage.getItem("email");
   const [formData, setFormData] = useState({});
   const [cvc, setCvc] = useState("");
   // console.log(formData);
@@ -94,9 +96,13 @@ const PaymentForm = () => {
 
     if (error) {
       console.error(error);
+      toast.error(error.message);
     } else {
       console.log(paymentMethod);
       // Handle successful payment method creation
+      console.log(data);
+      toast.success("Payment method created");
+      goNext();
     }
   };
 
@@ -122,7 +128,7 @@ const PaymentForm = () => {
                 Email
               </label>
               <input
-                defaultValue={formData.email || ""}
+                defaultValue={email || ""}
                 placeholder="Enter your email"
                 type="email"
                 id="email"
@@ -253,7 +259,11 @@ const PaymentForm = () => {
             <button
               type="submit"
               className="w-full bg-[#605fa4] text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium hover:bg-primarybg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 ease-in-out"
-              disabled={!stripe}
+              // disabled={!stripe}
+              onClick={
+                () => saveData()
+                // goNext();
+              }
             >
               Save card
             </button>
@@ -268,10 +278,10 @@ const PaymentForm = () => {
   );
 };
 
-const BillingInformation = () => {
+const BillingInformation = ({ goNext, saveData }) => {
   return (
     <Elements stripe={stripePromise}>
-      <PaymentForm />
+      <PaymentForm goNext={goNext} saveData={saveData} />
     </Elements>
   );
 };

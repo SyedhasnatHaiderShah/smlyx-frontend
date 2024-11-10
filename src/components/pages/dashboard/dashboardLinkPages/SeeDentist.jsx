@@ -8,9 +8,11 @@ import { useState } from "react";
 import SelectPharmacy from "./seeDentistsForms/SelectPharmacy";
 import ReviewSubmit from "./seeDentistsForms/ReviewSubmit";
 import BillingInformation from "./seeDentistsForms/BillingInformation";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const ProgressBar = ({ currentStep }) => {
-  const totalSteps = 4;
+  const totalSteps = 3;
   const progressPercentage = (currentStep / totalSteps) * 100;
 
   return (
@@ -21,19 +23,19 @@ const ProgressBar = ({ currentStep }) => {
       >
         {currentStep === 1 ? (
           <p className=" text-xs md:text-sm w-full flex items-center justify-center">
-            Step 1 Visit Details
+            Step 1/{totalSteps} Visit Details
           </p>
         ) : currentStep === 2 ? (
           <p className=" text-xs  md:text-sm w-full flex items-center justify-center">
-            Step 2 Select pharmacy
+            Step 2/{totalSteps} Select pharmacy
           </p>
         ) : currentStep === 3 ? (
           <p className=" text-xs md:text-sm w-full flex items-center justify-center">
-            Step 3 Review Pharmacy
+            Step 3/{totalSteps} Review Pharmacy
           </p>
         ) : (
           <p className=" text-xs md:text-sm w-full flex items-center justify-center">
-            Step 4 Billing Information
+            Step 4/{totalSteps} Billing Information
           </p>
         )}
       </div>
@@ -42,9 +44,10 @@ const ProgressBar = ({ currentStep }) => {
 };
 
 const SeeDentist = () => {
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("id");
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
-  const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
   console.log(formData);
   const {
@@ -52,28 +55,52 @@ const SeeDentist = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    const updatedData = { ...formData, ...data };
-    setFormData(updatedData);
 
-    if (step < 4) {
-      setStep(step + 1);
-    } else {
-      // console.log("Form submitted:", updatedData);
-      navigate("/dashboard");
+  const onSubmit = async (data) => {
+    try {
+      if (step < 3) {
+        setStep(step + 1);
+      } else {
+        const updatedData = { userId, ...formData, ...data };
+        console.log(updatedData);
+        setFormData(updatedData);
+        await axios.post("http://localhost:3000/seeDentist", updatedData, {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        toast.success("Dentist added successfully");
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error.response.data.message);
     }
   };
-  const dataCollection = () => {
-    const updatedData = { ...formData, formData };
-    setFormData(updatedData);
-
-    if (step < 4) {
-      setStep(step + 1);
-    } else {
-      // console.log("Form submitted:", updatedData);
-    }
-  };
-
+  // const onSubmit = async (data) => {
+  //   if (step < 3) {
+  //     setStep(step + 1);
+  //   } else {
+  //     try {
+  //       const updatedData = { userid, ...formData, ...data };
+  //       console.log(updatedData);
+  //       setFormData(updatedData);
+  //       await axios.post("http://localhost:3000/dentists/create", updatedData, {
+  //         headers: {
+  //           "Content-Type": "Application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       toast.success("Dentist added successfully");
+  //     } catch (error) {
+  //       toast.error(error.response.data.message);
+  //     }
+  //     alert("Dentist added successfully");
+  //     // console.log("Form submitted:", updatedData);
+  //     navigate("/dashboard");
+  //   }
+  // };
   const goBack = () => {
     if (step === 1) {
       return null;
@@ -82,7 +109,7 @@ const SeeDentist = () => {
     }
   };
   const goNext = () => {
-    if (step === 4) {
+    if (step === 3) {
       return null;
     } else {
       setStep(step + 1);
@@ -118,7 +145,7 @@ const SeeDentist = () => {
           {step === 3 && (
             <ReviewSubmit
               register={register}
-              handleSubmit={handleSubmit(onSubmit)}
+              startVisit={handleSubmit(onSubmit)}
               formData={formData}
               errors={errors}
               setFormData={setFormData}
@@ -126,32 +153,37 @@ const SeeDentist = () => {
               goNext={goNext}
             />
           )}
-          {step === 4 && (
+          {/* {step === 4 && (
             <BillingInformation
               register={register}
-              handleSubmit={handleSubmit(onSubmit)}
+              saveData={handleSubmit(onSubmit)}
               formData={formData}
               errors={errors}
               setFormData={setFormData}
               goBack={goBack}
               goNext={goNext}
             />
+          )} */}
+        </div>
+        {/* <div className=" flex items-center justify-center gap-5 h-28">
+          {step > 1 && (
+            <button
+              className=" bg-[#605fa4] text-white text-sm font-bold px-5 py-3 rounded-full"
+              onClick={goBack}
+            >
+              Back
+            </button>
           )}
-        </div>
-        <div className=" flex items-center justify-center gap-5 h-28">
-          <button
-            className=" bg-[#605fa4] text-white text-sm font-bold px-5 py-3 rounded-full"
-            onClick={goBack}
-          >
-            Back
-          </button>
-          <button
-            className=" bg-[#605fa4] text-white text-sm font-bold px-5 py-3 rounded-full"
-            onClick={goNext}
-          >
-            Skip
-          </button>
-        </div>
+
+          {step <= 3 && (
+            <button
+              className=" bg-[#605fa4] text-white text-sm font-bold px-5 py-3 rounded-full"
+              onClick={goNext}
+            >
+              Skip
+            </button>
+          )}
+        </div> */}
       </div>
     </div>
   );

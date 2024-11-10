@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
+import countryStateCityData from "../../../dashboard/dependents/countryStateCityData.json";
 
 const AddUpdateInsurance = () => {
   const userId = localStorage.getItem("id");
   const token = localStorage.getItem("token");
   const [formData, setFormData] = useState({});
-  console.log(formData);
+  // console.log(formData);
   const {
     register,
     handleSubmit,
@@ -23,6 +24,7 @@ const AddUpdateInsurance = () => {
     try {
       const updatedData = { userId, ...data };
 
+      // console.log(updatedData);
       await axios.patch("http://localhost:3000/insurance", updatedData, {
         headers: {
           "Content-Type": "application/json",
@@ -70,6 +72,67 @@ const AddUpdateInsurance = () => {
     const year = today.getFullYear();
     return `${month}/${day}/${year}`;
   };
+
+  // states
+  const handleCountryChange = (event) => {
+    const country = event.target.value;
+    setSelectedCountry(country);
+    setStates(Object.keys(countryStateCityData[country].states));
+  };
+
+  // Function to handle state selection
+  const handleStateChange = (event) => {
+    const state = event.target.value;
+    setSingleState(state);
+    setStates(Object.keys(countryStateCityData[selectedCountry].states));
+    setExternalStates(
+      Object.keys(countryStateCityData[selectedCountry].states)
+    );
+    const selectedCities =
+      countryStateCityData[selectedCountry].states[state].cities;
+    setCities(Object.keys(selectedCities));
+  };
+
+  const handleCityChange = (event) => {
+    const city = event.target.value;
+    const currentZipCode =
+      countryStateCityData[selectedCountry].states[singleState].cities[city]
+        .zipcode;
+    setZipcode(currentZipCode);
+    const currentTimeZone =
+      countryStateCityData[selectedCountry].states[singleState].cities[city]
+        .timezone;
+    setTimezone(currentTimeZone);
+  };
+  const handleZipCodeChange = (event) => {
+    console.log(states);
+    console.log(cities);
+    const zipCode = event.target.value;
+    console.log(zipCode);
+  };
+
+  const getInsuranceById = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/insurance/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // console.log(response.data);
+      setFormData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getInsuranceById();
+  }, []);
 
   return (
     <div className=" bg-[#eeeeee]  w-full flex items-center justify-start flex-col rounded-2xl md:px-12 p-5  ">
@@ -141,12 +204,14 @@ const AddUpdateInsurance = () => {
                 })}
               >
                 <option value="">Select Relation</option>
-                <option value="Self">Self</option>
                 <option value="Spouse">Spouse</option>
+                <option value="Self">Self</option>
                 <option value="Child">Child</option>
+                <option value="Child">Employee</option>
+                <option value="Dependent">Handicapped Dependent</option>
                 <option value="Dependent">Dependent</option>
-                <option value="Parent">Parent</option>
-                <option value="Other">Other</option>
+                <option value="Dependent">Significant Other</option>
+                <option value="Parent">Injured Plaintiff</option>
               </select>
               {errors.relation && (
                 <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -164,7 +229,7 @@ const AddUpdateInsurance = () => {
                   <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.firstName}
+                  defaultValue={formData.subscriberFirstName}
                   type="text"
                   placeholder="Subscriber First Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -187,7 +252,7 @@ const AddUpdateInsurance = () => {
                   <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={formData.lastName}
+                  defaultValue={formData.subscriberLastName}
                   type="text"
                   placeholder="Subscriber Last Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"

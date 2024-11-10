@@ -123,7 +123,7 @@ const SelectPharmacy = ({ formData, setFormData, goBack, goNext }) => {
                 </label>
                 <select
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary text-heading text-sm font-bold"
-                  {...register("state")}
+                  {...register("pharmacyState")}
                 >
                   <option value="">Select State</option>
                   <option value="Alabama">Alabama</option>
@@ -145,7 +145,7 @@ const SelectPharmacy = ({ formData, setFormData, goBack, goNext }) => {
                 </label>
                 <select
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary text-heading text-sm font-bold"
-                  {...register("city")}
+                  {...register("pharmacyCity")}
                 >
                   <option value="">Select City</option>
                   <option value="Birmingham">Birmingham</option>
@@ -167,7 +167,7 @@ const SelectPharmacy = ({ formData, setFormData, goBack, goNext }) => {
                 </label>
                 <select
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary text-heading text-sm font-bold"
-                  {...register("zip")}
+                  {...register("pharmacyZip")}
                 >
                   <option value="">Select Zip</option>
                   <option value="35201">35201</option>

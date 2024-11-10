@@ -15,7 +15,6 @@ const InsuranceProfile = ({
   setFormData,
   setExternalStates,
 }) => {
-  // const [profileImage, setProfileImage] = useState(null);
   const firstName = watch("firstName", "");
   const lastName = watch("lastName", "");
   const [filePreview, setFilePreview] = useState(null);
@@ -69,26 +68,6 @@ const InsuranceProfile = ({
     return `${firstInitial}${lastInitial}`;
   };
 
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file && file.size <= 1048576) {
-  //     // Check file size (1MB = 1048576 bytes)
-  //     const reader = new FileReader();
-  //     console.log(reader.result);
-  //     reader.onloadend = () => {
-  //       setProfileImage(reader.result);
-  //       setFormData((prev) => ({
-  //         ...prev,
-  //         profilePictureUrl: reader.result,
-  //       }));
-  //       console.log(formData);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   } else {
-  //     alert("File should be smaller than 1MB");
-  //   }
-  // };
-
   const handleImageRemove = () => {
     setFormData((prevData) => ({
       ...prevData,
@@ -96,10 +75,6 @@ const InsuranceProfile = ({
     }));
     setFilePreview(null);
     document.getElementById("fileInput").value = "";
-    // console.log("Image removed");
-    // setProfileImage(null);
-    // Reset file input value
-    // document.getElementById("profilePicture").value = "";
   };
   // dob
   const validateAge = (value) => {
@@ -151,16 +126,6 @@ const InsuranceProfile = ({
       file: selectedFile,
     }));
   };
-
-  // const handleFileRemove = () => {
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     file: null,
-  //   }));
-  //   setFilePreview(null);
-  //   setIsPDF(false);
-  //   document.getElementById("fileInput").value = "";
-  // };
 
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5">
