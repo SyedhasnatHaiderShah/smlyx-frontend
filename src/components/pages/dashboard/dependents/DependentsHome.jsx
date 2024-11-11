@@ -6,10 +6,11 @@ import InsuranceInfo from "./InsuranceInfo";
 import { useForm } from "react-hook-form";
 import MyDependents from "./MyDependents";
 import EditInsurance from "./EditInsurance";
-import { HiChevronDown } from "react-icons/hi";
+import { HiChevronDoubleUp, HiChevronDown, HiTrash } from "react-icons/hi";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setDependentsData } from "../../../../redux/slices/dependentsSlice";
+import { toast } from "react-toastify";
 
 const DependentsHome = () => {
   const dispatch = useDispatch();
@@ -50,10 +51,36 @@ const DependentsHome = () => {
     }
   };
 
+  // handle edit the dependent
   const handleEdit = (userId) => {
     setCurrentEditUserId((prevUserId) =>
       prevUserId === userId ? null : userId
     );
+  };
+
+  // handle delete the dependent
+  // handle delete the dependent
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/dependents/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      // Update local state to remove the deleted dependent
+      setUserData((prevData) =>
+        prevData.filter((dependent) => dependent.id !== id)
+      );
+      dispatch(
+        setDependentsData(userData.filter((dependent) => dependent.id !== id))
+      );
+      console.log(`Dependent with ID ${id} has been deleted successfully.`);
+      toast.success("Dependent deleted successfully");
+    } catch (error) {
+      toast.error("Error deleting dependent");
+      console.error("Error deleting dependent:", error.message);
+    }
   };
 
   const fetchDependentsData = async () => {
@@ -125,15 +152,30 @@ const DependentsHome = () => {
             userData.map((data) => (
               <div key={data.id} className=" flex flex-col w-full gap-5 ">
                 <div
-                  className="flex items-center justify-between min-h-12 border p-5 font-bold cursor-pointer text-sm"
-                  onClick={() => handleEdit(data.id)}
+                  className={`flex items-center justify-between min-h-12 border p-5 font-bold cursor-pointer text-sm hover:bg-slate-200 duration-300 ease-in-out rounded-lg  ${
+                    currentEditUserId === data.id ? "bg-slate-200" : ""
+                  }`}
                 >
-                  <p className=" ">{data.firstName}</p>
+                  <p className=" ">
+                    {data.firstName}
+                    {""} {data.lastName}
+                  </p>
                   <div className=" flex items-center justify-end w-1/2 gap-1">
-                    <div className=" px-5 py-1 bg-primarybg text-white rounded-full">
-                      Edit
+                    <div
+                      className=" px-4 py-1 bg-red-500 text-white rounded-full flex items-center gap-1 cursor-pointer"
+                      onClick={() => handleDelete(data.id)}
+                    >
+                      Delete
+                      {/* delete icon */}
+                      <HiTrash className="text-white text-xl w-4" />
                     </div>
-                    <HiChevronDown className=" text-primarybg text-xl" />
+                    <div
+                      className=" px-5 py-1 bg-primarybg text-white rounded-full flex items-center gap-1 cursor-pointer"
+                      onClick={() => handleEdit(data.id)}
+                    >
+                      Edit
+                      <HiChevronDown className=" text-white text-xl" />
+                    </div>
                   </div>
                 </div>
                 {currentEditUserId === data.id && (

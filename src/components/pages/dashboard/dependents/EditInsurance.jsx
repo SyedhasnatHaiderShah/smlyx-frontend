@@ -51,7 +51,7 @@ const EditInsurance = ({ fetchData, setCurrentEditUserId }) => {
           }
         );
 
-        // console.log("Form submitted and data updated:", response.data);
+        console.log("Form submitted and data updated:", response.data);
         // Optionally navigate to a different page after successful submission
         toast.success("Dependent updated successfully");
         setCurrentEditUserId(null);

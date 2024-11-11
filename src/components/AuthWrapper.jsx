@@ -26,7 +26,7 @@ const AuthWrapper = ({ children }) => {
       );
 
       // console.log(response.data);
-      dispatch(setCurrentUser());
+      // dispatch(setCurrentUser());
       // dispatch(setDependentsData(response.data));
       dispatch(setCurrentUser(response.data));
     } catch (error) {

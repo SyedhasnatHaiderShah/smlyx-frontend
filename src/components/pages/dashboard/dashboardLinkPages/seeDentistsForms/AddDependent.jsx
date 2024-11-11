@@ -1,15 +1,41 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 const AddDependent = () => {
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("id");
+  console.log(userId);
   const [formData, setFormData] = useState({});
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
     setFormData(data);
+
+    try {
+      // console.log(updatedData);
+      const updatedData = { userId, ...data };
+      await axios.post(
+        "http://localhost:3000/dependents/create",
+        updatedData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+        // headers: { "Content-Type": "multipart/form-data" },
+      );
+      toast.success("Dependents added successfully");
+      setFormData({});
+    } catch (error) {
+      console.error("Error submitting the form:", error);
+      toast.error("Error submitting the form");
+    }
   };
 
   const validateAge = (value) => {
@@ -100,7 +126,7 @@ const AddDependent = () => {
             </label>
             <select
               className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-semibold"
-              {...register("relation", {
+              {...register("dependentRelation", {
                 required: "Relation is required",
               })}
             >
@@ -114,9 +140,9 @@ const AddDependent = () => {
               <option value="Friend">Friend</option>
               <option value="Other">Other</option>
             </select>
-            {errors.relation && (
+            {errors.dependentRelation && (
               <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                {errors.relation.message}
+                {errors.dependentRelation.message}
               </p>
             )}
           </div>

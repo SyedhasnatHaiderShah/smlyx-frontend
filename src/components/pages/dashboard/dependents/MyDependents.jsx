@@ -27,38 +27,81 @@ const MyDependents = ({ setShowAddDependents }) => {
   } = useForm();
   const navigate = useNavigate();
   const onSubmit = async (data) => {
-    // console.log(data);
     const userId = localStorage.getItem("id");
-    console.log(userId);
-    // console.log(typeof userId);
-    const updatedData = { userId, ...data, file: formData.file };
-    // setFormData(updatedData);
-    // console.log(updatedData);
+    const token = localStorage.getItem("token");
+
+    // Prepare the data payload without FormData
+    const payload = {
+      userId,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      emergencyContactPhoneNumber: data.emergencyContactPhoneNumber,
+      dependentRelation: data.dependentRelation,
+      gender: data.gender,
+      dateOfBirth: data.dateOfBirth,
+      primaryAddress: data.primaryAddress,
+      secondaryAddress: data.secondaryAddress,
+      country: data.country,
+      state: data.state,
+      city: data.city,
+      zipCode: data.zipCode,
+      timeZone: data.timeZone,
+      haveInsurance: data.haveInsurance,
+    };
+
+    // Check if there’s a file to upload
 
     if (data.haveInsurance === "Yes" && step < 2) {
       setStep(step + 1);
     } else {
-      // console.log("Form submitted:", updatedData);
-      try {
-        // console.log(updatedData);
-        const response = await axios.post(
-          "http://localhost:3000/dependents/create",
-          updatedData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-          // headers: { "Content-Type": "multipart/form-data" },
+      if (data.file) {
+        // If a file is present, create FormData for file upload
+        const formData = new FormData();
+        Object.keys(payload).forEach((key) =>
+          formData.append(key, payload[key])
         );
-        console.log("Form submitted successfully:", response.data);
-        toast.success("Dependents added successfully");
-        setFormData({});
-        setShowAddDependents(false);
-      } catch (error) {
-        console.error("Error submitting the form:", error);
-        toast.error("Error submitting the form");
+        formData.append("file", data.file);
+
+        try {
+          const response = await axios.post(
+            "http://localhost:3000/dependents/create",
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log("Form submitted successfully:", response.data);
+          toast.success("Dependents added successfully");
+          setFormData({}); // Reset form data after successful submission
+          setShowAddDependents(false);
+        } catch (error) {
+          console.error("Error submitting the form:", error);
+          toast.error("Error submitting the form");
+        }
+      } else {
+        // If no file, send JSON data
+        try {
+          const response = await axios.post(
+            "http://localhost:3000/dependents/create",
+            payload,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log("Form submitted successfully:", response.data);
+          toast.success("Dependents added successfully");
+          setFormData({}); // Reset form data after successful submission
+          setShowAddDependents(false);
+        } catch (error) {
+          console.error("Error submitting the form:", error);
+          toast.error("Error submitting the form");
+        }
       }
     }
   };
