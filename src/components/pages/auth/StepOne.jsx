@@ -185,14 +185,14 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
                 defaultValue={formData.phone}
                 type="tel"
                 maxLength={14}
-                pattern="^[+]?[0-9]{10,14}$"
+                pattern="^\(\d{3}\)-\d{3}-\d{4}$"
                 placeholder="(XXX)-XXX-XXXX"
                 onInput={handlePhoneChange}
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                 {...register("phone", {
                   required: "Phone number is required",
                   validate: (value) => {
-                    const cleanedValue = value.replace(/\D/g, ""); // Remove formatting
+                    const cleanedValue = value.replace(/\D/g, "");
                     return (
                       cleanedValue.length === 10 ||
                       "Phone number must be 10 digits"
