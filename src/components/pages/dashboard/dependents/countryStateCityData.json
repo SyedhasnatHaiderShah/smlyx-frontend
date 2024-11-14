@@ -34,6 +34,14 @@
           "San Diego": {
             "zipcode": "92101",
             "timezone": "Pacific Standard Time (PST)"
+          },
+          "Sacramento": {
+            "zipcode": "94203",
+            "timezone": "Pacific Standard Time (PST)"
+          },
+          "Fresno": {
+            "zipcode": "93701",
+            "timezone": "Pacific Standard Time (PST)"
           }
         }
       },
@@ -50,6 +58,14 @@
           "Rochester": {
             "zipcode": "14601",
             "timezone": "Eastern Standard Time (EST)"
+          },
+          "Syracuse": {
+            "zipcode": "13201",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Albany": {
+            "zipcode": "12201",
+            "timezone": "Eastern Standard Time (EST)"
           }
         }
       },
@@ -65,6 +81,58 @@
           },
           "Austin": {
             "zipcode": "73301",
+            "timezone": "Central Standard Time (CST)"
+          },
+          "San Antonio": {
+            "zipcode": "78201",
+            "timezone": "Central Standard Time (CST)"
+          },
+          "Fort Worth": {
+            "zipcode": "76101",
+            "timezone": "Central Standard Time (CST)"
+          }
+        }
+      },
+      "Florida": {
+        "cities": {
+          "Miami": {
+            "zipcode": "33101",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Orlando": {
+            "zipcode": "32801",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Tampa": {
+            "zipcode": "33601",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Jacksonville": {
+            "zipcode": "32201",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Tallahassee": {
+            "zipcode": "32301",
+            "timezone": "Eastern Standard Time (EST)"
+          }
+        }
+      },
+      "Illinois": {
+        "cities": {
+          "Chicago": {
+            "zipcode": "60601",
+            "timezone": "Central Standard Time (CST)"
+          },
+          "Aurora": {
+            "zipcode": "60505",
+            "timezone": "Central Standard Time (CST)"
+          },
+          "Naperville": {
+            "zipcode": "60540",
+            "timezone": "Central Standard Time (CST)"
+          },
+          "Peoria": {
+            "zipcode": "61601",
             "timezone": "Central Standard Time (CST)"
           }
         }
@@ -86,6 +154,14 @@
           "Mississauga": {
             "zipcode": "L5A",
             "timezone": "Eastern Standard Time (EST)"
+          },
+          "Brampton": {
+            "zipcode": "L6P",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Hamilton": {
+            "zipcode": "L8P",
+            "timezone": "Eastern Standard Time (EST)"
           }
         }
       },
@@ -101,6 +177,14 @@
           },
           "Surrey": {
             "zipcode": "V3R",
+            "timezone": "Pacific Standard Time (PST)"
+          },
+          "Richmond": {
+            "zipcode": "V6X",
+            "timezone": "Pacific Standard Time (PST)"
+          },
+          "Burnaby": {
+            "zipcode": "V5A",
             "timezone": "Pacific Standard Time (PST)"
           }
         }
@@ -118,6 +202,58 @@
           "Laval": {
             "zipcode": "H7A",
             "timezone": "Eastern Standard Time (EST)"
+          },
+          "Gatineau": {
+            "zipcode": "J8T",
+            "timezone": "Eastern Standard Time (EST)"
+          },
+          "Sherbrooke": {
+            "zipcode": "J1G",
+            "timezone": "Eastern Standard Time (EST)"
+          }
+        }
+      },
+      "Alberta": {
+        "cities": {
+          "Calgary": {
+            "zipcode": "T2P",
+            "timezone": "Mountain Standard Time (MST)"
+          },
+          "Edmonton": {
+            "zipcode": "T5J",
+            "timezone": "Mountain Standard Time (MST)"
+          },
+          "Red Deer": {
+            "zipcode": "T4N",
+            "timezone": "Mountain Standard Time (MST)"
+          },
+          "Lethbridge": {
+            "zipcode": "T1J",
+            "timezone": "Mountain Standard Time (MST)"
+          },
+          "Fort McMurray": {
+            "zipcode": "T9H",
+            "timezone": "Mountain Standard Time (MST)"
+          }
+        }
+      },
+      "Nova Scotia": {
+        "cities": {
+          "Halifax": {
+            "zipcode": "B3H",
+            "timezone": "Atlantic Standard Time (AST)"
+          },
+          "Dartmouth": {
+            "zipcode": "B2W",
+            "timezone": "Atlantic Standard Time (AST)"
+          },
+          "Sydney": {
+            "zipcode": "B1P",
+            "timezone": "Atlantic Standard Time (AST)"
+          },
+          "Truro": {
+            "zipcode": "B2N",
+            "timezone": "Atlantic Standard Time (AST)"
           }
         }
       }
@@ -138,6 +274,18 @@
           "Manchester": {
             "zipcode": "M1",
             "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Liverpool": {
+            "zipcode": "L1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Leeds": {
+            "zipcode": "LS1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Bristol": {
+            "zipcode": "BS1",
+            "timezone": "Greenwich Mean Time (GMT)"
           }
         }
       },
@@ -153,6 +301,46 @@
           },
           "Aberdeen": {
             "zipcode": "AB1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Dundee": {
+            "zipcode": "DD1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Inverness": {
+            "zipcode": "IV1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          }
+        }
+      },
+      "Wales": {
+        "cities": {
+          "Cardiff": {
+            "zipcode": "CF10",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Swansea": {
+            "zipcode": "SA1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Newport": {
+            "zipcode": "NP10",
+            "timezone": "Greenwich Mean Time (GMT)"
+          }
+        }
+      },
+      "Northern Ireland": {
+        "cities": {
+          "Belfast": {
+            "zipcode": "BT1",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Derry": {
+            "zipcode": "BT48",
+            "timezone": "Greenwich Mean Time (GMT)"
+          },
+          "Lisburn": {
+            "zipcode": "BT28",
             "timezone": "Greenwich Mean Time (GMT)"
           }
         }
@@ -174,6 +362,14 @@
           "Central Coast": {
             "zipcode": "2250",
             "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Wollongong": {
+            "zipcode": "2500",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Coffs Harbour": {
+            "zipcode": "2450",
+            "timezone": "Australian Eastern Standard Time (AEST)"
           }
         }
       },
@@ -190,6 +386,70 @@
           "Ballarat": {
             "zipcode": "3350",
             "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Bendigo": {
+            "zipcode": "3550",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Shepparton": {
+            "zipcode": "3630",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          }
+        }
+      },
+      "Queensland": {
+        "cities": {
+          "Brisbane": {
+            "zipcode": "4000",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Gold Coast": {
+            "zipcode": "4217",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Cairns": {
+            "zipcode": "4870",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Townsville": {
+            "zipcode": "4810",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          },
+          "Mackay": {
+            "zipcode": "4740",
+            "timezone": "Australian Eastern Standard Time (AEST)"
+          }
+        }
+      },
+      "South Australia": {
+        "cities": {
+          "Adelaide": {
+            "zipcode": "5000",
+            "timezone": "Australian Central Standard Time (ACST)"
+          },
+          "Mount Gambier": {
+            "zipcode": "5290",
+            "timezone": "Australian Central Standard Time (ACST)"
+          },
+          "Whyalla": {
+            "zipcode": "5600",
+            "timezone": "Australian Central Standard Time (ACST)"
+          }
+        }
+      },
+      "Western Australia": {
+        "cities": {
+          "Perth": {
+            "zipcode": "6000",
+            "timezone": "Australian Western Standard Time (AWST)"
+          },
+          "Bunbury": {
+            "zipcode": "6230",
+            "timezone": "Australian Western Standard Time (AWST)"
+          },
+          "Geraldton": {
+            "zipcode": "6530",
+            "timezone": "Australian Western Standard Time (AWST)"
           }
         }
       }
@@ -210,6 +470,14 @@
           "Augsburg": {
             "zipcode": "86150",
             "timezone": "Central European Time (CET)"
+          },
+          "Regensburg": {
+            "zipcode": "93047",
+            "timezone": "Central European Time (CET)"
+          },
+          "Würzburg": {
+            "zipcode": "97070",
+            "timezone": "Central European Time (CET)"
           }
         }
       },
@@ -218,6 +486,382 @@
           "Berlin": {
             "zipcode": "10115",
             "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "North Rhine-Westphalia": {
+        "cities": {
+          "Cologne": {
+            "zipcode": "50667",
+            "timezone": "Central European Time (CET)"
+          },
+          "Düsseldorf": {
+            "zipcode": "40210",
+            "timezone": "Central European Time (CET)"
+          },
+          "Dortmund": {
+            "zipcode": "44135",
+            "timezone": "Central European Time (CET)"
+          },
+          "Essen": {
+            "zipcode": "45326",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Hesse": {
+        "cities": {
+          "Frankfurt": {
+            "zipcode": "60311",
+            "timezone": "Central European Time (CET)"
+          },
+          "Wiesbaden": {
+            "zipcode": "65183",
+            "timezone": "Central European Time (CET)"
+          },
+          "Darmstadt": {
+            "zipcode": "64283",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Baden-Württemberg": {
+        "cities": {
+          "Stuttgart": {
+            "zipcode": "70173",
+            "timezone": "Central European Time (CET)"
+          },
+          "Karlsruhe": {
+            "zipcode": "76131",
+            "timezone": "Central European Time (CET)"
+          },
+          "Mannheim": {
+            "zipcode": "68159",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      }
+    }
+  },
+  "France": {
+    "states": {
+      "Île-de-France": {
+        "cities": {
+          "Paris": {
+            "zipcode": "75001",
+            "timezone": "Central European Time (CET)"
+          },
+          "Versailles": {
+            "zipcode": "78000",
+            "timezone": "Central European Time (CET)"
+          },
+          "Boulogne-Billancourt": {
+            "zipcode": "92100",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Provence-Alpes-Côte d'Azur": {
+        "cities": {
+          "Marseille": {
+            "zipcode": "13001",
+            "timezone": "Central European Time (CET)"
+          },
+          "Nice": {
+            "zipcode": "06000",
+            "timezone": "Central European Time (CET)"
+          },
+          "Toulon": {
+            "zipcode": "83000",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Auvergne-Rhône-Alpes": {
+        "cities": {
+          "Lyon": {
+            "zipcode": "69001",
+            "timezone": "Central European Time (CET)"
+          },
+          "Grenoble": {
+            "zipcode": "38000",
+            "timezone": "Central European Time (CET)"
+          },
+          "Saint-Étienne": {
+            "zipcode": "42000",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Occitanie": {
+        "cities": {
+          "Toulouse": {
+            "zipcode": "31000",
+            "timezone": "Central European Time (CET)"
+          },
+          "Montpellier": {
+            "zipcode": "34000",
+            "timezone": "Central European Time (CET)"
+          },
+          "Nîmes": {
+            "zipcode": "30000",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      }
+    }
+  },
+  "Italy": {
+    "states": {
+      "Lazio": {
+        "cities": {
+          "Rome": {
+            "zipcode": "00100",
+            "timezone": "Central European Time (CET)"
+          },
+          "Tivoli": {
+            "zipcode": "00010",
+            "timezone": "Central European Time (CET)"
+          },
+          "Frosinone": {
+            "zipcode": "03100",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Lombardy": {
+        "cities": {
+          "Milan": {
+            "zipcode": "20100",
+            "timezone": "Central European Time (CET)"
+          },
+          "Brescia": {
+            "zipcode": "25100",
+            "timezone": "Central European Time (CET)"
+          },
+          "Monza": {
+            "zipcode": "20900",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Tuscany": {
+        "cities": {
+          "Florence": {
+            "zipcode": "50100",
+            "timezone": "Central European Time (CET)"
+          },
+          "Siena": {
+            "zipcode": "53100",
+            "timezone": "Central European Time (CET)"
+          },
+          "Pisa": {
+            "zipcode": "56100",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Campania": {
+        "cities": {
+          "Naples": {
+            "zipcode": "80100",
+            "timezone": "Central European Time (CET)"
+          },
+          "Salerno": {
+            "zipcode": "84100",
+            "timezone": "Central European Time (CET)"
+          },
+          "Caserta": {
+            "zipcode": "81100",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      }
+    }
+  },
+  "Spain": {
+    "states": {
+      "Andalusia": {
+        "cities": {
+          "Seville": {
+            "zipcode": "41001",
+            "timezone": "Central European Time (CET)"
+          },
+          "Malaga": {
+            "zipcode": "29001",
+            "timezone": "Central European Time (CET)"
+          },
+          "Granada": {
+            "zipcode": "18001",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Catalonia": {
+        "cities": {
+          "Barcelona": {
+            "zipcode": "08001",
+            "timezone": "Central European Time (CET)"
+          },
+          "Girona": {
+            "zipcode": "17001",
+            "timezone": "Central European Time (CET)"
+          },
+          "Tarragona": {
+            "zipcode": "43001",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Madrid": {
+        "cities": {
+          "Madrid": {
+            "zipcode": "28001",
+            "timezone": "Central European Time (CET)"
+          },
+          "Alcalá de Henares": {
+            "zipcode": "28801",
+            "timezone": "Central European Time (CET)"
+          },
+          "Getafe": {
+            "zipcode": "28901",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      },
+      "Valencia": {
+        "cities": {
+          "Valencia": {
+            "zipcode": "46001",
+            "timezone": "Central European Time (CET)"
+          },
+          "Alicante": {
+            "zipcode": "03001",
+            "timezone": "Central European Time (CET)"
+          },
+          "Castellón de la Plana": {
+            "zipcode": "12001",
+            "timezone": "Central European Time (CET)"
+          }
+        }
+      }
+    }
+  },
+  "United Arab Emirates": {
+    "states": {
+      "Abu Dhabi": {
+        "cities": {
+          "Abu Dhabi": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Al Ain": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Liwa": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Sila": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          }
+        }
+      },
+      "Dubai": {
+        "cities": {
+          "Dubai": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Jumeirah": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Deira": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Al Barsha": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Downtown Dubai": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          }
+        }
+      },
+      "Sharjah": {
+        "cities": {
+          "Sharjah": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Khalidiyah": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Al Nahda": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Al Qasimia": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          }
+        }
+      },
+      "Ajman": {
+        "cities": {
+          "Ajman": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Masfout": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          }
+        }
+      },
+      "Umm Al-Quwain": {
+        "cities": {
+          "Umm Al-Quwain": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          }
+        }
+      },
+      "Fujairah": {
+        "cities": {
+          "Fujairah": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Dibba": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Al Badiyah": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          }
+        }
+      },
+      "Ras Al Khaimah": {
+        "cities": {
+          "Ras Al Khaimah": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Khor Fakkan": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
+          },
+          "Al Rams": {
+            "zipcode": "00000",
+            "timezone": "Gulf Standard Time (GST)"
           }
         }
       }

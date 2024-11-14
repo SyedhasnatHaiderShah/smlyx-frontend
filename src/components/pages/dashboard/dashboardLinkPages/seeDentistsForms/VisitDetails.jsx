@@ -175,8 +175,8 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
               // onChange={handlePatientChange}
             >
               {users.map((user) => (
-                <option key={user.id} value={user.firstName}>
-                  {user.firstName}
+                <option key={user.id} value={(user.firstName, user.lastName)}>
+                  {user.firstName} {""} {user.lastName}
                 </option>
               ))}
               {/* <option value="">Select Patient</option>
@@ -915,7 +915,7 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                     className=" text-sm font-semibold text-primarybg underline cursor-pointer"
                     onClick={() => navigate("/privacy-practices")}
                   >
-                    Dental.com, LLC Notice of Privacy Practices
+                    Smlyx.com, LLC Notice of Privacy Practices
                   </p>
 
                   {/* signature */}

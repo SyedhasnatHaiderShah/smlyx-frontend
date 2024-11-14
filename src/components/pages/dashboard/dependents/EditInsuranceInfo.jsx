@@ -15,11 +15,23 @@ const EditInsuranceInfo = ({
   // dob
   const validateAge = (value) => {
     const today = new Date();
-    const [month, day, year] = value.split("/");
-    const dob = new Date(`${year}-${month}-${day}`);
+    const dob = new Date(value); // No need to split, as input type="date" gives YYYY-MM-DD
 
     if (dob > today) {
       return "Date of Birth cannot be in the future.";
+    }
+
+    if (value === "") {
+      return "Date of Birth is required.";
+    }
+
+    // Compare the dob date and today's date to prevent today's date
+    if (
+      dob.getDate() === today.getDate() &&
+      dob.getMonth() === today.getMonth() &&
+      dob.getFullYear() === today.getFullYear()
+    ) {
+      return "Date of Birth cannot be today.";
     }
 
     let age = today.getFullYear() - dob.getFullYear();
@@ -27,20 +39,21 @@ const EditInsuranceInfo = ({
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
       age--;
     }
+
     if (age < 18) {
       return "A parent or legal guardian must create an account and add you as a dependent.";
     }
+
     return true;
   };
 
   const getTodayDate = () => {
     const today = new Date();
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0");
     const year = today.getFullYear();
-    return `${month}/${day}/${year}`;
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`; // Return in YYYY-MM-DD format
   };
-
   return (
     <div className=" bg-white w-full flex items-center justify-start flex-col rounded-2xl py-6 md:px-12 px-5 container">
       <div className=" flex items-center justify-center gap-0 flex-col w-full">
@@ -72,7 +85,6 @@ const EditInsuranceInfo = ({
                   required: "Dental Insurance Carrier is required",
                 })}
                 defaultValue={fetchData.dentalInsuranceCarrier}
-                defaultChecked={fetchData.dentalInsuranceCarrier}
               >
                 <option value="">Select Insurance Carrier</option>
                 <option value="Delta Dental">Delta Dental</option>
@@ -102,7 +114,6 @@ const EditInsuranceInfo = ({
               </label>
               <select
                 defaultValue={fetchData.patientRelation}
-                defaultChecked={fetchData.patientRelation}
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
                 {...register("patientRelation", {
                   required: "Relation is required",
@@ -133,7 +144,7 @@ const EditInsuranceInfo = ({
                 <span className=" text-red-500 text-xl"> *</span>
               </label>
               <input
-                defaultValue={fetchData.subscriberFirstName}
+                defaultValue={fetchData.subscriberFirstName || ""}
                 type="text"
                 placeholder="Subscriber First Name"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -156,7 +167,7 @@ const EditInsuranceInfo = ({
                 <span className=" text-red-500 text-xl"> *</span>
               </label>
               <input
-                defaultValue={fetchData.subscriberLastName}
+                defaultValue={fetchData.subscriberLastName || ""}
                 type="text"
                 placeholder="Subscriber Last Name"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -182,8 +193,7 @@ const EditInsuranceInfo = ({
                 <div className="radio-options flex items-start justify-center gap-5 w-full">
                   <label className="radio-option text-base font-semibold">
                     <input
-                      defaultChecked={fetchData.subscriberGender}
-                      defaultValue={fetchData.subscriberGender}
+                      defaultValue={fetchData.subscriberGender || ""}
                       type="radio"
                       value="Male"
                       {...register("subscriberGender", {
@@ -199,6 +209,7 @@ const EditInsuranceInfo = ({
                       {...register("subscriberGender", {
                         required: "Please select an option.",
                       })}
+                      defaultValue={fetchData.subscriberGender || ""}
                     />
                     Female
                   </label>
@@ -232,10 +243,10 @@ const EditInsuranceInfo = ({
               <input
                 defaultValue={fetchData.subscriberDateOfBirth}
                 type="date"
+                max={getTodayDate()}
                 pattern="\d{2}/\d{2}/\d{4}"
                 placeholder="MM/DD/YYYY"
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                max={getTodayDate()}
                 {...register("subscriberDateOfBirth", {
                   required: "Subscriber Date of Birth is required",
                   validate: validateAge,
@@ -447,14 +458,11 @@ const EditInsuranceInfo = ({
               // disabled={errors ? true : false}
               onClick={handleSubmit}
             >
-              Next
+              Save
             </button>
           </div>
         </form>
       </div>
-      <p className="  text-base font-medium " onClick={goNext}>
-        Skip
-      </p>
     </div>
   );
 };

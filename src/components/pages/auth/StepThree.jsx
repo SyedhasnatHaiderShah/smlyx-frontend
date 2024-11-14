@@ -162,8 +162,8 @@ const StepThree = ({
           )}
         </div>
 
-        <div className="w-full my-5">
-          <div className="flex items-baseline justify-center w-full flex-col md:flex-row py-5">
+        <div className="w-full my-5 px-5">
+          <div className="flex items-baseline justify-center w-full flex-col md:flex-row py-5 gap-2">
             <input
               type="checkbox"
               name="newsLetter"

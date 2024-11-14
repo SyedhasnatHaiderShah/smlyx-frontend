@@ -12,10 +12,23 @@ const StepTwo = ({
 
   const validateAge = (value) => {
     const today = new Date();
-    const dob = new Date(value);
+    const dob = new Date(value); // No need to split, as input type="date" gives YYYY-MM-DD
 
     if (dob > today) {
       return "Date of Birth cannot be in the future.";
+    }
+
+    if (value === "") {
+      return "Date of Birth is required.";
+    }
+
+    // Compare the dob date and today's date to prevent today's date
+    if (
+      dob.getDate() === today.getDate() &&
+      dob.getMonth() === today.getMonth() &&
+      dob.getFullYear() === today.getFullYear()
+    ) {
+      return "Date of Birth cannot be today.";
     }
 
     let age = today.getFullYear() - dob.getFullYear();
@@ -23,17 +36,20 @@ const StepTwo = ({
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
       age--;
     }
+
     if (age < 18) {
       return "A parent or legal guardian must create an account and add you as a dependent.";
     }
+
     return true;
   };
+
   const getTodayDate = () => {
     const today = new Date();
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0");
     const year = today.getFullYear();
-    return `${month}/${day}/${year}`;
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`; // Return in YYYY-MM-DD format
   };
 
   return (
@@ -535,9 +551,6 @@ const StepTwo = ({
           </button>
         </div>
       </div>
-      {/* <p className="  text-base font-medium " onClick={goNext}>
-        Skip
-      </p> */}
     </div>
   );
 };

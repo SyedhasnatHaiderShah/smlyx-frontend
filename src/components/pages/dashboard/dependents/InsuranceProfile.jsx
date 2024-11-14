@@ -79,11 +79,23 @@ const InsuranceProfile = ({
   // dob
   const validateAge = (value) => {
     const today = new Date();
-    const [month, day, year] = value.split("/");
-    const dob = new Date(`${year}-${month}-${day}`);
+    const dob = new Date(value); // No need to split, as input type="date" gives YYYY-MM-DD
 
     if (dob > today) {
       return "Date of Birth cannot be in the future.";
+    }
+
+    if (value === "") {
+      return "Date of Birth is required.";
+    }
+
+    // Compare the dob date and today's date to prevent today's date
+    if (
+      dob.getDate() === today.getDate() &&
+      dob.getMonth() === today.getMonth() &&
+      dob.getFullYear() === today.getFullYear()
+    ) {
+      return "Date of Birth cannot be today.";
     }
 
     let age = today.getFullYear() - dob.getFullYear();
@@ -91,20 +103,21 @@ const InsuranceProfile = ({
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
       age--;
     }
+
     if (age < 18) {
       return "A parent or legal guardian must create an account and add you as a dependent.";
     }
+
     return true;
   };
 
   const getTodayDate = () => {
     const today = new Date();
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0");
     const year = today.getFullYear();
-    return `${month}/${day}/${year}`;
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`; // Return in YYYY-MM-DD format
   };
-
   // handle imagechange
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -127,6 +140,30 @@ const InsuranceProfile = ({
     }));
   };
 
+  const formatPhoneNumber = (value) => {
+    // Remove all non-numeric characters
+    const cleanedValue = value.replace(/\D/g, "");
+
+    // Limit to 10 digits
+    const limitedValue = cleanedValue.slice(0, 10);
+
+    // Format as (XXX)-XXX-XXXX
+    if (limitedValue.length <= 3) {
+      return `(${limitedValue}`;
+    } else if (limitedValue.length <= 6) {
+      return `(${limitedValue.slice(0, 3)})-${limitedValue.slice(3)}`;
+    } else {
+      return `(${limitedValue.slice(0, 3)})-${limitedValue.slice(
+        3,
+        6
+      )}-${limitedValue.slice(6)}`;
+    }
+  };
+
+  const handlePhoneChange = (event) => {
+    const formattedValue = formatPhoneNumber(event.target.value);
+    event.target.value = formattedValue;
+  };
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5">
       {/* <DashboardNav /> */}
@@ -268,13 +305,19 @@ const InsuranceProfile = ({
                 <input
                   defaultValue={formData.emergencyContactPhoneNumber || ""}
                   type="tel"
-                  placeholder="(XXX)XXX-XXXX"
+                  maxLength={14} // 3 for area code, 3 for prefix, 4 for line number, 1 for hyphens
+                  pattern="^\(\d{3}\)-\d{3}-\d{4}$" // Matches (XXX)-XXX-XXXX format
+                  placeholder="(XXX)-XXX-XXXX"
+                  onInput={handlePhoneChange} // Format the phone number while typing
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                   {...register("emergencyContactPhoneNumber", {
                     required: "Phone number is required",
-                    pattern: {
-                      value: /^[+]?[0-9]{10,14}$/,
-                      message: "Invalid phone number",
+                    validate: (value) => {
+                      const cleanedValue = value.replace(/\D/g, ""); // Remove formatting for validation
+                      return (
+                        cleanedValue.length === 10 ||
+                        "Phone number must be 10 digits"
+                      );
                     },
                   })}
                 />
@@ -507,8 +550,8 @@ const InsuranceProfile = ({
                   onChange={handleCityChange}
                 >
                   {cities.length > 0 ? (
-                    cities.map((city) => (
-                      <option key={city} value={city}>
+                    cities.map((city, index) => (
+                      <option key={index} value={city}>
                         {city}
                       </option>
                     ))
@@ -538,7 +581,7 @@ const InsuranceProfile = ({
                   defaultValue={formData.zipCode}
                   onChange={handleZipCodeChange}
                 >
-                  <option value="zipCode">{zipcode}</option>
+                  <option value={zipcode}>{zipcode}</option>
                 </select>
                 {errors.zipCode && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
@@ -563,7 +606,7 @@ const InsuranceProfile = ({
                     required: "Time Zone is required",
                   })}
                 >
-                  <option value="zipCode">{timezone}</option>
+                  <option value={timezone}>{timezone}</option>
 
                   {/* {timezone.length > 0 ? (
                     cities.map((city) => (
@@ -622,12 +665,6 @@ const InsuranceProfile = ({
                 type="submit"
               >
                 Next
-              </button>
-              <button
-                className="bg-primarybg font-medium text-white rounded-full py-1 "
-                onClick={goNext}
-              >
-                skip
               </button>
             </div>
           </div>

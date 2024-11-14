@@ -17,7 +17,11 @@ const ProgressBar = ({ currentStep }) => {
       <div
         className="h-6 rounded-full bg-gradient-to-r from-primarybg via- to-primary"
         style={{ width: `${progressPercentage}%` }}
-      />
+      >
+        <p className=" w-full flex items-center justify-center text-white font-bold">
+          Step {currentStep} / 3
+        </p>
+      </div>
     </div>
   );
 };
@@ -95,7 +99,12 @@ const SignUp = () => {
   };
 
   const goBack = () => {
-    setStep(step - 1);
+    if (formData.insurance === "No" && step > 1) {
+      setStep(step - 2);
+      return;
+    } else {
+      setStep(step - 1);
+    }
   };
   const goNext = () => {
     setStep(step + 1);

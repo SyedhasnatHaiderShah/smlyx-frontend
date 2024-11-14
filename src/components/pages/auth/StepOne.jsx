@@ -7,11 +7,23 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
   // dob
   const validateAge = (value) => {
     const today = new Date();
-    const [month, day, year] = value.split("/");
-    const dob = new Date(`${year}-${month}-${day}`);
+    const dob = new Date(value); // No need to split, as input type="date" gives YYYY-MM-DD
 
     if (dob > today) {
       return "Date of Birth cannot be in the future.";
+    }
+
+    if (value === "") {
+      return "Date of Birth is required.";
+    }
+
+    // Compare the dob date and today's date to prevent today's date
+    if (
+      dob.getDate() === today.getDate() &&
+      dob.getMonth() === today.getMonth() &&
+      dob.getFullYear() === today.getFullYear()
+    ) {
+      return "Date of Birth cannot be today.";
     }
 
     let age = today.getFullYear() - dob.getFullYear();
@@ -19,18 +31,46 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
       age--;
     }
+
     if (age < 18) {
       return "A parent or legal guardian must create an account and add you as a dependent.";
     }
+
     return true;
   };
 
   const getTodayDate = () => {
     const today = new Date();
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0");
     const year = today.getFullYear();
-    return `${month}/${day}/${year}`;
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`; // Return in YYYY-MM-DD format
+  };
+
+  // for the telephone
+  const formatPhoneNumber = (value) => {
+    // Remove all non-numeric characters
+    const cleanedValue = value.replace(/\D/g, "");
+
+    // Limit to 10 digits
+    const limitedValue = cleanedValue.slice(0, 10);
+
+    // Format as (XXX)-XXX-XXXX
+    if (limitedValue.length <= 3) {
+      return `(${limitedValue}`;
+    } else if (limitedValue.length <= 6) {
+      return `(${limitedValue.slice(0, 3)})-${limitedValue.slice(3)}`;
+    } else {
+      return `(${limitedValue.slice(0, 3)})-${limitedValue.slice(
+        3,
+        6
+      )}-${limitedValue.slice(6)}`;
+    }
+  };
+
+  const handlePhoneChange = (event) => {
+    const formattedValue = formatPhoneNumber(event.target.value);
+    event.target.value = formattedValue;
   };
 
   return (
@@ -144,13 +184,19 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
               <input
                 defaultValue={formData.phone}
                 type="tel"
+                maxLength={14}
+                pattern="^[+]?[0-9]{10,14}$"
                 placeholder="(XXX)-XXX-XXXX"
+                onInput={handlePhoneChange}
                 className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                 {...register("phone", {
                   required: "Phone number is required",
-                  pattern: {
-                    value: /^[+]?[0-9]{10,14}$/,
-                    message: "Invalid phone number",
+                  validate: (value) => {
+                    const cleanedValue = value.replace(/\D/g, ""); // Remove formatting
+                    return (
+                      cleanedValue.length === 10 ||
+                      "Phone number must be 10 digits"
+                    );
                   },
                 })}
               />
@@ -162,9 +208,9 @@ const StepOne = ({ register, handleSubmit, errors, formData, goNext }) => {
             </div>
           </div>
           {/* checkbox */}
-          <div className=" flex items-center justify-center md:flex-row flex-col w-full gap-5 my-2">
+          <div className=" flex items-center justify-center md:flex-row flex-col w-full md:w-1/2  md:ml-auto md:float-right  gap-5 my-2 px-5">
             <div className=" flex items-end justify-end w-full flex-col">
-              <div className=" md:w-1/2 w-full flex items-start justify-start gap-2 md:mb-3 mb-0">
+              <div className="  w-full flex items-start justify-start gap-2 md:mb-3 mb-0">
                 <input
                   type="checkbox"
                   {...register("receiveText", {

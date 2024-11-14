@@ -16,7 +16,7 @@ const EditInsuranceProfile = ({
   setFormData,
   setExternalStates,
 }) => {
-  // console.log(fetchData);
+  console.log(fetchData);
   // country, state, city, zipcode, timezone dynamically selet options state
   const [selectedCountry, setSelectedCountry] = useState("");
   const [states, setStates] = useState([]);
@@ -34,52 +34,17 @@ const EditInsuranceProfile = ({
   };
 
   const handleStateChange = (event) => {
-    const state = event.target.value; // Selected state
-    // console.log("Selected state:", state);
-
-    // Update the selected state
+    const state = event.target.value;
     setSingleState(state);
-
-    // Set the list of states for the selected country
     setStates(Object.keys(countryStateCityData[selectedCountry].states));
     setExternalStates(
       Object.keys(countryStateCityData[selectedCountry].states)
     );
-    // Extract the cities for the selected state
     const selectedCities =
       countryStateCityData[selectedCountry].states[state].cities;
-
-    // Log and set the cities
-    // console.log("Selected cities:", selectedCities);
     setCities(Object.keys(selectedCities)); // Get city names as keys
-
-    // Optional: You can further log or use the cities and their details as needed
-    Object.keys(selectedCities).forEach((city) => {
-      // console.log(`City: ${city}, Details: `, selectedCities[city]);
-    });
+    Object.keys(selectedCities).forEach((city) => {});
   };
-
-  // // Function to handle state selection
-  // const handleStateChange = (event) => {
-  //   const state = event.target.value;
-  //   console.log(state);
-  //   setSingleState(state);
-  //   setStates(Object.keys(countryStateCityData[selectedCountry].states));
-  //   console.log(states);
-  //   setExternalStates(
-  //     Object.keys(countryStateCityData[selectedCountry].states)
-  //   );
-  //   const allCities = states.map((state) => {
-  //     return states[state].cities;
-  //   });
-  //   console.log(allCities);
-  //   console.log(Object.keys(allCities));
-
-  //   const selectedCities =
-  //     countryStateCityData[selectedCountry].states[state].cities;
-  //   console.log(selectedCities);
-  //   setCities(Object.keys(selectedCities));
-  // };
 
   const handleCityChange = (event) => {
     const city = event.target.value;
@@ -106,23 +71,17 @@ const EditInsuranceProfile = ({
   };
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      file: selectedFile,
+    }));
     console.log(selectedFile);
-    // Get the selected file
-    // Create a preview URL
     setProfileImage(URL.createObjectURL(selectedFile));
-
-    // Read the file as base64 (if you need this for further processing)
     const reader = new FileReader();
     reader.onloadend = () => {
       setFilePreview(reader.result);
     };
     reader.readAsDataURL(selectedFile);
-
-    // Update formData state with the selected file
-    setFormData((prevData) => ({
-      ...prevData,
-      file: selectedFile,
-    }));
   };
   const handleImageRemove = () => {
     setFormData((prevData) => ({
@@ -140,11 +99,23 @@ const EditInsuranceProfile = ({
   // dob
   const validateAge = (value) => {
     const today = new Date();
-    const [month, day, year] = value.split("/");
-    const dob = new Date(`${year}-${month}-${day}`);
+    const dob = new Date(value); // No need to split, as input type="date" gives YYYY-MM-DD
 
     if (dob > today) {
       return "Date of Birth cannot be in the future.";
+    }
+
+    if (value === "") {
+      return "Date of Birth is required.";
+    }
+
+    // Compare the dob date and today's date to prevent today's date
+    if (
+      dob.getDate() === today.getDate() &&
+      dob.getMonth() === today.getMonth() &&
+      dob.getFullYear() === today.getFullYear()
+    ) {
+      return "Date of Birth cannot be today.";
     }
 
     let age = today.getFullYear() - dob.getFullYear();
@@ -152,32 +123,55 @@ const EditInsuranceProfile = ({
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
       age--;
     }
+
     if (age < 18) {
       return "A parent or legal guardian must create an account and add you as a dependent.";
     }
+
     return true;
   };
 
   const getTodayDate = () => {
     const today = new Date();
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0");
     const year = today.getFullYear();
-    return `${month}/${day}/${year}`;
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`; // Return in YYYY-MM-DD format
   };
 
   const getDefaultDate = () => {
     return "01/01/2000"; // or any default date in MM/DD/YYYY format
   };
 
-  // Function to get the default date value (example: '2023-01-01')
-  // const getDefaultDate = () => {
-  //   return "1990-01-01";
-  // };
+  const formatPhoneNumber = (value) => {
+    // Remove all non-numeric characters
+    const cleanedValue = value.replace(/\D/g, "");
+
+    // Limit to 10 digits
+    const limitedValue = cleanedValue.slice(0, 10);
+
+    // Format as (XXX)-XXX-XXXX
+    if (limitedValue.length <= 3) {
+      return `(${limitedValue}`;
+    } else if (limitedValue.length <= 6) {
+      return `(${limitedValue.slice(0, 3)})-${limitedValue.slice(3)}`;
+    } else {
+      return `(${limitedValue.slice(0, 3)})-${limitedValue.slice(
+        3,
+        6
+      )}-${limitedValue.slice(6)}`;
+    }
+  };
+
+  const handlePhoneChange = (event) => {
+    const formattedValue = formatPhoneNumber(event.target.value);
+    event.target.value = formattedValue; // Update the input with formatted value
+  };
+
   return (
-    <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5">
+    <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl    min-h-screen gap-5">
       {/* <DashboardNav /> */}
-      <div className="flex items-center justify-center w-full flex-col rounded-lg container my-5">
+      <div className="flex items-center justify-center w-full flex-col rounded-lg container ">
         <form
           onSubmit={handleSubmit}
           className="flex items-center justify-center flex-col w-full bg-white rounded-2xl p-5 container "
@@ -188,7 +182,7 @@ const EditInsuranceProfile = ({
               <div className="flex items-start justify-start">
                 {profileImage ? (
                   <img
-                    src={profileImage || fetchData.fileUrl}
+                    src={profileImage || fetchData.fileUrl || null}
                     alt="Profile"
                     className="w-24 h-24 rounded-full object-cover"
                   />
@@ -230,7 +224,7 @@ const EditInsuranceProfile = ({
                     id="profilePictureUrl"
                     className="w-full h-10 opacity-0 absolute z-10 cursor-pointer"
                     accept="image/*"
-                    // {...register("profilePicture")}
+                    // {...register("file")}
                     onChange={handleImageChange}
                   />
                 )}
@@ -252,7 +246,7 @@ const EditInsuranceProfile = ({
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={fetchData.firstName}
+                  defaultValue={fetchData.firstName || ""}
                   type="text"
                   placeholder="First Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -276,7 +270,7 @@ const EditInsuranceProfile = ({
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={fetchData.lastName}
+                  defaultValue={fetchData.lastName || ""}
                   type="text"
                   placeholder="Last Name"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -301,18 +295,43 @@ const EditInsuranceProfile = ({
                   <span className="text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={fetchData.emergencyContactPhoneNumber}
+                  defaultValue={fetchData.emergencyContactPhoneNumber || ""}
                   type="tel"
-                  placeholder="(XXX)XXX-XXXX"
+                  maxLength={14}
+                  pattern="^\(\d{3}\)-\d{3}-\d{4}$"
+                  placeholder="(XXX)-XXX-XXXX"
+                  onInput={handlePhoneChange}
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
                   {...register("emergencyContactPhoneNumber", {
                     required: "Phone number is required",
-                    pattern: {
-                      value: /^[+]?[0-9]{10,14}$/,
-                      message: "Invalid phone number",
+                    validate: (value) => {
+                      const cleanedValue = value.replace(/\D/g, "");
+                      return (
+                        cleanedValue.length === 10 ||
+                        "Phone number must be 10 digits"
+                      );
                     },
                   })}
                 />
+                {/* <input
+                  defaultValue={fetchData.emergencyContactPhoneNumber || ""}
+                  type="tel"
+                  pattern="^[+]?[0-9]{10,14}$"
+                  placeholder="(XXX)-XXX-XXXX"
+                  onInput={handlePhoneChange}
+                  maxLength={14}
+                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                  {...register("emergencyContactPhoneNumber", {
+                    required: "Phone number is required",
+                    validate: (value) => {
+                      const cleanedValue = value.replace(/\D/g, ""); // Remove formatting
+                      return (
+                        cleanedValue.length === 10 ||
+                        "Phone number must be 10 digits"
+                      );
+                    },
+                  })}
+                /> */}
                 {errors.emergencyContactPhoneNumber && (
                   <p className="text-red-500 text-sm font-bold float-left mr-auto">
                     {errors.emergencyContactPhoneNumber.message}
@@ -333,7 +352,7 @@ const EditInsuranceProfile = ({
                   {...register("dependentRelation", {
                     required: "Select Relation is required",
                   })}
-                  defaultValue={fetchData.dependentRelation}
+                  defaultValue={fetchData?.dependentRelation || ""}
                 >
                   <option value="">Select Relation</option>
                   <option value="Father">Father</option>
@@ -365,11 +384,10 @@ const EditInsuranceProfile = ({
                     <input
                       type="radio"
                       value="Male"
-                      defaultValue={fetchData.gender}
-                      defaultChecked={fetchData.gender}
                       {...register("gender", {
                         required: "Please select a  Gender.",
                       })}
+                      defaultChecked={fetchData?.gender === "Male"}
                     />
                     Male
                   </label>
@@ -380,6 +398,7 @@ const EditInsuranceProfile = ({
                       {...register("gender", {
                         required: "Please select a  Gender.",
                       })}
+                      defaultChecked={fetchData?.gender === "Female"}
                     />
                     Female
                   </label>
@@ -390,6 +409,7 @@ const EditInsuranceProfile = ({
                       {...register("gender", {
                         required: "Please select a  Gender.",
                       })}
+                      defaultChecked={fetchData?.gender === "Other"}
                     />
                     Other
                   </label>
@@ -409,8 +429,9 @@ const EditInsuranceProfile = ({
                   <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <input
-                  defaultValue={fetchData.dateOfBirth}
+                  defaultValue={fetchData?.dateOfBirth}
                   type="date"
+                  max={getTodayDate()}
                   pattern="\d{2}/\d{2}/\d{4}"
                   placeholder="MM/DD/YYYY"
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
@@ -438,7 +459,7 @@ const EditInsuranceProfile = ({
                   Primary Address
                 </label>
                 <textarea
-                  defaultValue={fetchData.primaryAddress}
+                  defaultValue={fetchData?.primaryAddress}
                   cols={30}
                   rows={5}
                   type="text"
@@ -455,7 +476,7 @@ const EditInsuranceProfile = ({
                   Secondary Address
                 </label>
                 <textarea
-                  defaultValue={fetchData.secondaryAddress}
+                  defaultValue={fetchData?.secondaryAddress}
                   cols={30}
                   rows={5}
                   type="text"
@@ -476,12 +497,12 @@ const EditInsuranceProfile = ({
                   Country <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <select
-                  defaultValue={fetchData.country}
-                  defaultChecked={fetchData.country}
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
                   {...register("country", {
                     required: "Country is required",
                   })}
+                  defaultValue={fetchData?.country}
+                  // value={fetchData.country}
                   onChange={handleCountryChange}
                 >
                   {Object.keys(countryStateCityData).map((country) => (
@@ -511,13 +532,11 @@ const EditInsuranceProfile = ({
                   State <span className=" text-red-500 text-xl"> *</span>
                 </label>
                 <select
-                  defaultValue={fetchData.state}
-                  // defaultChecked={fetchData.state}
+                  defaultValue={fetchData?.state}
                   className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
                   {...register("state", {
                     required: "State is required",
                   })}
-                  // value={"Arizona"}
                   onChange={handleStateChange}
                 >
                   {states.length > 0 ? (

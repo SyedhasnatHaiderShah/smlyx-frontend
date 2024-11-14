@@ -18,7 +18,7 @@ const MyDependents = ({ setShowAddDependents }) => {
     // profilePictureUrl: null,
     file: null,
   });
-  // console.log(formData);
+  console.log("dependentsformData", formData);
   const {
     register,
     handleSubmit,
@@ -27,6 +27,7 @@ const MyDependents = ({ setShowAddDependents }) => {
   } = useForm();
   const navigate = useNavigate();
   const onSubmit = async (data) => {
+    setFormData(data);
     const userId = localStorage.getItem("id");
     const token = localStorage.getItem("token");
 
@@ -47,6 +48,19 @@ const MyDependents = ({ setShowAddDependents }) => {
       zipCode: data.zipCode,
       timeZone: data.timeZone,
       haveInsurance: data.haveInsurance,
+      dentalInsuranceCarrier: data.dentalInsuranceCarrier,
+      patientRelation: data.patientRelation,
+      subscriberFirstName: data.subscriberFirstName,
+      subscriberLastName: data.subscriberLastName,
+      subscriberGender: data.subscriberGender,
+      subscriberDateOfBirth: data.subscriberDateOfBirth,
+      subscriberId: data.subscriberId,
+      employer: data.employer,
+      groupNo: data.groupNo,
+      subscriberAddress: data.subscriberAddress,
+      subscriberCity: data.subscriberCity,
+      subscriberState: data.subscriberState,
+      subscriberZip: data.subscriberZip,
     };
 
     // Check if there’s a file to upload
@@ -94,7 +108,7 @@ const MyDependents = ({ setShowAddDependents }) => {
               },
             }
           );
-          console.log("Form submitted successfully:", response.data);
+          console.log("payload submitted successfully:", response.data);
           toast.success("Dependents added successfully");
           setFormData({}); // Reset form data after successful submission
           setShowAddDependents(false);
@@ -159,14 +173,14 @@ const MyDependents = ({ setShowAddDependents }) => {
         <div className="flex items-center justify-center w-full text-xl font-semibold">
           <p
             className={`rounded-full rounded-r-none  w-full md:w-1/2 text-center py-3 ${
-              step === 1 ? "bg-white cursor-pointer" : "bg-[#eeeeee]"
+              step === 1 ? "bg-primarybg cursor-pointer" : "bg-white"
             }`}
           >
             Profile
           </p>
           <p
             className={`rounded-full rounded-s-none w-full md:w-1/2 text-center py-3 ${
-              step === 2 ? "bg-white cursor-pointer" : "bg-[#eeeeee]"
+              step === 2 ? "bg-primarybg cursor-pointer" : "bg-white"
             }`}
           >
             Insurance Info

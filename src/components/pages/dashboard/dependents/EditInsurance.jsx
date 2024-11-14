@@ -7,59 +7,51 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const EditInsurance = ({ fetchData, setCurrentEditUserId }) => {
-  // console.log(fetchData.id);
-  // console.log(fetchData);
-  const id = fetchData?.id;
-  const userId = localStorage.getItem("id");
+  console.log(fetchData);
+  const depndentId = fetchData?.id;
   const token = localStorage.getItem("token");
   // console.log(userId, token);
   const [externalStates, setExternalStates] = useState([]);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    // profilePictureUrl: null,
     file: null,
   });
 
-  // console.log(formData);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  const navigate = useNavigate();
-
   const onSubmit = async (data) => {
-    const updatedData = { file: formData.file, userId, ...data };
-    // setFormData(updatedData);
-    // console.log(updatedData);
-
-    if (data.haveInsurance === "Yes" && step < 2) {
-      setStep(step + 1);
+    const { id, ...updatedData } = data;
+    let payload = {};
+    if (formData.file) {
+      payload = {
+        file: formData.file,
+        ...updatedData,
+      };
     } else {
-      // console.log("Form submitted:", updatedData);
-      try {
-        // Make the PATCH request to update the dependent
-        await axios.patch(
-          `http://localhost:3000/dependents/update/${id}`, // Replace with your actual API endpoint
-          updatedData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      payload = { ...updatedData };
+    }
 
-        console.log("Form submitted and data updated:", response.data);
-        // Optionally navigate to a different page after successful submission
-        toast.success("Dependent updated successfully");
-        setCurrentEditUserId(null);
-        // navigate("/dashboard/my-dependents"); // Replace with the actual path
-      } catch (error) {
-        console.error("Error updating dependent:", error);
-        toast.error(error.response.data.message);
-      }
+    try {
+      await axios.patch(
+        `http://localhost:3000/dependents/update/${depndentId}`,
+        payload,
+        {
+          headers: {
+            "Content-Type": formData.file
+              ? "multipart/form-data"
+              : "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success("Dependent updated successfully");
+    } catch (error) {
+      console.log("Error:", error);
+      toast.error(error.response?.data?.message || "An error occurred");
     }
   };
 
@@ -81,16 +73,11 @@ const EditInsurance = ({ fetchData, setCurrentEditUserId }) => {
       setShowProfile(false);
       setShowInsuranceInfo(true);
     } else {
-      // handle final submission if no insurance
-      // console.log("Final data: ", data);
-      // you can navigate to another page or show a success message here
     }
   };
 
   const handleInsuranceInfoSubmit = (data) => {
     const finalData = { ...formData, ...data };
-    // console.log("Final data: ", finalData);
-    // you can navigate to another page or show a success message here
   };
 
   return (
@@ -98,14 +85,14 @@ const EditInsurance = ({ fetchData, setCurrentEditUserId }) => {
       <div className="flex items-center justify-center w-full flex-col rounded-lg">
         <div className="flex items-center justify-center w-full text-xl font-semibold">
           <p
-            className={`rounded-full rounded-r-none my-3  w-full md:w-1/2 text-center py-3 ${
+            className={`rounded-lg rounded-r-none my-0  w-full md:w-1/2 text-center py-3 ${
               step === 1 ? "bg-primarybg text-white" : "bg-white text-primary "
             }`}
           >
             Profile
           </p>
           <p
-            className={`rounded-full rounded-s-none my-3 w-full md:w-1/2 text-center py-3 ${
+            className={`rounded-lg rounded-s-none my-3 w-full md:w-1/2 text-center py-3 ${
               step === 2 ? "bg-primarybg text-white" : "bg-white text-primary "
             }`}
           >

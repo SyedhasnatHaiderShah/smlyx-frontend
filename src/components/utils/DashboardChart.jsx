@@ -18,13 +18,10 @@ export default function DashboardChart() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: {
-          xs: "100%",
-          sm: "100%",
-          md: "300px",
-          lg: "100%",
-          xl: "100%",
-        },
+        width: "100%",
+        backgroundColor: "background.paper",
+        borderRadius: "8px",
+        boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.1)",
       }}
     >
       <LineChart
@@ -35,8 +32,8 @@ export default function DashboardChart() {
             data: uData,
             label: "Users",
             area: true,
-            showMark: false,
-            color: "gray",
+            showMark: true,
+            color: "#605fa4",
           },
         ]}
         xAxis={[{ scaleType: "point", data: xLabels }]}

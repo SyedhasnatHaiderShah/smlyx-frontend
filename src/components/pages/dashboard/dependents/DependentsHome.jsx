@@ -11,6 +11,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setDependentsData } from "../../../../redux/slices/dependentsSlice";
 import { toast } from "react-toastify";
+import { Avatar } from "@mui/material";
 
 const DependentsHome = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const DependentsHome = () => {
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
-  // console.log(formData);
+  console.log(formData);
   const {
     register,
     handleSubmit,
@@ -156,10 +157,22 @@ const DependentsHome = () => {
                     currentEditUserId === data.id ? "bg-slate-200" : ""
                   }`}
                 >
-                  <p className=" ">
-                    {data.firstName}
-                    {""} {data.lastName}
-                  </p>
+                  <div className=" flex items-center justify-start w-1/2 gap-2">
+                    {data.fileUrl ? (
+                      <img
+                        src={data.fileUrl}
+                        alt={data.firstName}
+                        className=" w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <Avatar src="/broken-image.jpg" />
+                    )}
+                    <p className=" ">
+                      {data.firstName}
+                      {""} {data.lastName}
+                    </p>
+                  </div>
+
                   <div className=" flex items-center justify-end w-1/2 gap-1">
                     <div
                       className=" px-4 py-1 bg-red-500 text-white rounded-full flex items-center gap-1 cursor-pointer"
@@ -178,10 +191,11 @@ const DependentsHome = () => {
                     </div>
                   </div>
                 </div>
+                {/* // edit dependents component here */}
                 {currentEditUserId === data.id && (
-                  // edit dependents component here
                   <EditInsurance
                     fetchData={data}
+                    id={data.id}
                     setCurrentEditUserId={setCurrentEditUserId}
                   />
                 )}

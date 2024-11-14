@@ -16,9 +16,9 @@ const DashboardHeader = () => {
           {firstName} {lastName}
         </p>
       </div>
-      <div className=" flex items-center justify-between gap-5 md:flex-row flex-col flex-wrap bg-white w-full p-5 rounded-xl">
+      <div className=" flex items-center justify-center gap-5 md:flex-row flex-col flex-wrap bg-white w-full p-5 rounded-xl">
         <img src={wellness} alt="" className=" w-24" />
-        <p className=" text-lg font-medium text-gray-900">
+        <p className=" text-lg font-medium text-gray-500">
           Your Wellness Score
         </p>
         <div className=" flex items-center justify-center flex-col">
@@ -42,9 +42,9 @@ const DashboardHeader = () => {
         <div className=" flex items-center justify-center flex-col">
           <p className=" text-2xl text-gray-400 font-bold ">Sample</p>
         </div>
-        {/* <div className="">
+        <div className=" w-full md:w-[500px] flex items-center justify-center">
           <DashboardChart />
-        </div> */}
+        </div>
       </div>
     </div>
   );
