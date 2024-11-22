@@ -1,17 +1,19 @@
 import smart from "../assets/smart.png";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import LockIcon from "@mui/icons-material/Lock";
-import VisitDetails from "./seeDentistsForms/VisitDetails";
+import VisitDetails from "./appointmentShedule/VisitDetails";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import SelectPharmacy from "./seeDentistsForms/SelectPharmacy";
-import ReviewSubmit from "./seeDentistsForms/ReviewSubmit";
+import SelectPharmacy from "./appointmentShedule/SelectPharmacy";
+import ReviewSubmit from "./appointmentShedule/ReviewSubmit";
 import BillingInformation from "./seeDentistsForms/BillingInformation";
-import DateAndTime from "./seeDentistsForms/DateAndTime.jsx";
+import DateAndTime from "./appointmentShedule/DateAndTime.jsx";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const ProgressBar = ({ currentStep }) => {
-  const totalSteps = 5;
+  const totalSteps = 4;
   const progressPercentage = (currentStep / totalSteps) * 100;
 
   return (
@@ -20,59 +22,92 @@ const ProgressBar = ({ currentStep }) => {
         className="h-8 rounded-full w-full bg-gradient-to-r from-primarybg via- to-primary flex items-center justify-center text-white font-bold"
         // style={{ width: `${progressPercentage}%` }}
       >
-        {currentStep === 1 ? (
-          <p className=" text-xs md:text-sm w-full flex items-center justify-center">
-            Step 1/5: Visit Details
-          </p>
-        ) : currentStep === 2 ? (
-          <p className=" text-xs  md:text-sm w-full flex items-center justify-center">
-            Step 2/5: Select pharmacy
-          </p>
-        ) : currentStep === 3 ? (
-          <p className=" text-xs md:text-sm w-full flex items-center justify-center">
-            Step 3/5: Date and Time
-          </p>
-        ) : currentStep === 4 ? (
-          <p className=" text-xs md:text-sm w-full flex items-center justify-center">
-            Step 4/5: Review Pharmacy
-          </p>
-        ) : (
-          <p className=" text-xs md:text-sm w-full flex items-center justify-center">
-            Step 5/5: Billing Information
-          </p>
-        )}
+        {
+          currentStep === 1 ? (
+            <p className=" text-xs md:text-sm w-full flex items-center justify-center">
+              {`Step 1 / ${totalSteps} : Visit Details`}
+            </p>
+          ) : currentStep === 2 ? (
+            <p className=" text-xs  md:text-sm w-full flex items-center justify-center">
+              {`Step 2 / ${totalSteps} : Select pharmacy`}
+            </p>
+          ) : currentStep === 3 ? (
+            <p className=" text-xs md:text-sm w-full flex items-center justify-center">
+              {`Step 3 / ${totalSteps} : Date and Time`}
+            </p>
+          ) : (
+            <p className=" text-xs md:text-sm w-full flex items-center justify-center">
+              {`Step 4 / ${totalSteps} : Start Visit`}
+            </p>
+          )
+          //  : (
+          //   <p className=" text-xs md:text-sm w-full flex items-center justify-center">
+
+          //     Step 5/5: Billing Information
+          //   </p>
+          // )
+        }
       </div>
     </div>
   );
 };
 
 const AppointmentShedule = () => {
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("id");
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
-  // console.log(formData);
+  console.log("form data from all components:", formData);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    const updatedData = { ...formData, ...data };
-    setFormData(updatedData);
-
-    if (step < 5) {
+  const onSubmit = async (data) => {
+    console.log(data);
+    if (step < 4) {
       setStep(step + 1);
     } else {
-      console.log("Form submitted:", updatedData);
-      navigate("/dashboard");
+      try {
+        const updatedData = { userId, ...formData, ...data };
+        console.log(updatedData);
+        setFormData(updatedData);
+        await axios.post(
+          "http://localhost:3000/virtual-appointment/create",
+          updatedData,
+          {
+            headers: {
+              "Content-Type": "Application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        toast.success("Appointment scheduled successfully");
+        navigate("/dashboard");
+      } catch (error) {
+        toast.error(error.response.data.message);
+        console.log(error.response.data.message);
+      }
     }
+
+    // console.log("data from onSubmit :", data);
+    // const updatedData = { ...formData, ...data };
+    // setFormData(updatedData);
+
+    // if (step < 4) {
+    //   setStep(step + 1);
+    // } else {
+    //   console.log("Form submitted:", updatedData);
+    //   navigate("/dashboard");
+    // }
   };
   const dataCollection = () => {
     const updatedData = { ...formData, formData };
     setFormData(updatedData);
 
-    if (step < 5) {
+    if (step < 4) {
       setStep(step + 1);
     } else {
       console.log("Form submitted:", updatedData);
@@ -87,7 +122,7 @@ const AppointmentShedule = () => {
     }
   };
   const goNext = () => {
-    if (step === 5) {
+    if (step === 4) {
       return null;
     } else {
       setStep(step + 1);
@@ -130,22 +165,11 @@ const AppointmentShedule = () => {
           )}
           {step === 4 && (
             <ReviewSubmit
-              register={register}
-              handleSubmit={handleSubmit(onSubmit)}
               formData={formData}
-              errors={errors}
               setFormData={setFormData}
-              goBack={goBack}
-              goNext={goNext}
-            />
-          )}
-          {step === 5 && (
-            <BillingInformation
+              onSubmit={handleSubmit(onSubmit)}
               register={register}
-              handleSubmit={handleSubmit(onSubmit)}
-              formData={formData}
               errors={errors}
-              setFormData={setFormData}
               goBack={goBack}
               goNext={goNext}
             />

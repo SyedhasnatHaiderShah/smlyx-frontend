@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
-import AddDependent from "./AddDependent";
+import AddDependent from "./../seeDentistsForms/AddDependent";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Form11 from "./Form11";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
-import AddUpdateInsurance from "./AddUpdateInsurance";
 import { useRef } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { useSelector } from "react-redux";
+import AddUpdateInsurance from "./../seeDentistsForms/AddUpdateInsurance";
 const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
   const users = useSelector((state) => state.dependents.currentUser);
   // console.log(users.map((item) => item.firstName));
@@ -607,7 +606,7 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                           <input
                             type="radio"
                             id="allergies-yes"
-                            value="true"
+                            value="Yes"
                             {...register("allergies", {
                               required: "This field is required",
                             })}
@@ -625,7 +624,7 @@ const VisitDetails = ({ formData, setFormData, goBack, goNext }) => {
                           <input
                             type="radio"
                             id="allergies-no"
-                            value="false"
+                            value="No"
                             {...register("allergies", {
                               required: "This field is required",
                             })}

@@ -60,7 +60,7 @@ const DateAndTime = ({ formData, setFormData, goBack, goNext }) => {
         </p>
         <div className=" flex items-start justify-start w-full flex-col md:flex-row gap-5">
           {/* left info */}
-          <div className="w-full lg:w-1/3 flex bg-[#3fbbeb] h-24 md:h-52 rounded-xl items-center justify-center p-3">
+          <div className="w-full lg:w-1/3 flex bg-[#3fbbeb] h-52 rounded-xl items-center justify-center p-3">
             <p className="text-xl text-white font-semibold w-full text-center">
               You are scheduling a Virtual Consultation
             </p>
@@ -72,8 +72,8 @@ const DateAndTime = ({ formData, setFormData, goBack, goNext }) => {
             className="flex items-center justify-center flex-col gap-5 w-full lg:w-2/3"
           >
             {/* Select Appointment Date */}
-            <div className=" w-full  ">
-              <div className="flex md:items-start items-center justify-center md:justify-start w-full md:w-1/2  flex-col">
+            <div className=" w-full flex flex-col items-center justify-center gap-5 md:items-start md:justify-start  ">
+              <div className="flex md:items-start items-center justify-center md:justify-start w-full lg:w-1/2  flex-col">
                 <label
                   htmlFor="appointmentDate"
                   className="float-left mr-auto font-semibold"
@@ -84,7 +84,7 @@ const DateAndTime = ({ formData, setFormData, goBack, goNext }) => {
                   type="date"
                   min={new Date().toISOString().split("T")[0]} // Disable past dates
                   placeholder="mm/dd/yyyy"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold "
                   {...register("appointmentDate", {
                     required: "Please select a valid date.",
                     validate: (value) => {
@@ -110,30 +110,58 @@ const DateAndTime = ({ formData, setFormData, goBack, goNext }) => {
                   </p>
                 )}
               </div>
+
+              {/* {/* new code */}
+              <div className="flex items-center justify-center w-full flex-col lg:w-1/2 ">
+                <label
+                  htmlFor="appointmentTime"
+                  className="float-left mr-auto font-semibold"
+                >
+                  Select Appointment Time
+                </label>
+                <input
+                  type="time" // Single input for both hour and minute
+                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                  {...register("appointmentTime", {
+                    required: "Please select a valid time.",
+                  })}
+                />
+                {errors.appointmentTime && (
+                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                    {errors.appointmentTime.message}
+                  </p>
+                )}
+              </div>
+
+              <div className=" flex md:items-start md:justify-start items-center justify-center w-full">
+                <p className=" text-sm text-gray-500 font-semibold w-full">
+                  All appointment times are displayed according to your local
+                  time zone.
+                </p>
+              </div>
+
+              {/* Cancel, schedule appointment button */}
+              <div className="flex justify-center gap-5 w-full mt-4 items-center flex-col md:flex-row md:w-1/2 md:items-start md:justify-start">
+                <button
+                  type="button"
+                  onClick={goBack}
+                  className="bg-white border-2 border-gray-300 text-gray-400 font-semibold  px-10 py-3 rounded-full"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className={`bg-[#8281b6]  ${
+                    isValid ? "bg-[#605fa4]" : "cursor-not-allowed"
+                  } text-white px-5 py-3 rounded-full`}
+                >
+                  Schedule Appointment
+                </button>
+              </div>
             </div>
 
             {/* new code */}
             {/* Select Appointment Time */}
-            <div className="flex items-start justify-start w-full flex-col">
-              <label
-                htmlFor="appointmentTime"
-                className="float-left mr-auto font-semibold"
-              >
-                Select Appointment Time
-              </label>
-              <input
-                type="time" // Single input for both hour and minute
-                className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                {...register("appointmentTime", {
-                  required: "Please select a valid time.",
-                })}
-              />
-              {errors.appointmentTime && (
-                <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                  {errors.appointmentTime.message}
-                </p>
-              )}
-            </div>
 
             {/* Select Appointment Time having time, minutes, am, pm select input */}
             {/* <div className="flex items-start justify-start w-full flex-col">
@@ -203,31 +231,6 @@ const DateAndTime = ({ formData, setFormData, goBack, goNext }) => {
                 </p>
               )}
             </div> */}
-            <div className=" flex md:items-start md:justify-start items-center justify-center w-full">
-              <p className=" text-sm text-gray-500 font-semibold w-full">
-                All appointment times are displayed according to your local time
-                zone.
-              </p>
-            </div>
-
-            {/* Cancel, schedule appointment button */}
-            <div className="flex justify-center gap-5 w-full mt-4 items-center flex-col md:flex-row">
-              <button
-                type="button"
-                onClick={goBack}
-                className="bg-white border-2 border-gray-300 text-gray-400 font-semibold  px-10 py-3 rounded-full"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className={`bg-[#8281b6]  ${
-                  isValid ? "bg-[#605fa4]" : "cursor-not-allowed"
-                } text-white px-5 py-3 rounded-full`}
-              >
-                Schedule Appointment
-              </button>
-            </div>
           </form>
         </div>
       </div>

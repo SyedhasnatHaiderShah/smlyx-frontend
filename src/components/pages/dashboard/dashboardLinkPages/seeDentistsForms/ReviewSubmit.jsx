@@ -3,6 +3,7 @@ import PlayArrow from "@mui/icons-material/VideoCall";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+
 const ReviewSubmit = ({ setFormData, formData, goNext, startVisit }) => {
   const navigate = useNavigate();
   const [clearValue, setClearValue] = useState("");
@@ -77,7 +78,7 @@ const ReviewSubmit = ({ setFormData, formData, goNext, startVisit }) => {
                   <div className=" flex items-start justify-start w-full flex-col  relative">
                     <input
                       type="text"
-                      placeholder="Enter pharmacy name"
+                      placeholder="Enter coupon code..."
                       className="w-full my-3  px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold relative"
                       {...register("couponCode")}
                       onChange={(e) => setClearValue(e.target.value)}
