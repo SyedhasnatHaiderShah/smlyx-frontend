@@ -4,11 +4,11 @@ import { Box } from "@mui/material";
 
 const uData = [51, 59, 60, 65, 75];
 const xLabels = [
-  "Feb 12 2021",
-  "March 25 2021",
-  "April 25 2021",
-  "May 20 2021",
-  "June 5 2021",
+  "Feb 12 2024",
+  "March 25 2024",
+  "April 25 2024",
+  "May 20 2024",
+  "June 5 2024",
 ];
 
 export default function DashboardChart() {
@@ -33,7 +33,7 @@ export default function DashboardChart() {
             label: "Users",
             area: true,
             showMark: true,
-            color: "#605fa4",
+            color: "#1d9bf0",
           },
         ]}
         xAxis={[{ scaleType: "point", data: xLabels }]}

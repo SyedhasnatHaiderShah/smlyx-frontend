@@ -7,6 +7,7 @@ import { setUserData } from "../../../redux/slices/userSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
 import countryStateCityData from "./dependents/countryStateCityData.json";
+
 const ProfileSetting = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [states, setStates] = useState([]);
@@ -15,6 +16,7 @@ const ProfileSetting = () => {
   const [singleState, setSingleState] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [timezone, setTimezone] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const email = localStorage.getItem("email");
   const token = localStorage.getItem("token");
@@ -22,27 +24,84 @@ const ProfileSetting = () => {
   const userId = localStorage.getItem("id");
 
   const [getProfile, setGetProfile] = useState({});
-  console.log(getProfile);
-  console.log(getProfile.gender);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     watch,
   } = useForm();
+
+  const getProfileById = async () => {
+    console.log(userId);
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:3000/profile/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setGetProfile(response.data); // Save profile data
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  useEffect(() => {
+    getProfileById();
+  }, []);
+
+  useEffect(() => {
+    if (getProfile && Object.keys(getProfile).length) {
+      reset({
+        id: 1,
+        userId: "2",
+        firstName: getProfile.firstName || "",
+        middleName: getProfile.middleName || "",
+        lastName: getProfile.lastName || "",
+        email: getProfile.email || email,
+        country: getProfile.country || "",
+        state: getProfile.state || "",
+        city: getProfile.city || "",
+        gender: getProfile.gender || "",
+        dateOfBirth: getProfile.dateOfBirth || "",
+        phone: getProfile.phone || "",
+        receivedText: getProfile.receivedText || "",
+        addressOne: getProfile.addressOne || "",
+        addressTwo: getProfile.addressTwo || "",
+        country: getProfile.country || "",
+        timeZone: getProfile.timeZone || "",
+        city: getProfile.city || "",
+        state: getProfile.state || "",
+        zipCode: getProfile.zipCode || "",
+      });
+    }
+  }, [getProfile, reset]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   const onSubmit = async (data) => {
     setFormData(data);
-    // console.log(data);
     dispatch(
       setUserData({
         ...data,
       })
     );
     try {
-      const updatedData = { ...data, userId };
+      const { id, ...updatedData } = data;
+      // const updatedData = { ...data, userId };
       console.log(updatedData);
 
       await axios.patch(
@@ -58,7 +117,7 @@ const ProfileSetting = () => {
 
       toast.success("Profile Successfully Updated!");
     } catch (error) {
-      // console.log(error.message);
+      console.log(error.message);
       toast.error(error.message);
     }
   };
@@ -149,28 +208,6 @@ const ProfileSetting = () => {
 
   // get the profile
 
-  const getProfileById = async () => {
-    console.log(userId);
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/profile/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      setGetProfile(response.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  useEffect(() => {
-    getProfileById();
-  }, []);
   return (
     <div className="bg-[#eeeeee] w-full flex items-center justify-start flex-col rounded-2xl   px-5 min-h-screen gap-5">
       <div className="flex items-center justify-center w-full flex-col rounded-lg container my-5">
@@ -183,466 +220,487 @@ const ProfileSetting = () => {
           </span>{" "}
           / Profile Setting
         </div>
-        {/* <button onClick={() => getProfileById()}>click me</button> */}
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex items-center justify-center flex-col w-full bg-white rounded-2xl p-5 container "
-        >
-          <div className="flex items-start justify-center flex-col sm:w-full py-5 relative gap-2">
-            <p className="text-xl text-primary font-semibold my-3 w-full">
-              Profile Setting
-            </p>
-            {/* Other inputs */}
-            <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
-              <div className="flex items-start justify-start w-full flex-col">
-                <label
-                  htmlFor="firstName"
-                  className="float-left mr-auto font-semibold"
-                >
-                  First Name
-                  <span className="text-red-500 text-xl"> *</span>
-                </label>
-                <input
-                  defaultValue={getProfile.firstName}
-                  type="text"
-                  placeholder="First Name"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("firstName", {
-                    required: "First Name is required",
-                  })}
-                />
-                {errors.firstName && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.firstName.message}
-                  </p>
-                )}
-              </div>
-              <div className="flex items-start justify-start w-full flex-col">
-                <label
-                  htmlFor="middleName"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Middle Name
-                </label>
-                <input
-                  defaultValue={getProfile.middleName}
-                  type="text"
-                  placeholder="Middle Name"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("middleName")}
-                />
-              </div>
-              <div className="flex items-start justify-start w-full flex-col">
-                <label
-                  htmlFor="lastName"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Last Name
-                  <span className="text-red-500 text-xl"> *</span>
-                </label>
-                <input
-                  defaultValue={getProfile.lastName}
-                  type="text"
-                  placeholder="Last Name"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("lastName", {
-                    required: "Last Name is required",
-                  })}
-                />
-                {errors.lastName && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.lastName.message}
-                  </p>
-                )}
-              </div>
-            </div>
-            {/* row start */}
-            <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
-              <div className="flex items-start justify-start w-full flex-col">
-                <div className="w-full flex items-start justify-between">
-                  <label className="radio-label text-base font-semibold">
-                    Gender
-                  </label>
-                </div>
-                <div className="radio-options flex items-start justify-start gap-5 w-full">
-                  <label className="radio-option text-base font-semibold">
-                    <input
-                      type="radio"
-                      value="Male"
-                      {...register("gender", {
-                        required: "Please select an option.",
-                      })}
-                    />
-                    Male
-                  </label>
-                  <label className="radio-option text-base font-semibold">
-                    <input
-                      type="radio"
-                      value="Female"
-                      {...register("gender", {
-                        required: "Please select an option.",
-                      })}
-                    />
-                    Female
-                  </label>
-                  <label className="radio-option text-base font-semibold">
-                    <input
-                      type="radio"
-                      value="other"
-                      {...register("gender", {
-                        required: "Please select an option.",
-                      })}
-                    />
-                    Other
-                  </label>
-                </div>
-                {errors.gender && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.gender.message}
-                  </p>
-                )}
-              </div>
-              <div className=" flex items-start justify-start w-full flex-col">
-                <label
-                  htmlFor="subscriberDateOfBirth"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Date of Birth{" "}
-                  <span className=" text-red-500 text-xl"> *</span>
-                </label>
-                <input
-                  defaultValue={getProfile.dateOfBirth || ""}
-                  type="date"
-                  placeholder="MM/DD/YYYY"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  max={getTodayDate()} // Now in YYYY-MM-DD format
-                  {...register("dateOfBirth", {
-                    required: "Date of Birth is required",
-                    validate: validateAge,
-                  })}
-                />
-                {/* <input
-                  defaultValue={formData.dateOfBirth || ""}
-                  type="date"
-                  pattern="\d{2}/\d{2}/\d{4}"
-                  placeholder="MM/DD/YYYY"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  max={getTodayDate()}
-                  {...register("dateOfBirth", {
-                    required: "Date of Birth is required",
-                    validate: validateAge,
-                  })}
-                /> */}
-                {errors.dateOfBirth && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.dateOfBirth.message}
-                  </p>
-                )}
-              </div>
-            </div>
-            {/* row start */}
-            <div className="flex items-start justify-start md:flex-row flex-col w-full gap-5">
-              <div className="flex items-start justify-start w-full flex-col gap-2">
-                <label
-                  htmlFor="email"
-                  className=" float-left mr-auto font-semibold"
-                >
-                  Email<span className=" text-red-500 text-xl"> *</span>
-                </label>
-                <input
-                  defaultValue={email || user.email}
-                  type="email"
-                  placeholder="Email"
-                  className=" w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 bg-gray-200 text-heading text-sm font-semibold"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                      message: "Invalid email address",
-                    },
-                  })}
-                  readOnly
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
-              {/* row middle */}
-              <div className="flex items-start justify-start w-full flex-col">
-                <label
-                  htmlFor="phone"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Phone
-                  <span className="text-red-500 text-xl"> *</span>
-                </label>
 
-                <input
-                  defaultValue={getProfile.phone}
-                  type="tel"
-                  placeholder="(XXX)-XXX-XXXX"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("phone", {
-                    required: "Phone number is required",
-                    pattern: {
-                      value: /^\(\d{3}\)-\d{3}-\d{4}$/,
-                      message:
-                        "Phone number must be in the format (XXX)-XXX-XXXX",
-                    },
-                    onChange: (e) => {
-                      e.target.value = formatPhoneNumber(e.target.value);
-                    },
-                  })}
-                />
-                {errors.phone && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.phone.message}
-                  </p>
-                )}
-                <div className="flex items-start justify-start  gap-3 my-2   ">
+        {loading ? (
+          <div>loading...</div>
+        ) : (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex items-center justify-center flex-col w-full bg-white rounded-2xl p-5 container "
+          >
+            <div className="flex items-start justify-center flex-col sm:w-full py-5 relative gap-2">
+              <p className="text-xl text-primary font-semibold my-3 w-full">
+                Profile Setting
+              </p>
+              {/* Other inputs */}
+              <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
+                <div className="flex items-start justify-start w-full flex-col">
                   <label
-                    htmlFor="received-text"
+                    htmlFor="firstName"
                     className="float-left mr-auto font-semibold"
                   >
-                    Received Text
+                    First Name
+                    <span className="text-red-500 text-xl"> *</span>
                   </label>
-                  <div className="flex items-center justify-center">
-                    <input
-                      type="radio"
-                      id="yes"
-                      value="Yes"
-                      {...register("receivedText", {
-                        required: "This field is required",
-                      })}
-                      className="mr-2"
-                      defaultValue={getProfile.receivedText}
-                    />
-                    <label htmlFor="yes" className="mr-4 font-semibold">
-                      Yes
+                  <input
+                    defaultValue={getProfile.firstName}
+                    type="text"
+                    placeholder="First Name"
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                    {...register("firstName", {
+                      required: "First Name is required",
+                    })}
+                  />
+                  {errors.firstName && (
+                    <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                      {errors.firstName.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex items-start justify-start w-full flex-col">
+                  <label
+                    htmlFor="middleName"
+                    className="float-left mr-auto font-semibold"
+                  >
+                    Middle Name
+                  </label>
+                  <input
+                    defaultValue={getProfile.middleName}
+                    type="text"
+                    placeholder="Middle Name"
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                    {...register("middleName")}
+                  />
+                </div>
+                <div className="flex items-start justify-start w-full flex-col">
+                  <label
+                    htmlFor="lastName"
+                    className="float-left mr-auto font-semibold"
+                  >
+                    Last Name
+                    <span className="text-red-500 text-xl"> *</span>
+                  </label>
+                  <input
+                    defaultValue={getProfile.lastName}
+                    type="text"
+                    placeholder="Last Name"
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                    {...register("lastName", {
+                      required: "Last Name is required",
+                    })}
+                  />
+                  {errors.lastName && (
+                    <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                      {errors.lastName.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+              {/* row start */}
+              <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
+                <div className="flex items-start justify-start w-full flex-col">
+                  <div className="w-full flex items-start justify-between">
+                    <label className="radio-label text-base font-semibold">
+                      Gender
                     </label>
-                    <input
-                      type="radio"
-                      id="no"
-                      value="No"
-                      {...register("receivedText", {
-                        required: "This field is required",
-                      })}
-                      className="mr-2"
-                    />
-                    <label htmlFor="no" className=" font-semibold">
-                      No
+                  </div>
+                  <div className="radio-options flex items-start justify-start gap-5 w-full">
+                    <label className="radio-option text-base font-semibold">
+                      <input
+                        type="radio"
+                        value="Male"
+                        {...register("gender", {
+                          required: "Please select an option.",
+                        })}
+                        defaultChecked={getProfile.gender === "Male"}
+                      />
+                      Male
                     </label>
+                    <label className="radio-option text-base font-semibold">
+                      <input
+                        type="radio"
+                        value="Female"
+                        {...register("gender", {
+                          required: "Please select an option.",
+                        })}
+                        defaultChecked={getProfile.gender === "Female"}
+                      />
+                      Female
+                    </label>
+                    <label className="radio-option text-base font-semibold">
+                      <input
+                        type="radio"
+                        value="Other"
+                        {...register("gender", {
+                          required: "Please select an option.",
+                        })}
+                        defaultChecked={getProfile.gender === "Other"}
+                      />
+                      Other
+                    </label>
+                  </div>
+                  {errors.gender && (
+                    <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                      {errors.gender.message}
+                    </p>
+                  )}
+                </div>
+                <div className=" flex items-start justify-start w-full flex-col">
+                  <label
+                    htmlFor="subscriberDateOfBirth"
+                    className="float-left mr-auto font-semibold"
+                  >
+                    Date of Birth{" "}
+                    <span className=" text-red-500 text-xl"> *</span>
+                  </label>
+                  <input
+                    defaultValue={getProfile.dateOfBirth || ""}
+                    type="date"
+                    placeholder="MM/DD/YYYY"
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                    max={getTodayDate()} // Now in YYYY-MM-DD format
+                    {...register("dateOfBirth", {
+                      required: "Date of Birth is required",
+                      validate: validateAge,
+                    })}
+                  />
+                  {/* <input
+                    defaultValue={formData.dateOfBirth || ""}
+                    type="date"
+                    pattern="\d{2}/\d{2}/\d{4}"
+                    placeholder="MM/DD/YYYY"
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                    max={getTodayDate()}
+                    {...register("dateOfBirth", {
+                      required: "Date of Birth is required",
+                      validate: validateAge,
+                    })}
+                  /> */}
+                  {errors.dateOfBirth && (
+                    <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                      {errors.dateOfBirth.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+              {/* row start */}
+              <div className="flex items-start justify-start md:flex-row flex-col w-full gap-5">
+                <div className="flex items-start justify-start w-full flex-col gap-2">
+                  <label
+                    htmlFor="email"
+                    className=" float-left mr-auto font-semibold"
+                  >
+                    Email<span className=" text-red-500 text-xl"> *</span>
+                  </label>
+                  <input
+                    defaultValue={email || user.email}
+                    type="email"
+                    placeholder="Email"
+                    className=" w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 bg-gray-200 text-heading text-sm font-semibold"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                        message: "Invalid email address",
+                      },
+                    })}
+                    readOnly
+                  />
+                  {errors.email && (
+                    <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
+                {/* row middle */}
+                <div className="flex items-start justify-start w-full flex-col">
+                  <label
+                    htmlFor="phone"
+                    className="float-left mr-auto font-semibold"
+                  >
+                    Phone
+                    <span className="text-red-500 text-xl"> *</span>
+                  </label>
+
+                  <input
+                    defaultValue={getProfile.phone}
+                    type="tel"
+                    placeholder="(XXX)-XXX-XXXX"
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-3 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                    {...register("phone", {
+                      required: "Phone number is required",
+                      pattern: {
+                        value: /^\(\d{3}\)-\d{3}-\d{4}$/,
+                        message:
+                          "Phone number must be in the format (XXX)-XXX-XXXX",
+                      },
+                      onChange: (e) => {
+                        e.target.value = formatPhoneNumber(e.target.value);
+                      },
+                    })}
+                  />
+                  {errors.phone && (
+                    <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                      {errors.phone.message}
+                    </p>
+                  )}
+                  <div className="flex items-start justify-start  gap-3 my-2   ">
+                    <label
+                      htmlFor="received-text"
+                      className="float-left mr-auto font-semibold"
+                    >
+                      Received Text
+                    </label>
+                    <div className="flex items-center justify-center">
+                      <input
+                        type="radio"
+                        id="yes"
+                        value="Yes"
+                        {...register("receivedText", {
+                          required: "This field is required",
+                        })}
+                        className="mr-2"
+                        defaultValue={
+                          getProfile.receivedText === "Yes" && "Yes"
+                        }
+                      />
+                      <label htmlFor="yes" className="mr-4 font-semibold">
+                        Yes
+                      </label>
+                      <input
+                        type="radio"
+                        id="no"
+                        value="No"
+                        {...register("receivedText", {
+                          required: "This field is required",
+                        })}
+                        className="mr-2"
+                        defaultValue={getProfile.receivedText === "No" && "No"}
+                      />
+                      <label htmlFor="no" className=" font-semibold">
+                        No
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* row start */}
-            <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
-              <div className="flex items-start justify-start w-full flex-col gap-2">
-                <label
-                  htmlFor=" Subscriber Address"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Address 1
-                </label>
-                <input
-                  defaultValue={getProfile.addressOne}
-                  type="text"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("addressOne")}
-                />
+              {/* row start */}
+              <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
+                <div className="flex items-start justify-start w-full flex-col gap-2">
+                  <label
+                    htmlFor=" Subscriber Address"
+                    className="float-left mr-auto font-semibold"
+                  >
+                    Address 1
+                  </label>
+                  <input
+                    defaultValue={getProfile.addressOne}
+                    type="text"
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                    {...register("addressOne")}
+                  />
+                </div>
+                {/* row middle */}
+                <div className="flex items-start justify-start w-full flex-col">
+                  <label
+                    htmlFor="addressTwo"
+                    className="float-left mr-auto font-semibold"
+                  >
+                    Address 2
+                  </label>
+                  <input
+                    defaultValue={getProfile.addressTwo}
+                    type="text"
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
+                    {...register("addressTwo", {
+                      required: "Subscriber Address is required",
+                    })}
+                  />
+                </div>
               </div>
-              {/* row middle */}
-              <div className="flex items-start justify-start w-full flex-col">
-                <label
-                  htmlFor="addressTwo"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Address 2
-                </label>
-                <input
-                  defaultValue={getProfile.addressTwo}
-                  type="text"
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary placeholder:font-medium placeholder:text-gray-400 text-heading text-sm font-semibold"
-                  {...register("addressTwo", {
-                    required: "Subscriber Address is required",
-                  })}
-                />
-              </div>
-            </div>
-            {/* row end  */}
+              {/* row end  */}
 
-            {/* row start */}
-            <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
-              <div className="flex items-start justify-start w-full flex-col gap-2">
-                <label
-                  htmlFor="subscriberState"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Country <span className=" text-red-500 text-xl"> *</span>
-                </label>
-                <select
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
-                  {...register("country", {
-                    required: "Subscriber State is required",
-                  })}
-                  defaultValue={user.country}
-                  onChange={handleCountryChange}
+              {/* row start */}
+              <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
+                <div className="flex items-start justify-start w-full flex-col gap-2">
+                  <label
+                    htmlFor="subscriberState"
+                    className="float-left mr-auto font-semibold"
+                  >
+                    Country <span className=" text-red-500 text-xl">*</span>
+                  </label>
+                  <select
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
+                    {...register("country", {
+                      required: "Subscriber State is required",
+                    })}
+                    // defaultValue={user.country}
+                    onChange={handleCountryChange}
 
-                  // disabled
-                >
-                  {Object.keys(countryStateCityData).map((country) => (
-                    <option key={country} value={country}>
-                      {country}
-                    </option>
-                  ))}
-                </select>
-                {errors.country && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.country.message}
-                  </p>
-                )}
-              </div>
-              {/* row middle */}
-              <div className="flex items-start justify-start w-full flex-col">
-                <label
-                  htmlFor="state"
-                  className="float-left mr-auto font-semibold"
-                >
-                  State <span className=" text-red-500 text-xl"> *</span>
-                </label>
-                <select
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
-                  {...register("state", {
-                    required: "State is required",
-                  })}
-                  // value={"Arizona"}
-                  onChange={handleStateChange}
-                  defaultValue={getProfile.state}
-                >
-                  {states.length > 0 ? (
-                    states.map((state) => (
-                      <option key={state} value={state}>
-                        {state}
+                    // disabled
+                  >
+                    {Object.keys(countryStateCityData).map((country) => (
+                      <option key={country} value={country}>
+                        {country}
                       </option>
-                    ))
-                  ) : (
-                    <option disabled>No states available</option>
+                    ))}
+                  </select>
+                  {errors.country && (
+                    <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                      {errors.country.message}
+                    </p>
                   )}
-                </select>
-                {errors.state && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.state.message}
-                  </p>
-                )}
+                </div>
+                {/* row middle */}
+                <div className="flex items-start justify-start w-full flex-col">
+                  <label
+                    htmlFor="state"
+                    className="float-left mr-auto font-semibold"
+                  >
+                    State <span className=" text-red-500 text-xl"> *</span>
+                  </label>
+                  <select
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
+                    {...register("state", {
+                      required: "State is required",
+                    })}
+                    value="Arizona"
+                    onChange={handleStateChange}
+                    // defaultValue={getProfile.state}
+                  >
+                    {states.length > 0 ? (
+                      states.map((state) => (
+                        <option key={state} value={state}>
+                          {state}
+                        </option>
+                      ))
+                    ) : (
+                      <option>{getProfile.state}</option>
+                    )}
+                  </select>
+                  {errors.state && (
+                    <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                      {errors.state.message}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-            {/* row end  */}
-            {/* row start */}
-            <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
-              <div className="flex items-start justify-start w-full flex-col gap-2">
-                <label
-                  htmlFor="city"
-                  className="float-left mr-auto font-semibold"
-                >
-                  City <span className=" text-red-500 text-xl"> *</span>
-                </label>
-                <select
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
-                  {...register("city", {
-                    required: "City is required",
-                  })}
-                  onChange={handleCityChange}
-                  defaultValue={getProfile.city}
-                >
-                  {cities.length > 0 ? (
-                    cities.map((city) => (
-                      <option key={city} value={city}>
-                        {city}
+              {/* row end  */}
+              {/* row start */}
+              <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
+                <div className="flex items-start justify-start w-full flex-col gap-2">
+                  <label
+                    htmlFor="city"
+                    className="float-left mr-auto font-semibold"
+                  >
+                    City <span className=" text-red-500 text-xl"> *</span>
+                  </label>
+                  <select
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
+                    {...register("city", {
+                      required: "City is required",
+                    })}
+                    onChange={handleCityChange}
+                    defaultValue={getProfile.city}
+                  >
+                    {cities.length > 0 ? (
+                      cities.map((city) => (
+                        <option key={city} value={city}>
+                          {city}
+                        </option>
+                      ))
+                    ) : (
+                      <option>{getProfile.city}</option>
+                    )}
+                  </select>
+                  {errors.city && (
+                    <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                      {errors.city.message}
+                    </p>
+                  )}
+                </div>
+                {/* row middle */}
+                <div className="flex items-start justify-start w-full flex-col">
+                  <label
+                    htmlFor="zipCode"
+                    className="float-left mr-auto font-semibold"
+                  >
+                    Zip Code <span className=" text-red-500 text-xl"> *</span>
+                  </label>
+                  <select
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
+                    {...register("zipCode", {
+                      required: "Zip Code is required",
+                    })}
+                    defaultValue={getProfile.zipCode}
+                    onChange={handleZipCodeChange}
+                  >
+                    {getProfile.zipCode !== "" && (
+                      <option value={getProfile.zipCode}>
+                        {getProfile.zipCode}
                       </option>
-                    ))
-                  ) : (
-                    <option disabled>No cities available</option>
+                    )}
+                    <option value={zipcode}>{zipcode}</option>
+                  </select>
+                  {errors.zipCode && (
+                    <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                      {errors.zipCode.message}
+                    </p>
                   )}
-                </select>
-                {errors.city && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.city.message}
-                  </p>
-                )}
+                </div>
               </div>
-              {/* row middle */}
-              <div className="flex items-start justify-start w-full flex-col">
-                <label
-                  htmlFor="zipCode"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Zip Code <span className=" text-red-500 text-xl"> *</span>
-                </label>
-                <select
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
-                  {...register("zipCode", {
-                    required: "Zip Code is required",
-                  })}
-                  defaultValue={formData.zipCode}
-                  onChange={handleZipCodeChange}
-                >
-                  <option value={zipcode}>{zipcode}</option>
-                </select>
-                {errors.zipCode && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.zipCode.message}
-                  </p>
-                )}
+              {/* row end  */}
+              {/* row start */}
+              <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
+                <div className="flex items-start justify-start w-full flex-col gap-2">
+                  <label
+                    htmlFor="timeZone"
+                    className="float-left mr-auto font-semibold"
+                  >
+                    Time Zone <span className=" text-red-500 text-xl"> *</span>
+                  </label>
+                  <select
+                    defaultValue={formData.timeZone}
+                    className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
+                    {...register("timeZone", {
+                      required: "Time Zone is required",
+                    })}
+                  >
+                    {getProfile.timeZone !== "" && (
+                      <option value={getProfile.timeZone}>
+                        {getProfile.timeZone}
+                      </option>
+                    )}
+                    <option value={timezone}>{timezone}</option>
+                  </select>
+                  {errors.timeZone && (
+                    <p className="text-red-500 text-sm font-bold float-left mr-auto">
+                      {errors.timeZone.message}
+                    </p>
+                  )}
+                </div>
+                {/* row middle */}
+                <div className="flex items-start justify-start w-full flex-col"></div>
               </div>
-            </div>
-            {/* row end  */}
-            {/* row start */}
-            <div className="flex items-center justify-center md:flex-row flex-col w-full gap-5">
-              <div className="flex items-start justify-start w-full flex-col gap-2">
-                <label
-                  htmlFor="timeZone"
-                  className="float-left mr-auto font-semibold"
-                >
-                  Time Zone <span className=" text-red-500 text-xl"> *</span>
-                </label>
-                <select
-                  defaultValue={formData.timeZone}
-                  className="w-full px-5 outline outline-slate-300 outline-1 rounded-md py-2 focus:outline-primary text-heading text-sm font-bold"
-                  {...register("timeZone", {
-                    required: "Time Zone is required",
-                  })}
-                >
-                  <option value={timezone}>{timezone}</option>
-                </select>
-                {errors.timeZone && (
-                  <p className="text-red-500 text-sm font-bold float-left mr-auto">
-                    {errors.timeZone.message}
-                  </p>
-                )}
-              </div>
-              {/* row middle */}
-              <div className="flex items-start justify-start w-full flex-col"></div>
-            </div>
-            {/* row end  */}
+              {/* row end  */}
 
-            {/* end inputs */}
-          </div>
-
-          <div className="w-full my-5">
-            <div className="flex items-center justify-center gap-5">
-              <button
-                className="bg-[#484691] text-lg font-medium text-white rounded-full py-3 px-10"
-                type="submit"
-              >
-                Save
-              </button>
+              {/* end inputs */}
             </div>
-          </div>
-        </form>
+
+            <div className="w-full my-5">
+              <div className="flex items-center justify-center gap-5">
+                <button
+                  className="bg-[#484691] text-lg font-medium text-white rounded-full py-3 px-10"
+                  type="submit"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
+        {/* <button onClick={() => getProfileById()}>click me</button> */}
       </div>
     </div>
   );
